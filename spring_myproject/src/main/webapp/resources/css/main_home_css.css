@@ -1,0 +1,478 @@
+@charset "UTF-8";
+
+/* 전체 적용 css */
+*{
+	box-sizing:border-box;
+	font-family: "Montserrat", sans-serif;
+	margin:0;
+}
+
+/* 로그인용 모달창과 레이어팝업 */
+div#modal_login{
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index:3;
+	display:none;
+}
+
+div#layer_login{
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-80%);
+	width:450px;
+	height:300px;
+	background-color:#FFFAF0;
+	border:1px dotted #4d5966;
+	color:#4d5966;
+}
+
+input#login_email, input#login_pw{
+	text-align:center;
+	font-size:18px;
+	width:100%;
+	margin-bottom:6px;
+}
+
+input#login_sub{
+	margin:3px 0px 18px 0px;
+	font-size:15px;	
+	width:100%;
+}
+
+#go_join, #go_find{
+	
+	display:inline;
+	text-align:center;
+}
+
+div#layer_login_body{
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:400px;
+	transform:translate(-50%,-30%);
+}
+
+div#layer_login_body a{
+	text-decoration:none;
+	color:#4d5966;
+}
+
+button#close{
+	position:absolute;
+	display:inline;
+	right:0;
+	top:0;
+	margin:10px;
+}
+
+div#layer_login_body p{
+	margin:5px;
+}
+
+div#layer_login_body p#login_infor{
+	text-align:center;
+}
+
+/* 회원가입용 모달창과 레이어팝업 */
+div#modal_join{
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index:3;
+	display:none;
+}
+
+div#layer_join{
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-80%);
+	width:450px;
+	height:300px;
+	background-color:#FFFAF0;
+	border:1px dotted #4d5966;
+	color:#4d5966;
+}
+
+div#layer_join_body{
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:360px;
+	transform:translate(-50%,-30%);
+}
+
+#join_eid{
+	
+	width:44%;
+	font-size:14px;
+	text-align:center;
+}
+
+#join_edomain{
+	width:50%;
+	font-size:14px;
+	margin-bottom:6px;
+	text-align:center;
+}
+
+#join_pw{
+	width:100%;
+	font-size:14px;
+	text-align:center;
+	margin:8px 0 16px 0;
+}
+
+#email_infor{
+	margin-top:6px;	
+}
+
+#join_sub{
+	width:100%;
+	font-size:14px;
+}
+
+
+/*  title */
+div#title{
+	position:relative;
+	width:100%;
+	height:170px;
+	background-color:#ffffff;
+}
+
+img#title_img{
+	width:auto;
+	height:150px;
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
+
+div#mini_menu, div#mini_menu_list{
+	display:none;
+}
+
+
+/* 메인 flex 박스 */
+div#main_content{
+	position:relative;
+	width:100%;
+	background-color:#FFFAF0;	
+	display:flex;
+	flex-wrap:wrap;
+	flex-direction:row;
+	width:100%;
+	min-height:80vh;
+}
+
+/* 메인 메뉴 left 컬럼*/
+
+#welcom{
+	float:right;
+}
+
+div#main_left_column{
+	width:15%;
+	border:1px dotted #DCDCDC;
+	background-color:#b0e0e6;
+	color:#4d5966;
+}
+
+
+div#main_left_column a, div#area_drop a{
+	display:block;
+	text-decoration:none;
+	color:inherit;
+	background-color:inherit;
+	width:100%;
+	padding:10px 10px 15px 10px;
+	margin:0;
+	font-weight:bold;
+}
+
+div#main_left_column a:hover{
+	color:#ffffff;
+}
+
+/* 하위 메뉴 구성 */
+
+.area_drop_class {
+	color:inherit;
+	background-color:inherit;
+	position:relative;
+	display:none;
+}
+
+/* 본문 right 컬럼 */
+
+div#main_right_column{
+	width:85%;
+	border:1px dotted #DCDCDC;
+	position:relative;
+}
+
+/* 초기 검색창 */
+div#main_search{
+	position:absolute;
+	top:25%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	width:70%;
+	display:flex;
+	flex-wrap:wrap;
+}
+
+p#search_infor{
+	margin-top:10px;
+}
+
+input#search{
+	width:80%;
+	height:60px;
+	font-size:20px;
+	padding:40px;
+	font-weight:bold;
+	border-radius:5px;
+}
+
+input#search:focus{
+	background-color:#b0e0e6;
+	color:#4d5966;
+}
+
+input#search_confirm{
+	width:18%;
+	height:80px;
+	border:1px solid #DCDCDC;
+	margin-left:10px;
+	border-radius:5px;
+	font-size:15px;
+}
+
+/* 공지사항 표 css  */
+
+div#notice_list{
+	position:relative;
+	width:71%;
+	color:#4d5966;
+	padding:5px;
+	top:40%;
+	left:50%;
+	transform:translate(-50%, 0);
+}
+
+#notice_infor{
+	margin-bottom:5px;
+	font-weight: bold;
+	
+}
+
+#notice_infor a{
+	text-decoration: none;
+	color:inherit;
+}
+
+table{
+	border:1px dotted #000000;
+	background-color:#ffffff;
+	text-align:center;
+	width:100%;
+}
+
+tbody:hover{
+	background-color: #b0e0e6;
+}
+
+tr, td{
+	border:1px dotted #000000;
+}
+
+.title{
+	width:55%;
+}
+
+.num{
+	width:10%;
+}
+
+.date{
+	width:10%;
+}
+
+.cnt{
+	width:10%;
+}
+
+.writer{
+	width:15%;
+}
+
+/* 회원정보 css */
+
+#email_view, #pw_view, #nick_view, #interest_view{
+	margin: 10px 0 10px 10px;
+}
+
+input#modi_mem{
+	margin:20px 0 0 10px;
+}
+
+input#del_mem{
+	margin-left: 20px;
+}
+
+
+
+/* 게시판 현재위치 안내 */
+#page_infor{
+	margin: 0 0 15px 10px;
+	font-size: 16px;
+	font-weight: bold;
+	color:#4d5966;
+}
+
+
+
+/* 하단 푸터영역 */
+div#footer{
+	background-color:#ffffff;
+	width:100%;
+	min-height:8vh;
+	border:1px dotted #DCDCDC;
+}
+
+div#footer p{
+	text-align:center;
+	color:#c4c4c4;
+	font-size:13px;
+}
+
+/* 큰 화면에서 미니메뉴, 드롭메뉴 가리기*/
+div#mini_menu_list, div#mini_menu_list a{
+	display:none;
+}
+
+
+@media only screen and (max-width:850px){
+	
+	div#main_left_column{
+		display:none;
+	}
+	
+	div#main_right_column{
+		width:100%;
+		position:relative;
+	}
+	
+/* 	서치박스 */
+	
+	div#main_search{
+		position:absolute;
+		top:20%;
+		left:50%;
+		transform:translate(-50%,-50%);
+		width:70%;
+		height:200px;
+		display:flex;
+		flex-wrap:wrap;
+		flex-direction:row;
+	}
+	
+	input#search{
+		width:100%;
+		height:60px;
+		font-size:20px;
+		font-weight:bold;
+		margin:60px 0 7px 0;
+		border-radius:5px;
+	}
+	
+	input#search_confirm{
+		width:100%;
+		height:40px;
+		border:1px solid #DCDCDC;
+		margin:0px;
+		font-size:20px;
+		border-radius:5px;
+ 	}
+ 	
+ 	div#main_search p#search_infor{
+		display:flex;
+		flex-wrap:wrap;
+	}
+	
+/* 	공지사항 */
+	
+	div#notice_list{
+		position:relative;
+		width:72%;
+		color:#4d5966;
+		padding:5px;
+		top:48%;
+		left:50%;
+		transform:translate(-50%, 0);
+	}
+	
+	
+/* 미니메뉴 */
+	
+	#welcom{
+		float:right;
+		display:none;
+	}
+	
+
+	div#mini_menu{
+		display:block;
+		position:absolute;
+		top:110px;
+		left:0;
+		background-color:#b0e0e6;
+		width:60px;
+		height:60px;
+	}
+	
+
+	div#mini_menu i{
+		position:absolute;
+		top:50%;
+		left:50%;
+		transform:translate(-50%, -50%);
+	}
+	
+	
+	div#mini_menu_list a{
+		display:block;
+		margin:0;
+		background-color:#b0e0e6;
+		color:#4d5966;
+		width:100%;
+		text-decoration:none;
+		font-weight:bold;
+		padding:12px 10px 10px 12px;
+	}
+	
+	.mini_area_drop_class{
+		display:none;
+	}	
+	
+}
+
+
+@media only screen and (min-width:851px){
+	
+	a#mini_menu_logout, a#mini_menu_login{
+		visibility:hidden;
+	}
+	
+	div#mini_menu_list, div#mini_menu_list a{
+		visibility:hidden;
+	}
+}
