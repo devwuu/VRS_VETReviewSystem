@@ -8,6 +8,7 @@ public class Member {
 	private String grade;
 	private Code interestCode[];
 	
+	//view 페이지에서 넘어온 데이터를 받기 위한 필드 선언
 	private String interest[];
 	private String e_id;
 	private String e_domain;
