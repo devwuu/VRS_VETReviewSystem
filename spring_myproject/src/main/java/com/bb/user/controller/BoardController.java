@@ -243,6 +243,14 @@ public class BoardController {
 	}
 	
 	
+	//sns형 게시판으로 이동
+	@RequestMapping("sns_seoul")
+	public String snsBoard() {
+		
+		return "/board/sns_seoul";
+	}
+	
+	
 	
 	
 }

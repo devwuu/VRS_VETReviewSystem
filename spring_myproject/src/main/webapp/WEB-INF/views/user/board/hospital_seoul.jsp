@@ -79,7 +79,7 @@
 					<p><b>연락처</b> : XXXX</p>
 					<p><b>24시, 토끼 전문</b></p>
 				</div>
-				<div id="hospital2">
+				<div id="hospital2" onclick="location.href='/board/sns_seoul'">
 					<img id="hospital" src="/img/hospital.png" alt="병원이미지">
 					<p id="hosName"><b>XX 동물 병원</b></p>
 					<p><b>주소</b> : XXXXX</p>
