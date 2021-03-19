@@ -8,6 +8,7 @@ import org.springframework.web.multipart.*;
 
 import com.bb.user.dto.Notice;
 import com.bb.user.dto.Review;
+import com.bb.user.dto.SnsReview;
 
 
 
@@ -47,6 +48,9 @@ public interface BoardService {
 
 	//공지사항 5개 출력
 	ArrayList<Notice> getNoticeListLimit();
+
+	//sns형태 리뷰 리스트 가져오기
+	ArrayList<SnsReview> getSNSList();
 	
 	
 }

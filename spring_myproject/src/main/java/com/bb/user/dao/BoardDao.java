@@ -16,6 +16,7 @@ import com.bb.dbconn.DbConn;
 import com.bb.user.dto.FileAttached;
 import com.bb.user.dto.Notice;
 import com.bb.user.dto.Review;
+import com.bb.user.dto.SnsReview;
 
 import oracle.jdbc.OracleTypes;
 
@@ -442,6 +443,7 @@ public class BoardDao {
 	}
 
 
+	//index 페이지에 띄울 notice 리스트 가져오기
 	public ArrayList<Notice> getNoticeListLimit() {
 		
 		ArrayList<Notice> noticeList = new ArrayList<>();
@@ -482,6 +484,39 @@ public class BoardDao {
 		
 		return noticeList;
 
+	}
+
+
+	
+	//sns 리뷰 리스트 가져오기
+	public ArrayList<SnsReview> getSnsReviewList() {
+		
+		ArrayList<SnsReview> snsReviewList = new ArrayList<>();
+		String sql = "{call p_get_sns_list(?)}";
+		
+		try {
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			stmt.registerOutParameter(1, OracleTypes.CURSOR);
+			stmt.executeQuery();
+			
+			ResultSet rs = (ResultSet)stmt.getObject(1);
+			
+			while(rs.next()) {
+				
+				SnsReview sr = new SnsReview();
+				sr.setEmail(rs.getString("email"));
+				sr.setSnsContent(rs.getString("snscontent"));
+				sr.setWdate(rs.getString("wdate"));
+				sr.setSnsReviewNo(rs.getString("snsreno"));
+				
+				snsReviewList.add(sr);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return snsReviewList;
 	}
 
 }

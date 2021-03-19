@@ -245,8 +245,11 @@ public class BoardController {
 	
 	//sns형 게시판으로 이동
 	@RequestMapping("sns_seoul")
-	public String snsBoard() {
+	public String snsBoard(Model model) {
 		
+		ArrayList<SnsReview> snsList = bs.getSNSList();
+		
+		model.addAttribute("snsList", snsList);
 		return "/board/sns_seoul";
 	}
 	
