@@ -3,6 +3,7 @@ package com.bb.user.dao;
 import java.io.File;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -510,6 +511,18 @@ public class BoardDao {
 				sr.setSnsReviewNo(rs.getString("snsreno"));
 				
 				snsReviewList.add(sr);
+				
+				if(rs.getString("filename") != null) {
+					FileAttached f = new FileAttached();
+					f.setFileName(rs.getString("filename"));
+					f.setFileNameSave(rs.getString("filenamesave"));
+					f.setFileSize(rs.getString("filesize"));
+					f.setFileType(rs.getString("filetype"));
+					f.setFilePath(rs.getString("filepath"));
+					
+					sr.setFileAttached(f);
+				}
+				
 			}
 			
 		} catch (SQLException e) {
@@ -517,6 +530,36 @@ public class BoardDao {
 		}
 		
 		return snsReviewList;
+	}
+
+
+
+	//sns형태 board insert
+	public int insertSnsBoard(SnsReview sr) {
+		
+		String sql = "{call p_insert_snsReview(?, ?, ?, ?, ?, ?, ?)}";
+		
+		int rs = 0;
+		FileAttached f = sr.getFileAttached();
+		
+		try {
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			
+			stmt.setString(1, sr.getSnsContent());
+			stmt.setString(2, sr.getEmail());
+			stmt.setString(3, f.getFileName());
+			stmt.setString(4, f.getFileNameSave());
+			stmt.setString(5, f.getFileSize());
+			stmt.setString(6, f.getFileType());
+			stmt.setString(7, f.getFilePath());
+			
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
 	}
 
 }

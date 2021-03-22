@@ -113,6 +113,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	
+	@Override
+	public int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile) {
+		
+		sr = snsReviewInstance(sr, attachFile, session);
+		return boardDao.insertSnsBoard(sr);
+	}
+	
 
 	//insert 혹은 update할 fileAttached 객체 생성
 	private Review reviewInstanse(Review r, MultipartFile fileAttach, HttpSession session) {
@@ -128,6 +135,23 @@ public class BoardServiceImpl implements BoardService {
 		
 		return r;
 	}
+	
+	
+	private SnsReview snsReviewInstance(SnsReview sr, MultipartFile fileAttach, HttpSession session) {
+		
+		FileAttached f = new FileAttached();
+		sr.setFileAttached(f);
+		
+		if(fileAttach != null) {
+			if(fileAttach.getSize()>0) {
+				f = fs.getInstanceOf(f, fileAttach, session);
+			}			
+		}
+		
+		return sr;
+	}
+
+
 
 
 

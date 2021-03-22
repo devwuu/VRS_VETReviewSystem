@@ -26,8 +26,7 @@
 
 <!-- 폰트 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<!-- 부트스트랩 공부할거면 해보고.. 아님 말고....-->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
+
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 

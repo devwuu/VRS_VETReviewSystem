@@ -51,6 +51,9 @@ public interface BoardService {
 
 	//sns형태 리뷰 리스트 가져오기
 	ArrayList<SnsReview> getSNSList();
+
+	//sns형태 리뷰 등록
+	int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile);
 	
 	
 }

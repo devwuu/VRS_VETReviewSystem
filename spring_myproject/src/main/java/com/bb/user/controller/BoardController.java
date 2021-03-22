@@ -254,6 +254,21 @@ public class BoardController {
 	}
 	
 	
+	//sns형 게시판 리뷰 등록
+	@RequestMapping("snsRegProc")
+	public String snsRegProc(SnsReview sr, HttpSession session, MultipartFile attachFile) {
+		 
+		sr.setEmail((String)session.getAttribute("sess_id"));
+		int rs = bs.insertSnsReview(sr, session, attachFile);
+
+		log.info(attachFile.getOriginalFilename());
+		
+		if(rs<=0) {
+			log.info("insert Error");
+		}
+		
+		return "redirect:sns_seoul";
+	}
 	
 	
 }
