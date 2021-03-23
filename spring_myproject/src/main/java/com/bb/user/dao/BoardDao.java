@@ -208,15 +208,7 @@ public class BoardDao {
 			ResultSet rs = (ResultSet)stmt.getObject(2);
 			
 			if(rs.next()) {
-				//filedao와 겹쳐지는 부분. 하지만 코드가 긴 게 아니라 따로 빼서 가져갈지, 그냥 둘지 고민중...
-				
-				ServletContext ctx = session.getServletContext();
-				String path = ctx.getRealPath("resources/upload");
-				File file = new File(path, rs.getString("filenamesave"));
-				
-				if(file.exists()) {
-					file.delete();
-				}
+				delAttachFile(session, rs);
 			}
 			
 			stat = 1;
@@ -561,5 +553,53 @@ public class BoardDao {
 		
 		return rs;
 	}
+
+
+	
+	//sns게시판 review 삭제
+	public int delSnsReview(String snsNo, HttpSession session) {
+		
+		int stat = 0;
+		try {
+			String sql = "{call p_del_snsReview(?, ?)}";
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			stmt.setString(1, snsNo);
+			stmt.registerOutParameter(2, OracleTypes.CURSOR);
+			stat = stmt.executeUpdate();
+			
+			ResultSet rs = (ResultSet)stmt.getObject(2);
+			
+			while(rs.next()){
+				delAttachFile(session, rs);				
+			}
+			
+			stat = 1;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return stat;
+	}
+	
+	
+	
+	//첨부파일 삭제
+	//filedao와 겹쳐지는 부분. 하지만 코드가 긴 게 아니라 따로 빼서 가져갈지, 그냥 둘지 고민중...
+	public void delAttachFile(HttpSession session, ResultSet rs) throws SQLException {		
+		ServletContext ctx = session.getServletContext();
+		String path = ctx.getRealPath("resources/upload");
+		File file = new File(path, rs.getString("filenamesave"));
+		
+		if(file.exists()) {
+			file.delete();
+			
+		}
+	
+	}
+	
+	
+	
 
 }

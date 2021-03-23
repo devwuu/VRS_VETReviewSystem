@@ -54,6 +54,9 @@ public interface BoardService {
 
 	//sns형태 리뷰 등록
 	int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile);
+
+	//sns형태 리뷰 삭제
+	int delSnsReview(String snsNo, HttpSession session);
 	
 	
 }

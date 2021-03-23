@@ -198,4 +198,16 @@ function selectCeck(){
 }
 
 
+//첨부파일 확장자 체크
+function fileCheck(){
+	
+	var filename = document.forms["snsRegForm"]["attachFile"].value;
+	var check = filename.substring(filename.lastIndexOf('.')+1);
+	
+	if(!(check == "jpg" || check == "gif" || check == "jpeg" || check == "png")){
+		alert('이미지파일(jpg, gif, jpeg, png)파일만 첨부 가능합니다.');
+		return false;
+	}
 
+	return true;	
+}

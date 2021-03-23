@@ -245,11 +245,13 @@ public class BoardController {
 	
 	//sns형 게시판으로 이동
 	@RequestMapping("sns_seoul")
-	public String snsBoard(Model model) {
+	public String snsBoard(Model model, @ModelAttribute("delStat") String delStat) {
 		
 		ArrayList<SnsReview> snsList = bs.getSNSList();
 		
 		model.addAttribute("snsList", snsList);
+		model.addAttribute("delStat", delStat);
+		
 		return "/board/sns_seoul";
 	}
 	
@@ -260,8 +262,6 @@ public class BoardController {
 		 
 		sr.setEmail((String)session.getAttribute("sess_id"));
 		int rs = bs.insertSnsReview(sr, session, attachFile);
-
-		log.info(attachFile.getOriginalFilename());
 		
 		if(rs<=0) {
 			log.info("insert Error");
@@ -269,6 +269,21 @@ public class BoardController {
 		
 		return "redirect:sns_seoul";
 	}
+	
+	
+	//sns형 게시판 게시글 삭제
+	@RequestMapping("snsDel")
+	public String snsDel(String snsNo, HttpSession session, RedirectAttributes redirectAttribute){
+		
+		int rs = bs.delSnsReview(snsNo, session);
+		redirectAttribute.addFlashAttribute("delStat", rs);
+		
+		return "redirect:/board/sns_seoul";
+	}
+		
+	
+	
+	
 	
 	
 }

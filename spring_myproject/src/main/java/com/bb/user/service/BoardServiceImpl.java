@@ -120,6 +120,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.insertSnsBoard(sr);
 	}
 	
+	
+	@Override
+	public int delSnsReview(String snsNo, HttpSession session) {
+		
+		return boardDao.delSnsReview(snsNo, session);
+	}
+	
+	
 
 	//insert 혹은 update할 fileAttached 객체 생성
 	private Review reviewInstanse(Review r, MultipartFile fileAttach, HttpSession session) {
@@ -150,6 +158,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		return sr;
 	}
+
+
+
+	
 
 
 
