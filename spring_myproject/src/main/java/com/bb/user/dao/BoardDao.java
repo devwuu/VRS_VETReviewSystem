@@ -569,8 +569,10 @@ public class BoardDao {
 			
 			ResultSet rs = (ResultSet)stmt.getObject(2);
 			
-			while(rs.next()){
-				delAttachFile(session, rs);				
+			if(rs!=null) {
+				while(rs.next()){
+					delAttachFile(session, rs);				
+				}				
 			}
 			
 			stat = 1;
@@ -590,6 +592,7 @@ public class BoardDao {
 	public void delAttachFile(HttpSession session, ResultSet rs) throws SQLException {		
 		ServletContext ctx = session.getServletContext();
 		String path = ctx.getRealPath("resources/upload");
+		
 		File file = new File(path, rs.getString("filenamesave"));
 		
 		if(file.exists()) {

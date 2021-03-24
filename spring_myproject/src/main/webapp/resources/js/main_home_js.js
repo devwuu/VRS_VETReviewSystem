@@ -204,10 +204,51 @@ function fileCheck(){
 	var filename = document.forms["snsRegForm"]["attachFile"].value;
 	var check = filename.substring(filename.lastIndexOf('.')+1);
 	
-	if(!(check == "jpg" || check == "gif" || check == "jpeg" || check == "png")){
+	
+	if(filename != "" &&!(check == "jpg" || check == "gif" || check == "jpeg" || check == "png")){
 		alert('이미지파일(jpg, gif, jpeg, png)파일만 첨부 가능합니다.');
 		return false;
 	}
 
 	return true;	
 }
+
+
+//snsRegForm 노출
+//form이 여러개이기 때문에 idx로 접근
+function getSnsModForm(idx){
+	
+	if(document.forms[idx].snsContentModBox.style.display == "block"){
+	
+		document.getElementById("snsContentView"+idx).style.display = "block";
+		document.forms[idx].snsContentModBox.style.display = "none";
+		
+		if(document.forms[idx].fileName != undefined){
+			document.forms[idx].fileName.type = "hidden";		
+		}
+		
+		document.forms[idx].submit();
+		
+	}else if(document.forms[idx].snsContentModBox.style.display == "none"){		
+	
+		document.getElementById("snsContentView"+idx).style.display = "none";
+		document.forms[idx].snsContentModBox.style.display = "block";
+		
+		if(document.forms[idx].fileName != undefined){
+			document.forms[idx].fileName.type = "button";
+		}
+		
+	}
+	
+}
+
+
+
+//sns 첨부파일 삭제
+function snsFileDelReq(snsReviewNo){
+	alert(snsReviewNo);
+}
+
+
+
+

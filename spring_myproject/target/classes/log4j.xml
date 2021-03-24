@@ -9,6 +9,36 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
+    
+ 
+    <!-- 날짜별 로그 파일 생성(에러만) -->
+    <appender name="errFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="Threshold" value="ERROR"/>
+        <param name="File" value="D:/dawool/logs/logflieError.log"/>
+        <param name="Append" value="true"/>
+        <!-- param name="MaxFileSize" value="100MB"/ -->
+        <!-- param name="MaxBackupIndex" value="2"></param -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %5p [%C{1}] %m [%X{userId}]%n" />
+        </layout>  
+    </appender>
+    
+    
+    <!-- 날짜별 로그 파일 생성) -->
+    <appender name="logFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="D:/dawool/logs/logflie.log"/>
+        <param name="Append" value="true"/>
+        <!-- param name="MaxFileSize" value="100MB"/ -->
+        <!-- param name="MaxBackupIndex" value="2"></param -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %5p [%C{1}] %m [%X{userId}]%n" />
+        </layout>  
+    </appender>
+
+
+	
 	
 	<!-- Application Loggers -->
 	<logger name="com.bb">
@@ -36,6 +66,8 @@
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
+		<appender-ref ref="errFile" />		
+		<appender-ref ref="logFile" />		
 	</root>
 	
 </log4j:configuration>

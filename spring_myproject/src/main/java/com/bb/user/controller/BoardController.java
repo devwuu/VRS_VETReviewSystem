@@ -274,7 +274,7 @@ public class BoardController {
 	//sns형 게시판 게시글 삭제
 	@RequestMapping("snsDel")
 	public String snsDel(String snsNo, HttpSession session, RedirectAttributes redirectAttribute){
-		
+
 		int rs = bs.delSnsReview(snsNo, session);
 		redirectAttribute.addFlashAttribute("delStat", rs);
 		
@@ -282,6 +282,15 @@ public class BoardController {
 	}
 		
 	
+	//sns형 게시글 수정
+	@RequestMapping("snsUpdate")
+	public void snsUpdate(SnsReview snsReview, MultipartFile attachFile) {
+
+		log.info(snsReview.getSnsReviewNo());
+		log.info(snsReview.getEmail());
+		
+		
+	}
 	
 	
 	
