@@ -286,9 +286,12 @@ public class BoardController {
 	@RequestMapping("snsUpdate")
 	public void snsUpdate(SnsReview snsReview, MultipartFile attachFile) {
 
+		//formdata안의 input name과 필드 이름이 동일한 dto로 받아준다.
+		//dto에 정보가 잘 담겼는지 확인한다.
+		
 		log.info(snsReview.getSnsReviewNo());
 		log.info(snsReview.getEmail());
-		
+		log.info(snsReview.getSnsContent());
 		
 	}
 	

@@ -227,7 +227,37 @@ function getSnsModForm(idx){
 			document.forms[idx].fileName.type = "hidden";		
 		}
 		
-		document.forms[idx].submit();
+		
+		var x = new XMLHttpRequest();
+		
+		x.onreadystatechange = function(){
+			
+			if(x.readyState === 4){
+				
+				if(x.status === 200){
+					
+					if(x.responseText.trim() == "1"){
+						alert("수정완료");
+					}else{
+						alert("수정실패");
+					}
+					
+				}else{
+					console.log("에러: "+x.status);
+				}
+				
+			}
+			
+		};
+		
+		//form이 multipart기 때문에 false로 지정해준다. 
+		x.open("POST", "/board/snsUpdate", false);
+		
+		//form안의 data를 formdata객체에 담아준다.
+		var formdata = new FormData(document.getElementById("updateSns"+idx));
+
+		//formdata를 controller로 전달한다.
+		x.send(formdata);
 		
 	}else if(document.forms[idx].snsContentModBox.style.display == "none"){		
 	
