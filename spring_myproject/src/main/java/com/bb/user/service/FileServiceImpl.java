@@ -87,6 +87,15 @@ public class FileServiceImpl implements FileService {
 
 
 
+	@Override
+	public String delSnsFile(String snsReviewNo, HttpSession session) {
+		// sns게시글 삭제
+		return fd.delSnsFile(snsReviewNo, session);
+	}
+
+
+
+
 
 
 

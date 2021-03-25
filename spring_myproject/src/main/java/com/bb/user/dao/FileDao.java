@@ -60,6 +60,45 @@ public class FileDao {
 			
 			return rs;
 		}
+
+		
+		
+		
+		
+	//sns게시글 첨부파일 삭제	
+		public String delSnsFile(String snsReviewNo, HttpSession session) {
+			
+			String sql = "{call p_del_snsfileup(?, ?)}";
+			String stat = null;
+			
+			try {
+				CallableStatement stmt = dbconn.prepareCall(sql);
+				stmt.setString(1, snsReviewNo);
+				stmt.registerOutParameter(2, OracleTypes.CURSOR);
+				stmt.executeUpdate();
+				
+				ResultSet rs = (ResultSet)stmt.getObject(2);
+				if(rs != null && rs.next()) {
+					
+					//일반 게시판 첨부파일 삭제 메서드와 중복되는 부분.
+					ServletContext ctx = session.getServletContext();
+					String filePath = ctx.getRealPath("resources/upload");
+					File file = new File(filePath, rs.getString("filenamesave"));
+					
+					if(file.exists()) {
+						file.delete();
+						stat = "1";
+					}
+					
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return stat;
+		}
 	
 	
 }

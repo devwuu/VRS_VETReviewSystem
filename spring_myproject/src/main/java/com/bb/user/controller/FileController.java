@@ -36,6 +36,17 @@ public class FileController{
 		return new ResponseEntity<String>(rs, HttpStatus.OK);
     }
     
+
+	//sns형 첨부파일 삭제
+	@RequestMapping("snsFileDel")
+	public ResponseEntity<String> snsFileDel(String snsReviewNo, HttpSession session){
+		
+		String rs = fs.delSnsFile(snsReviewNo, session);
+		
+		return new ResponseEntity<String>(rs, HttpStatus.OK);
+	}
+	
+    
     
     //첨부파일 다운로드
     //service로 옮길까?

@@ -57,6 +57,9 @@ public interface BoardService {
 
 	//sns형태 리뷰 삭제
 	int delSnsReview(String snsNo, HttpSession session);
+
+	//sns형태 리뷰 수정
+	String updateSnsReview(SnsReview snsReview, MultipartFile attachFileMod, HttpSession session);
 	
 	
 }

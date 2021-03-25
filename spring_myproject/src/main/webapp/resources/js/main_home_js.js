@@ -214,20 +214,33 @@ function fileCheck(){
 }
 
 
-//snsRegForm 노출
-//form이 여러개이기 때문에 idx로 접근
+//snsRegForm 노출 및 수정 data 전송
+//form이 여러개이기 때문에 form에 idx를 부여하여 idx로 접근
 function getSnsModForm(idx){
 	
+	
+	//수정form을 숨기면서 data전송
 	if(document.forms[idx].snsContentModBox.style.display == "block"){
+		
+		
+		//data전송 전 file 확장자 체크
+		var filename = document.forms[idx].attachFileMod.value;
+		var check = filename.substring(filename.lastIndexOf('.')+1);
+		
+		if(filename != "" &&!(check == "jpg" || check == "gif" || check == "jpeg" || check == "png")){
+			alert('이미지파일(jpg, gif, jpeg, png)파일만 첨부 가능합니다.');
+			return false;
+		}
 	
 		document.getElementById("snsContentView"+idx).style.display = "block";
 		document.forms[idx].snsContentModBox.style.display = "none";
 		
-		if(document.forms[idx].fileName != undefined){
-			document.forms[idx].fileName.type = "hidden";		
+		if(document.forms[idx].delButton != undefined){
+			document.forms[idx].delButton.type = "hidden";		
 		}
 		
 		
+		//ajax를 통한 data전송
 		var x = new XMLHttpRequest();
 		
 		x.onreadystatechange = function(){
@@ -238,6 +251,9 @@ function getSnsModForm(idx){
 					
 					if(x.responseText.trim() == "1"){
 						alert("수정완료");
+						
+						//수정 완료 후 페이지 갱신
+						window.location.reload(true);
 					}else{
 						alert("수정실패");
 					}
@@ -258,14 +274,20 @@ function getSnsModForm(idx){
 
 		//formdata를 controller로 전달한다.
 		x.send(formdata);
+			
+	}
 		
-	}else if(document.forms[idx].snsContentModBox.style.display == "none"){		
+		
+	//수정form을 노출함
+	if(document.forms[idx].snsContentModBox.style.display == "none"){		
 	
 		document.getElementById("snsContentView"+idx).style.display = "none";
 		document.forms[idx].snsContentModBox.style.display = "block";
 		
-		if(document.forms[idx].fileName != undefined){
-			document.forms[idx].fileName.type = "button";
+		if(document.forms[idx].delButton != undefined){
+			document.forms[idx].delButton.type = "button";
+		}else{
+			document.forms[idx].attachFileMod.type = "file";
 		}
 		
 	}
@@ -275,8 +297,36 @@ function getSnsModForm(idx){
 
 
 //sns 첨부파일 삭제
-function snsFileDelReq(snsReviewNo){
-	alert(snsReviewNo);
+function snsFileDelReq(snsReviewNo, idx){
+	
+	var x = new XMLHttpRequest();
+	
+	x.onreadystatechange = function(){
+		
+		if(x.readyState === 4){
+			if(x.status === 200){
+				
+				if(x.responseText.trim() == "1"){
+					alert("삭제 완료");
+					document.getElementById("existFile"+idx).style.display = "none";
+					document.forms[idx].attachFileMod.type = "file";
+				}else{
+					alert("삭제 실패");
+				}
+				
+			}else{
+				console.log("에러: "+x.status);
+			}
+		}
+		
+	};
+	
+	
+	x.open("POST", "/file/snsFileDel", true);
+	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	x.send("snsReviewNo="+snsReviewNo);
+	
+	
 }
 
 

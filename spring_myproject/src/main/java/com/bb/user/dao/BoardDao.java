@@ -586,6 +586,41 @@ public class BoardDao {
 	}
 	
 	
+	//snsReview수정
+	public String updateSnsReview(SnsReview snsReview, HttpSession session) {
+		
+		FileAttached f = snsReview.getFileAttached();
+		String stat = null;
+		
+		String sql = "{call p_updatesnsReview(?, ?, ?, ?, ?, ?, ?, ?)}";
+		try {
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			stmt.setString(1, snsReview.getSnsReviewNo());
+			stmt.setString(2, snsReview.getSnsContent());
+			stmt.setString(3, f.getFileName());
+			stmt.setString(4, f.getFileNameSave());
+			stmt.setString(5, f.getFileSize());
+			stmt.setString(6, f.getFileType());
+			stmt.setString(7, f.getFilePath());
+			stmt.registerOutParameter(8, OracleTypes.CURSOR);
+			
+			stmt.executeUpdate();
+			
+			ResultSet rs = (ResultSet)stmt.getObject(8);
+			if(rs != null && rs.next()) {
+				delAttachFile(session, rs);
+			}
+			
+			stat = "1";
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return stat;
+	}
+	
+	
 	
 	//첨부파일 삭제
 	//filedao와 겹쳐지는 부분. 하지만 코드가 긴 게 아니라 따로 빼서 가져갈지, 그냥 둘지 고민중...
@@ -601,8 +636,7 @@ public class BoardDao {
 		}
 	
 	}
-	
-	
-	
+
+
 
 }

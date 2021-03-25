@@ -284,16 +284,17 @@ public class BoardController {
 	
 	//sns형 게시글 수정
 	@RequestMapping("snsUpdate")
-	public void snsUpdate(SnsReview snsReview, MultipartFile attachFile) {
+	public ResponseEntity<String> snsUpdate(SnsReview snsReview, MultipartFile attachFileMod,
+						  HttpSession session) {
 
 		//formdata안의 input name과 필드 이름이 동일한 dto로 받아준다.
-		//dto에 정보가 잘 담겼는지 확인한다.
+		//file은 multipart타입으로 받아준다.
+
+		String rs = bs.updateSnsReview(snsReview, attachFileMod, session);
 		
-		log.info(snsReview.getSnsReviewNo());
-		log.info(snsReview.getEmail());
-		log.info(snsReview.getSnsContent());
-		
+		return new ResponseEntity<String>(rs, HttpStatus.OK);
 	}
+	
 	
 	
 	

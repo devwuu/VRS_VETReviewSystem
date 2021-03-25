@@ -128,7 +128,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	
+	@Override
+	public String updateSnsReview(SnsReview snsReview, MultipartFile attachFileMod, HttpSession session) {
+		
+		snsReview = snsReviewInstance(snsReview, attachFileMod, session);
+		
+		return boardDao.updateSnsReview(snsReview, session);
+	}
 
+	
+	
 	//insert 혹은 update할 fileAttached 객체 생성
 	private Review reviewInstanse(Review r, MultipartFile fileAttach, HttpSession session) {
 		
@@ -160,18 +169,5 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
-
-	
-
-
-
-
-
-	
-	
-
-
-
-	
 	
 }
