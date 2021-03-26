@@ -2,6 +2,7 @@ package com.bb.admin.dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -216,6 +217,29 @@ public class AdminDao {
 		}
 		
 		return memberList;
+	}
+
+	
+	//회원탈퇴(회원정보삭제)진행
+	public int delMember(String[] selectEmail) {
+		
+		int rs = 0;
+		String sql = "UPDATE member SET pw = null, nickname = null,"
+				     +" isdel = null WHERE email = ?";
+		
+		try {
+			PreparedStatement stmt = dbconn.prepareStatement(sql);
+			
+			for(String email : selectEmail) {
+				stmt.setString(1, email);
+				rs = stmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
 	}
 	
 	

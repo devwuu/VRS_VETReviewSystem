@@ -17,13 +17,12 @@ div#board_search_box{
 /* 회원 리스트 */
 div#mem_list{
 	width:100%;
-	background-color:#ffffff;
-	border:1px dotted #DCDCDC;
 	color:#4d5966;
 	padding:5px;
 }
 
 table{
+	background-color:#ffffff;
 	border:1px dotted #000000;
 	text-align:center;
 	width:100%;
@@ -60,6 +59,11 @@ tr, td{
 
 .isdel{
 	width:10%;
+}
+
+input#delbutton{
+	float:right;
+	margin-right:5px;
 }
 
 /* 게시물 페이지 영역 */

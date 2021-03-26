@@ -66,7 +66,7 @@ function selectAll(selectAll){
 //체크 박스 선택 해제시 전체 선택 체크 박스 해제__탈퇴회원리스트
 function selectCheck(checkbox){
 	
-	const checkAll = document.querySelector('input[name="selectAll"]');
+	const checkAll = document.querySelector('input[name="selectAllInput"]');
 	
 	if(checkbox.checked === false){
 		checkAll.checked = false;

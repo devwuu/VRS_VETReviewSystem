@@ -22,6 +22,24 @@
 
 </style>
 
+<script>
+	
+	function delCheck(){
+		if(confirm("탈퇴처리를 진행하시겠습니까?")){
+			return ture;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	window.onload = function(){
+		if(document.getElementById("delState").value>="1"){
+			alert("회원 탈퇴처리가 완료되었습니다.");
+		}
+	}
+
+</script>
 
 
 <!-- 폰트 -->
@@ -50,6 +68,7 @@
 
 <!-- 메인내용(왼쪽 오른쪽 컬럼)		 -->
 	 <div id="main_content">
+
 		
 <!-- 			왼쪽 메뉴 영역	 -->
 		<%@include file="../navbar_left.jsp" %>
@@ -66,64 +85,70 @@
 			</div>
 						
 			<p id="page_infor">＠ 탈퇴 요청 회원 정보</p>
+		 	<input id="delState" type="hidden" value="${delState }">
 			<div id="mem_list">
-				<table cellspacing="0">
-				 	<thead>
-						<tr>
-							<td class="check">
-								<input type="checkbox" name="selectAll" value="전체선택" onclick="selectAll(this)">
-							</td>
-							<td class="num">
-								<b>순번</b>
-							</td>
-							<td class="email">
-								<b>이메일</b>
-							</td>
-							<td class="name">
-								<b>별명</b>
-							</td>
-							<td class="grade">
-								<b>회원 등급</b>
-							</td>
-							<td class="wdate">
-								<b>가입일</b>
-							</td>
-							<td class="isdel">
-								<b>탈퇴 요청일</b>
-							</td>
-						</tr>
-					</thead>
-					
-					<c:set value="${fn:length(memberList)+1 }" var="cnt"/>
-					<c:forEach items="${memberList }" var="m">
-						<c:set value="${cnt-1 }" var="cnt"/>
-						<tbody>
+				<form onsubmit="return delCheck()" name="delMemberReq" action="/admin/delMemnerReq">
+					<input name="condition" type="hidden" value="${condition }">
+					<table cellspacing="0">
+					 	<thead>
 							<tr>
 								<td class="check">
-								<input type="checkbox" name="selectEmail" value="${m.email }" onclick="selectCheck(this)">
+									<input type="checkbox" name="selectAllInput" value="전체선택" onclick="selectAll(this)">
 								</td>
-								<td>
-									${cnt }
+								<td class="num">
+									<b>순번</b>
 								</td>
-								<td>
-									${m.email }
+								<td class="email">
+									<b>이메일</b>
 								</td>
-								<td>
-									${m.nickName }
+								<td class="name">
+									<b>별명</b>
 								</td>
-								<td>
-									${m.gradeName }
+								<td class="grade">
+									<b>회원 등급</b>
 								</td>
-								<td>
-									${m.wdate }
+								<td class="wdate">
+									<b>가입일</b>
 								</td>
-								<td>
-									${m.delDate }
+								<td class="isdel">
+									<b>탈퇴 요청일</b>
 								</td>
 							</tr>
-						</tbody>	
-					</c:forEach>
-				</table>
+						</thead>
+						
+						<c:set value="${fn:length(memberList)+1 }" var="cnt"/>
+						<c:forEach items="${memberList }" var="m">
+							<c:set value="${cnt-1 }" var="cnt"/>
+							<tbody>
+								<tr>
+									<td class="check">
+									<input type="checkbox" name="selectEmail" value="${m.email }" onclick="selectCheck(this)">
+									</td>
+									<td>
+										${cnt }
+									</td>
+									<td>
+										${m.email }
+									</td>
+									<td>
+										${m.nickName }
+									</td>
+									<td>
+										${m.gradeName }
+									</td>
+									<td>
+										${m.wdate }
+									</td>
+									<td>
+										${m.delDate }
+									</td>
+								</tr>
+							</tbody>	
+						</c:forEach>
+					</table>
+					<br>
+					<input type="submit" value="회원삭제" id="delbutton">
+				</form>
 			</div>
 			<div id="board_page">
 				<a>◀</a>

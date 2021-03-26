@@ -41,4 +41,9 @@ public class AdminServiceImpl implements AdminService {
 		return ad.getSearchDelMemberList(condition);
 	}
 
+	@Override
+	public int delMember(String[] selectEmail) {
+		return ad.delMember(selectEmail);
+	}
+
 }

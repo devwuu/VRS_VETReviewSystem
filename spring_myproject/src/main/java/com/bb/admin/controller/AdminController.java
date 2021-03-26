@@ -4,10 +4,14 @@ package com.bb.admin.controller;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bb.admin.dto.Admin;
 import com.bb.admin.dto.Member;
@@ -22,6 +26,7 @@ public class AdminController {
 	@Autowired
 	private AdminService as;
 	
+	Log log = LogFactory.getLog(AdminController.class);
 	
 	//로그인
 	@RequestMapping("adminLogin")
@@ -109,11 +114,14 @@ public class AdminController {
 	
 	//탈퇴회원리스트 출력
 	@RequestMapping("delMemList")
-	public String delMemList(Model model) {
+	public String delMemList(Model model, @ModelAttribute("delState") String delState,
+										  @ModelAttribute("condition") String condition) {
 		
 		ArrayList<Member> memberList = as.getDelMemberList();
 		
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("delState", delState);
+		model.addAttribute("condition", condition);
 		
 		return "/member/delMemList";
 		
@@ -129,6 +137,19 @@ public class AdminController {
 		model.addAttribute("condition", condition);
 
 		return "/member/delMemList";
+	}
+	
+	
+	//회원탈퇴처리
+	@RequestMapping("delMemnerReq")
+	public String delMemnerReq(String[] selectEmail, RedirectAttributes redirectAttributes, String condition) {
+		
+		int rs = as.delMember(selectEmail);
+		
+		redirectAttributes.addFlashAttribute("delState", rs);
+		redirectAttributes.addFlashAttribute("condition", condition);
+		
+		return "redirect:/admin/delMemList";
 	}
 	
 	

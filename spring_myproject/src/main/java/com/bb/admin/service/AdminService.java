@@ -22,4 +22,7 @@ public interface AdminService {
 	//탈퇴 회원 검색 리스트 출력
 	ArrayList<Member> getSearchDelMember(String condition);
 
+	//회원 탈퇴(회원 정보 삭제) 진행
+	int delMember(String[] selectEmail);
+
 }
