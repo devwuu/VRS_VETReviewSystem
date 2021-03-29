@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>        
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+
+        
 
 
 <!DOCTYPE html>
@@ -18,6 +22,7 @@
 
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+﻿<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>﻿
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <style>
@@ -160,22 +165,20 @@
 			<c:if test="${sess_id != null }">		
 				<button onclick="location.href='/board/boardRegForm'">작성</button>
 			</c:if>
-			<div id="board_page">
-				<c:if test="${page.prev}">
-					<a>◀</a>
-				</c:if>
-				
-				<c:forEach varStatus="status" begin="${page.startPage-1 }" end="${page.lastPage-1 }" step="1" var="paging">
-					<a id="page${paging+1 }" 
-						<c:if test="${paging+1 eq page.thisPage }">
-							style="font-weight: bold; font-size:19px;"
-						</c:if>
-					onclick="location.href='/board/board_seoul?pageNum=${paging+1 }'">${paging+1 }</a>
-				</c:forEach>
-				<c:if test="${page.next}">
-					<a onclick="nextPage(${page.lastPage}, ${page.maxPage })">▶</a>
-				</c:if>
+<!-- 			<div id="board_page"> -->
+			<div id="pageList">
+				<%@include file="board_page.jsp" %>
 			</div>
+			
+<%-- 				<c:if test="${page.prev}"> --%>
+<!-- 					<a>◀</a> -->
+<%-- 				</c:if> --%>
+				
+				
+<%-- 				<c:if test="${page.next}"> --%>
+<%-- 					<a onclick="nextPage(${page.lastPage}, ${page.maxPage })">▶</a> --%>
+<%-- 				</c:if> --%>
+<!-- 			</div> -->
 			
 		</div>
 			
@@ -184,6 +187,7 @@
 
 	
 <%@include file="../footer_pj.jsp" %>
+
 
 	
 

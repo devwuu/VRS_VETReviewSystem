@@ -299,13 +299,24 @@ public class BoardController {
 	}
 	
 	
-	//board게시글리스트 갱신
+	//board게시글리스트 갱신(ajax)
 	@RequestMapping("boardListUpdate")
 	public ResponseEntity<Page> boardListUpdate(int lastPage, int maxPage) {
 	
 		Page page = new Page(lastPage+1, maxPage);
 		
 		return new ResponseEntity<Page>(page, HttpStatus.OK);
+	}
+	
+	//board게시글리스트 갱신(div)
+	@RequestMapping("board_page")
+	public String board_page(int startPage, int maxPage, Model model) {
+
+		Page page = new Page(startPage, maxPage);
+		
+		model.addAttribute("page", page);
+		
+		return "/board/board_page";
 	}
 	
 	

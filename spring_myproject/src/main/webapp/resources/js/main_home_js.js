@@ -350,8 +350,9 @@ function nextPage(lastPage, maxPage){
 			if(x.status === 200){
 
 				var result =  JSON.parse(x.responseText);
-				location.href="/board/board_seoul?pageNum="+result.startPage;
-				
+
+				$("#pageList").load("/board/board_page?startPage="+result.startPage+"&maxPage="+result.maxPage);
+
 			}else{
 				console.log("에러: "+x.status);
 			}
