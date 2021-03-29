@@ -231,6 +231,14 @@ function getSnsModForm(idx){
 			alert('이미지파일(jpg, gif, jpeg, png)파일만 첨부 가능합니다.');
 			return false;
 		}
+		
+		
+		if(document.forms[idx].snsContent.value.length == 0){
+			alert('게시글 내용을 입력하세요');
+			document.forms[idx].snsContent.focus();
+			return false;
+		}
+		
 	
 		document.getElementById("snsContentView"+idx).style.display = "block";
 		document.forms[idx].snsContentModBox.style.display = "none";
@@ -328,6 +336,39 @@ function snsFileDelReq(snsReviewNo, idx){
 	
 	
 }
+
+
+//페이지 이동
+//추후에 pageList만 동적으로 바뀔 수 있게... 수정해볼 예정
+function nextPage(lastPage, maxPage){
+	
+	var x = new XMLHttpRequest();
+
+	x.onreadystatechange = function(){
+		
+		if(x.readyState === 4){
+			if(x.status === 200){
+
+				var result =  JSON.parse(x.responseText);
+				location.href="/board/board_seoul?pageNum="+result.startPage;
+				
+			}else{
+				console.log("에러: "+x.status);
+			}
+		}
+		
+		
+	};
+	
+	x.open("POST", "/board/boardListUpdate", true);
+	x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	x.send("lastPage="+lastPage+"&maxPage="+maxPage);
+		
+}
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@ package com.bb.user.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -128,12 +129,14 @@ public class BoardController {
 	
 	
 	//리뷰 게시글 리스트 출력
+	@SuppressWarnings("unchecked")
 	@RequestMapping("board_seoul")
-	public String ReviewList(Model model) {
+	public String ReviewList(Model model, @RequestParam("pageNum") String pageNum) {
 		
-		ArrayList<Review> reviewList = bs.getBoardList();
-		
-		model.addAttribute("reviewList", reviewList);
+		HashMap<String, Object> map = bs.getBoardList(pageNum);
+				
+		model.addAttribute("reviewList", (ArrayList<Review>)map.get("reviewList"));
+		model.addAttribute("page", (Page)map.get("page"));
 		
 		return "/board/board_seoul";
 
@@ -294,6 +297,17 @@ public class BoardController {
 		
 		return new ResponseEntity<String>(rs, HttpStatus.OK);
 	}
+	
+	
+	//board게시글리스트 갱신
+	@RequestMapping("boardListUpdate")
+	public ResponseEntity<Page> boardListUpdate(int lastPage, int maxPage) {
+	
+		Page page = new Page(lastPage+1, maxPage);
+		
+		return new ResponseEntity<Page>(page, HttpStatus.OK);
+	}
+	
 	
 	
 	

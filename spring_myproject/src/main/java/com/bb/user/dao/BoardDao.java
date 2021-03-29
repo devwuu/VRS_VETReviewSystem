@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.*;
@@ -16,9 +17,11 @@ import org.springframework.stereotype.*;
 import com.bb.dbconn.DbConn;
 import com.bb.user.dto.FileAttached;
 import com.bb.user.dto.Notice;
+import com.bb.user.dto.Page;
 import com.bb.user.dto.Review;
 import com.bb.user.dto.SnsReview;
 
+import oracle.jdbc.OracleType;
 import oracle.jdbc.OracleTypes;
 
 
@@ -66,17 +69,22 @@ public class BoardDao {
 
 	
 	//게시글 목록 조회
-	public ArrayList<Review> getReviewList() {
+	public HashMap<String, Object> getReviewList(String pageNum) {
 
 		ArrayList<Review> reviewList = new ArrayList<>();
+		HashMap<String, Object> map = new HashMap<>();
 		
 		try {
-			String sql = "{call p_get_boardlist(?)}";
+			String sql = "{call p_get_boardlist(?,?,?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
-			stmt.registerOutParameter(1, OracleTypes.CURSOR);
-			stmt.executeQuery();
-			ResultSet rs = (ResultSet)stmt.getObject(1);
+			stmt.setString(1, pageNum);
+			stmt.registerOutParameter(2, OracleTypes.CURSOR);
+			stmt.registerOutParameter(3, OracleTypes.INTEGER);
 			
+			stmt.executeQuery();
+			
+			ResultSet rs = (ResultSet)stmt.getObject(2);
+
 			while(rs.next()) {
 				
 				Review r = new Review();
@@ -93,12 +101,19 @@ public class BoardDao {
 			
 			rs.close();
 			
+			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(3));
+			
+			map.put("reviewList", reviewList);
+			map.put("page", page);
+			
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		
-		return reviewList;
+		return map;
 	}
 
 

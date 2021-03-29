@@ -103,7 +103,7 @@
 						<table id="sns_regForm">
 							<tr>
 								<td id="snsText">
-									<textarea name="snsContent" maxlength="1000" id="snsInput" placeholder="내용을 입력하세요"></textarea>
+									<textarea name="snsContent" maxlength="1000" id="snsInput" required placeholder="내용을 입력하세요"></textarea>
 								</td>
 								<td id="snsButton"  rowspan="2" >
 									<input id="snsSubmit" type="submit" value="등록">

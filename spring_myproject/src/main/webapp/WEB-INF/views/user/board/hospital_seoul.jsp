@@ -70,8 +70,8 @@
 			<p id="page_infor">＠ 서울시</p>
 			<div id="hospital_list">
 <!-- 			추후 병원 리스트를 DB에서 가져오는 식으로 바꿔야함. 따라서 서블릿으로 연결-->
-
-				<div id="hospital1" onclick="location.href='/board/board_seoul'">
+				
+				<div id="hospital1" onclick="location.href='/board/board_seoul?pageNum=1'">
 					<img id="hospital" src="/img/hospital.png" alt="병원이미지">
 					<p id="hosName" ><b>OO 동물 병원</b></p>
 					<p><b>주소</b> : XXXXX</p>

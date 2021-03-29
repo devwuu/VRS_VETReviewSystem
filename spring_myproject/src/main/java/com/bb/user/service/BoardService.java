@@ -1,6 +1,7 @@
 package com.bb.user.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.*;
 
@@ -23,7 +24,7 @@ public interface BoardService {
 	String updateBoard(Review r, MultipartFile fileAttach, HttpSession session);
 	
 	//리뷰 리스트 가져오기
-	ArrayList<Review> getBoardList();
+	HashMap<String, Object> getBoardList(String pageNum);
 	
 	//리뷰 내용 보기
 	Review getReviewContent(String no, String email);

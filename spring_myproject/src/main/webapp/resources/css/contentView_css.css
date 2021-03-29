@@ -14,14 +14,14 @@
 #title_cont{
 	margin: 0 0 6px 10px;
 	color:#4d5966;
+	vertical-align:middle;
 }
 
 #bookmark{
 	vertical-align:middle;
-	margin-right:10px;
-	float:right;
 	font-size:30px;
 	color:#4d5966;
+	display:inline;
 }
 
 
@@ -65,3 +65,8 @@ form{
 	margin: 3px;
 }
 
+input#goList{
+	float:right;
+	margin-top:10px;
+	margin-right:5px;
+}

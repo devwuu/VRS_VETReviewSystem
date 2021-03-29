@@ -161,11 +161,20 @@
 				<button onclick="location.href='/board/boardRegForm'">작성</button>
 			</c:if>
 			<div id="board_page">
-				<a>◀</a>
-				<a>1</a>
-				<a>2</a>
-				<a>3</a>
-				<a>▶</a>
+				<c:if test="${page.prev}">
+					<a>◀</a>
+				</c:if>
+				
+				<c:forEach varStatus="status" begin="${page.startPage-1 }" end="${page.lastPage-1 }" step="1" var="paging">
+					<a id="page${paging+1 }" 
+						<c:if test="${paging+1 eq page.thisPage }">
+							style="font-weight: bold; font-size:19px;"
+						</c:if>
+					onclick="location.href='/board/board_seoul?pageNum=${paging+1 }'">${paging+1 }</a>
+				</c:forEach>
+				<c:if test="${page.next}">
+					<a onclick="nextPage(${page.lastPage}, ${page.maxPage })">▶</a>
+				</c:if>
 			</div>
 			
 		</div>

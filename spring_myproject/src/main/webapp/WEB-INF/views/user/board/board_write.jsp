@@ -63,6 +63,7 @@
 	
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
+			<input type="button" id="goList" value="목록" onclick="location.href='/board/board_seoul'">
 			<form name="board_write" method="POST" enctype="multipart/form-data" action="/board/boardRegProc">
 				<p id="title_cont"><b>Title</b> : <input type="text" name="title" required maxlength="13"><br>
 				<p id="email_cont"><b>Email</b> : ${sess_id }<br>

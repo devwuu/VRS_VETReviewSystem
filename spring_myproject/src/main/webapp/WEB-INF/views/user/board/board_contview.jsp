@@ -76,6 +76,7 @@ function checkYN(){
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 		<c:set value="${review }" var="r"/>
+			<input type="button" id="goList" value="목록" onclick="location.href='/board/board_seoul'">
 			<br>
 			<p id="page_infor">＠ 서울시 _ OO 동물 병원</p>
 			<p id="title_cont"><b>Title</b> : ${r.title}</p>

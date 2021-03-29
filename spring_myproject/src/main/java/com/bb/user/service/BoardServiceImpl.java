@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.multipart.*;
 
+
 import com.bb.user.dao.BoardDao;
 import com.bb.user.dto.*;
 
@@ -47,9 +48,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
-	public ArrayList<Review> getBoardList() {
+	public HashMap<String, Object> getBoardList(String pageNum) {
 		
-		return boardDao.getReviewList();
+		return boardDao.getReviewList(pageNum);
 	}
 
 	@Override
