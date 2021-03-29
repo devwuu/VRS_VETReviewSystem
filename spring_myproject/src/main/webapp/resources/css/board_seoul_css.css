@@ -114,7 +114,15 @@ tr, td{
 
 #board_page a{
 	text-decoration:none;
+	cursor:pointer;
 }
+
+#pageInfor{
+	margin-left:5px;
+	color:#4d5966;
+}
+
+
 
 /* 글작성 버튼 */
 button{

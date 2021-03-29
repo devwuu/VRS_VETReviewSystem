@@ -113,8 +113,8 @@
 				<p><b>연락처</b> : XXXX</p>
 				<p><b>24시, 토끼 전문</b></p>
 			</div>
+			<p id="pageInfor"><b>${page.thisPage }</b> 페이지</p>
 			<div id="board_list">
-			
 				<table cellspacing="0">
 				 	<thead>
 						<tr>
@@ -162,24 +162,15 @@
 					
 				</table>
 			</div>
+
 			<c:if test="${sess_id != null }">		
 				<button onclick="location.href='/board/boardRegForm'">작성</button>
 			</c:if>
-<!-- 			<div id="board_page"> -->
+
 			<div id="pageList">
 				<%@include file="board_page.jsp" %>
 			</div>
-			
-<%-- 				<c:if test="${page.prev}"> --%>
-<!-- 					<a>◀</a> -->
-<%-- 				</c:if> --%>
-				
-				
-<%-- 				<c:if test="${page.next}"> --%>
-<%-- 					<a onclick="nextPage(${page.lastPage}, ${page.maxPage })">▶</a> --%>
-<%-- 				</c:if> --%>
-<!-- 			</div> -->
-			
+
 		</div>
 			
 	 </div>	
