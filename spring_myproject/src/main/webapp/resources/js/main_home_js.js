@@ -338,8 +338,45 @@ function snsFileDelReq(snsReviewNo, idx){
 }
 
 
-//페이지 이동
-//추후에 pageList만 동적으로 바뀔 수 있게... 수정해볼 예정
+
+//
+//class Page {
+//    constructor() {
+//
+//        this.startPage;
+//        this.lastPage;
+//        this.maxPage;
+//        this.thisPage;
+//        this.prev;
+//        this.next;
+//
+//        this.setStartPage = function(startPage) {
+//            this.startPage = startPage;
+//        };
+//
+//        this.getStartPage = function() {
+//            return this.startPage;
+//        };
+//
+//        this.setlastPage = function(lastPage) {
+//            this.lastPage = lastPage;
+//        };
+//
+//        this.getlastPage = function() {
+//            return this.lastPage;
+//        };
+//
+//
+//    }
+//}
+
+
+
+
+
+
+
+//페이지 list 변경(검색X)
 function nextPage(lastPage, maxPage){
 	
 	var x = new XMLHttpRequest();
@@ -349,27 +386,55 @@ function nextPage(lastPage, maxPage){
 		if(x.readyState === 4){
 			if(x.status === 200){
 
-				var result =  JSON.parse(x.responseText);
+				var page =  JSON.parse(x.response);
+				//response 타입을 json으로 변경
+				//typeof page = string
 
-				$("#pageList").load("/board/board_page?startPage="+result.startPage+"&maxPage="+result.maxPage);
+				//json data를 refresh해서 보여줄 url로 전달(서블릿)
+				$("#pageList").load("/board/board_page?startPage="+page.startPage+"&maxPage="+page.maxPage);
+		
+		
+// 				1) 클래스를 이용한 동적 page => (jstl 새로고침 X) 실패	
+//				var pageObj = new Page();
+
+//				pageObj.setStartPage(page.startPage);
+//				pageObj.setlastPage(page.lastPage);
+
+//				alert(pageObj.getStartPage());
+
+//				var jstl = '<c:set value="${'+pageObj+'}" var="page"/>';
+
+//				$("#pageUpdate1").html(jstl);
+//				$("#pageList").load(location.href+" #pageList");
+
+
+// 				2) jstl 태그 추가를 이용한 동적 page => (jstl 새로고침 X) 실패
+
+//				var jstl = "<c:forEach items='${"+page+"}' varStatus='status' var='page'>" 
+//						   +"<c:out value='${page.lastPage}'/>"
+//						   +"</c:forEach>";
+//				$("#pageUpdate1").html(jstl);
+//				$("#pageList").load(location.href+" #pageList");
+
 
 			}else{
 				console.log("에러: "+x.status);
 			}
 		}
 		
-		
 	};
 	
 	x.open("POST", "/board/boardListUpdate", true);
+	
+	//송신할 데이터 타입 설정
 	x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	
+	//응답받을 타입 설정
+	x.setRequestHeader("accepts","application/json");
+	
 	x.send("lastPage="+lastPage+"&maxPage="+maxPage);
 		
 }
-
-
-
-
 
 
 

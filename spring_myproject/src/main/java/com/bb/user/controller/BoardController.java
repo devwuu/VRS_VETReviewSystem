@@ -162,12 +162,14 @@ public class BoardController {
 	@RequestMapping("reviewSearch")
 	public String reviewSearch(@RequestParam("search") String select,
 							   @RequestParam("condition") String condition,
+							   @RequestParam("pageNum") String pageNum,
 							   Model model) {
 
 		
-		ArrayList<Review> reviewList = bs.search(select, condition);
+		HashMap<String, Object> map = bs.search(select, condition, pageNum);
 		
-		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("reviewList", (ArrayList<Review>)map.get("reviewList"));
+		model.addAttribute("page", (Page)map.get("page"));
 		model.addAttribute("select", select);
 		model.addAttribute("condition", condition);
 		

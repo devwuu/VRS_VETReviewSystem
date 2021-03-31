@@ -305,24 +305,26 @@ public class BoardDao {
 
 	
 	//게시글 검색
-	public ArrayList<Review> searchReview(String select, String condition) {
+	public HashMap<String, Object> searchReview(String select, String condition, String pageNum) {
 
 		ArrayList<Review> reviewList = new ArrayList<>();
-		
+		HashMap<String, Object> map = new HashMap<>();
 		
 		try {
-			String sql = "{call p_search_review(?, ?, ?) }";
+			String sql = "{call p_search_review(?, ?, ?, ?, ?) }";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			stmt.setString(1, select);
 			stmt.setString(2, condition);
-			stmt.registerOutParameter(3, OracleTypes.CURSOR);
+			stmt.setString(3, pageNum);
+			stmt.registerOutParameter(4, OracleTypes.INTEGER);
+			stmt.registerOutParameter(5, OracleTypes.CURSOR);
 			
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(3);
-			
+			ResultSet rs = (ResultSet)stmt.getObject(5);
+
 			while(rs.next()) {
-				
+	
 				Review r = new Review();
 				
 				r.setReviewNo(rs.getString("review_no"));
@@ -335,7 +337,12 @@ public class BoardDao {
 				
 				reviewList.add(r);
 			}
-
+			
+			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(4));
+			
+			map.put("reviewList", reviewList);
+			map.put("page", page);
+			
 			rs.close();
 			
 		} catch (SQLException e) {
@@ -343,7 +350,7 @@ public class BoardDao {
 			e.printStackTrace();
 		}
 		
-		return reviewList;
+		return map;
 	}
 
 

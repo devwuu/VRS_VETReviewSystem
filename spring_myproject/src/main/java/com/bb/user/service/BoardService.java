@@ -39,7 +39,7 @@ public interface BoardService {
 	int bookmarkProc(String review_no, String review_url, String email);
 
 	//게시글 검색(제목, 작성자)
-	ArrayList<Review> search(String select, String condition);
+	HashMap<String, Object> search(String select, String condition, String pageNum);
 
 	//공지사항 리스트 출력
 	ArrayList<Notice> getNoticeList();

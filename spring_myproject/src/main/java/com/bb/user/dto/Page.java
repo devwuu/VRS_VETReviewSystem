@@ -6,8 +6,8 @@ public class Page {
 	int lastPage;
 	int maxPage;
 	int thisPage;
-	boolean prev;
-	boolean next;
+	boolean prev = false;
+	boolean next = false;
 
 	
 	

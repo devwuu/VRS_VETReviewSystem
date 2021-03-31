@@ -79,8 +79,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public ArrayList<Review> search(String select, String condition) {
-		return boardDao.searchReview(select, condition);
+	public HashMap<String, Object> search(String select, String condition, String pageNum) {
+		return boardDao.searchReview(select, condition, pageNum);
 		
 	}
 

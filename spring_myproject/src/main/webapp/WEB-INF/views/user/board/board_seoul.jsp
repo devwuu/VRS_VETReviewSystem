@@ -21,8 +21,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 
 <!-- 아이콘 -->
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 ﻿<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>﻿
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <style>
@@ -102,6 +102,7 @@
 					<input id="board_search" name="condition" type="text" placeholder="내용을 입력하세요" required 
 					value="${condition }"
 					maxlength="50">
+					<input name="pageNum" type="hidden" value="1">
 					<input id="board_search_confirm" type="submit" value="확인">
 				</form>
 			</div>
@@ -167,6 +168,7 @@
 				<button onclick="location.href='/board/boardRegForm'">작성</button>
 			</c:if>
 
+			<p id="pageUpdate1"></p>
 			<div id="pageList">
 				<%@include file="board_page.jsp" %>
 			</div>
