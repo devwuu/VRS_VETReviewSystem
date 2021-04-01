@@ -301,8 +301,8 @@ public class BoardController {
 	}
 	
 	
-	//board게시글리스트 갱신(ajax)
-	@RequestMapping("boardListUpdate")
+	//board paging 갱신(ajax) - next
+	@RequestMapping("boardPagingUpdateNext")
 	public ResponseEntity<Page> boardListUpdate(int lastPage, int maxPage) {
 	
 		Page page = new Page(lastPage+1, maxPage);
@@ -310,11 +310,36 @@ public class BoardController {
 		return new ResponseEntity<Page>(page, HttpStatus.OK);
 	}
 	
-	//board게시글리스트 갱신(div)
-	@RequestMapping("board_page")
+	//board paging 갱신(div) - next
+	@RequestMapping("boardPageNext")
 	public String board_page(int startPage, int maxPage, Model model) {
 
 		Page page = new Page(startPage, maxPage);
+		
+		model.addAttribute("page", page);
+		
+		return "/board/board_page";
+	}
+	
+	//board paging 갱신 (ajax) - prev
+	@RequestMapping("boardPagingUpdatePrev")
+	public ResponseEntity<Page> boardListUpdatePrev(@RequestParam("startPage") int startPage,
+													@RequestParam("maxPage") int maxPage) {
+		
+		Page page = new Page(startPage, maxPage);
+		
+		return new ResponseEntity<Page>(page, HttpStatus.OK);
+	}
+	
+	//board paging 갱신(div) - prev
+	@RequestMapping("boardPagePrev")
+	public String boardPagePrev(@RequestParam("startPage") int lastPage,
+							  @RequestParam("maxPage") int maxPage, Model model) {
+		
+		Page page = new Page(maxPage);
+		
+		page.calStartPage(lastPage-1);
+		page.calNextPrev();
 		
 		model.addAttribute("page", page);
 		

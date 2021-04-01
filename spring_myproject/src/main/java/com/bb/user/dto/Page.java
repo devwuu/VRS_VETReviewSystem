@@ -8,18 +8,9 @@ public class Page {
 	int thisPage;
 	boolean prev = false;
 	boolean next = false;
-
-	
 	
 
-	public int getThisPage() {
-		return thisPage;
-	}
-
-	public void setThisPage(int thisPage) {
-		this.thisPage = thisPage;
-	}
-
+	//생성자 오버로드
 	public Page(int thisPage, int maxPage) {
 		
 		this.thisPage = thisPage;
@@ -41,9 +32,42 @@ public class Page {
 		}else if(startPage<1) {
 			this.startPage = 1;
 		}
-
 		
 	}
+	
+	//생성자 오버로드 
+	public Page(int maxPage) {
+		this.maxPage = maxPage;
+	}
+	
+	//마지막 페이지를 기준으로 시작 페이지 계산해주는 메서드
+	public void calStartPage(int lastPage) {
+		this.lastPage = lastPage;
+		this.startPage = lastPage - 4;
+	}
+	
+	//prev 와 next boolean 계산해주는 메서드
+	public void calNextPrev() {
+		
+		if(this.maxPage>this.lastPage) {
+			this.next = true;
+			
+		}else if(this.maxPage < this.lastPage) {
+			this.lastPage = this.maxPage;
+		}
+		
+		if(this.startPage>1) {
+			this.prev = true;
+			
+		}else if(this.startPage<1) {
+			this.startPage = 1;
+		}
+		
+	}
+	
+	
+
+	//getter & setter
 	
 	public int getMaxPage() {
 		return maxPage;
@@ -75,7 +99,14 @@ public class Page {
 	public void setNext(boolean next) {
 		this.next = next;
 	}
-	
+
+	public int getThisPage() {
+		return thisPage;
+	}
+
+	public void setThisPage(int thisPage) {
+		this.thisPage = thisPage;
+	}
 	
 	
 	

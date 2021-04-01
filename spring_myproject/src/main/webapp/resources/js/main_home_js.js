@@ -376,7 +376,7 @@ function snsFileDelReq(snsReviewNo, idx){
 
 
 
-//페이지 list 변경(검색X)
+//페이지 list 변경(검색X) - next
 function nextPage(lastPage, maxPage){
 	
 	var x = new XMLHttpRequest();
@@ -391,7 +391,7 @@ function nextPage(lastPage, maxPage){
 				//typeof page = string
 
 				//json data를 refresh해서 보여줄 url로 전달(서블릿)
-				$("#pageList").load("/board/board_page?startPage="+page.startPage+"&maxPage="+page.maxPage);
+				$("#pageList").load("/board/boardPageNext?startPage="+page.startPage+"&maxPage="+page.maxPage);
 		
 		
 // 				1) 클래스를 이용한 동적 page => (jstl 새로고침 X) 실패	
@@ -424,7 +424,7 @@ function nextPage(lastPage, maxPage){
 		
 	};
 	
-	x.open("POST", "/board/boardListUpdate", true);
+	x.open("POST", "/board/boardPagingUpdateNext", true);
 	
 	//송신할 데이터 타입 설정
 	x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
@@ -435,6 +435,52 @@ function nextPage(lastPage, maxPage){
 	x.send("lastPage="+lastPage+"&maxPage="+maxPage);
 		
 }
+
+
+
+//페이지 리스트 변경 - prev
+function prevPage(startPage, maxPage){
+
+	var x = new XMLHttpRequest();
+	
+	x.onreadystatechange = function(){
+		
+		if(x.readyState === 4){
+			if(x.status === 200){
+				
+				var page = JSON.parse(x.response);
+				
+				$("#pageList").load("/board/boardPagePrev?startPage="+page.startPage+"&maxPage="+page.maxPage);
+				
+			}else{
+				console.log("에러: "+x.status);
+			}
+		}
+	};
+	
+	
+	x.open("POST", "/board/boardPagingUpdatePrev", true);
+	
+	x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	x.setRequestHeader("accepts", "application/json");
+	
+	x.send("startPage="+startPage+"&maxPage="+maxPage);
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
