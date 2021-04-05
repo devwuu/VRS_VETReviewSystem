@@ -146,6 +146,7 @@ public class BoardController {
 	//리뷰 게시글 내용 보기
 	@RequestMapping("board_contview")
 	public String reviewContentView(@ModelAttribute("seqno_r") String reviewNo,
+									@RequestParam("pageNum") String pageNum,
 									HttpSession session,
 									Model model) {
 		
@@ -153,6 +154,7 @@ public class BoardController {
 		Review r = bs.getReviewContent(reviewNo, email);
 		
 		model.addAttribute("review", r);
+		model.addAttribute("pageNum", pageNum);
 		
 		return "/board/board_contview";
 	}
@@ -200,7 +202,7 @@ public class BoardController {
 		
 		String reviewNo = bs.insertBoard(r, fileAttach, session);
 		
-		return "redirect:board_contview?seqno_r="+reviewNo;
+		return "redirect:board_contview?pageNum=1&seqno_r="+reviewNo;
 		//mapping 한 url 기준으로 적어줍니다.
 		//작성 후, reivew url로 북마킹 할 수 있도록 redirect하되 review No를 get방식으로 가지고 갈 수 있도록 
 		//연결하여 리턴합니다.
@@ -211,10 +213,12 @@ public class BoardController {
 	
 	//리뷰 수정 FORM 요청
 	@RequestMapping("boardModForm")
-	public String reviewModForm(Review r, Model model, FileAttached f) {
+	public String reviewModForm(Review r, Model model, FileAttached f,
+								@RequestParam("pageNum") String pageNum) {
 		
 		model.addAttribute("review", r);
 		model.addAttribute("file", f);		
+		model.addAttribute("pageNum", pageNum);
 		
 		return "/board/board_contMod";
 	}
@@ -224,11 +228,11 @@ public class BoardController {
 	//리뷰 수정 PROC
 	@RequestMapping("boardModProc")
 	public String reviewModProc(Review r, MultipartFile fileAttach,
-								HttpSession session) {
+								HttpSession session, @RequestParam("pageNum") String pageNum) {
 		
 		bs.updateBoard(r, fileAttach, session);
 		
-		return "redirect:board_contview?seqno_r="+r.getReviewNo();
+		return "redirect:board_contview?pageNum="+pageNum+"&seqno_r="+r.getReviewNo();
 		//작성 후, reivew url로 북마킹 할 수 있도록 redirect하되 review No를 get방식으로 가지고 갈 수 있도록 
 		//연결하여 리턴합니다.
 	}

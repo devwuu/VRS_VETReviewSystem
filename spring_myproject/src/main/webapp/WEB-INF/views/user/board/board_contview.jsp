@@ -76,7 +76,7 @@ function checkYN(){
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 		<c:set value="${review }" var="r"/>
-			<input type="button" id="goList" value="목록" onclick="location.href='/board/board_seoul'">
+			<input type="button" id="goList" value="목록" onclick="location.href='/board/board_seoul?pageNum=${pageNum }'">
 			<br>
 			<p id="page_infor">＠ 서울시 _ OO 동물 병원</p>
 			<p id="title_cont"><b>Title</b> : ${r.title}</p>
@@ -106,6 +106,7 @@ function checkYN(){
 						<input type="hidden" value="${r.writer}"  name="writer">
 						<input type="hidden" value="${r.wdate}"  name="wdate">
 						<input type="hidden" value="${r.mdate}"  name="mdate">
+						<input type="hidden" value="${pageNum}"  name="pageNum">
 						<c:if test="${r.fileAttached != null }">
 							<input type="hidden" value="${r.fileAttached.fileName }"  name="fileName">
 							<input type="hidden" value="${r.fileAttached.fileNameSave }"  name="fileNameSave">

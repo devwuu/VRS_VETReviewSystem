@@ -141,7 +141,7 @@
 					<c:forEach items ="${ reviewList}" var="list">
 						<c:set value="${cnt-1 }" var="cnt"/>
 						<tbody>
-							<tr onclick="location.href='/board/board_contview?seqno_r=${list.reviewNo }'">
+							<tr onclick="location.href='/board/board_contview?pageNum=${page.thisPage }&seqno_r=${list.reviewNo }'">
 								<td>
 									${cnt }
 								</td>

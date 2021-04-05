@@ -68,6 +68,7 @@
 			<c:set value="${review }" var="r"/>
 			<form method="POST" enctype="multipart/form-data" action="/board/boardModProc">
 				<input type="hidden" value="${r.reviewNo }" name="reviewNo">
+				<input type="hidden" value="${pageNum }" name="pageNum">
 				<p id="title_cont"><b>Title</b> : <input id="title_cont" type="text" name="title" value="${r.title }" maxlength="13" required></p>
 				<p id="date_cont"><b>Date</b> : ${r.wdate }</p>
 				<p id="email_cont"><b>Email</b> : ${r.writer }</p>
