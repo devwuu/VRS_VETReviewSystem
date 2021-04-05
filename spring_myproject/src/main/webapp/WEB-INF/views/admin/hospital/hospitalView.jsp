@@ -22,7 +22,7 @@
 
 <style>
 	
-	a#memList{
+	a#hospitalView{
 		color: #ffffff !important;
 	}
 
