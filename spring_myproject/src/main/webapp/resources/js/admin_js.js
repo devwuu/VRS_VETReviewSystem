@@ -73,3 +73,19 @@ function selectCheck(checkbox){
 	}
 	
 }
+
+
+//병원 등록 modal 
+function hospitalRegForm(){
+	
+	if(document.getElementById("hosRegModal").style.display == "block"){
+		document.getElementById("hosRegModal").style.display = "none";
+	}else{
+		document.getElementById("hosRegModal").style.display = "block";
+	}
+	
+}
+
+
+
+

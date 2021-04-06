@@ -29,6 +29,11 @@ public class HospitalController{
 	   model.addAttribute("hospitalList", hospitalList);
    }
    
+   @RequestMapping("hospitalRegForm")
+   public void hosRegForm() {
+	   
+   }
+   
 	
 
 }

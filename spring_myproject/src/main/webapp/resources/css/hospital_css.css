@@ -14,8 +14,8 @@ div#board_search_box{
 	height:30px;
 }
 
-/* 회원 리스트 */
-div#mem_list{
+/* 병원 리스트 */
+div#hos_list{
 	width:100%;
 	color:#4d5966;
 	padding:5px;
@@ -61,12 +61,70 @@ tr, td{
 	width:40%;
 }
 
-
-
-input#delbutton{
-	float:right;
+#hosRegButton{
 	margin-right:5px;
+	margin-left:auto;
+	margin-bottom:5px;
+	width: 50px;
 }
+
+
+/* 병원 등록 modal */
+#modalInfor{
+	font-size:30px;
+	text-align:center;
+	color:#4d5966;
+	margin-top:40px;
+	margin-bottom:30px;
+}
+
+#hosRegModal{
+	display: none;
+	width:100%;
+	height:100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	position:fixed;
+	z-index:3;
+}
+
+#hosRegFormDiv{
+	border:1px dotted #4d5966;
+	position:absolute;
+	left: 50%;
+	top:50%;
+	transform:translate(-50%, -50%);
+	width:500px;
+	height:500px;
+	background-color:#FFFAF0;
+}
+
+
+form#hosRegForm p{
+	text-align: center;
+	margin-bottom:10px;
+	color:#4d5966;
+}
+
+input#hosRegOk{
+	width: 80%;
+	margin-top:25px;
+	margin-left:60px;
+}
+
+input.hostagcl{
+	margin-top:8px;
+}
+
+#addressDiv{
+	margin-left:80px;
+}
+
+#addressDiv input{
+	margin-left:5px;
+	margin-top:5px;
+}
+
+
 
 /* 게시물 페이지 영역 */
 #board_page{

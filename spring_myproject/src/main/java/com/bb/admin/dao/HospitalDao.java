@@ -72,6 +72,7 @@ public class HospitalDao {
 			}
 			
 			rs.close();
+			stmt.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
