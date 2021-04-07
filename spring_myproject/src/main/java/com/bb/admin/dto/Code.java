@@ -2,10 +2,20 @@ package com.bb.admin.dto;
 
 public class Code {
 	
+	private String codeNo;
 	private String category;
 	private String codeName;
 	private String codeValue;
 	
+	
+	
+	
+	public String getCodeNo() {
+		return codeNo;
+	}
+	public void setCodeNo(String codeNo) {
+		this.codeNo = codeNo;
+	}
 	public String getCategory() {
 		return category;
 	}

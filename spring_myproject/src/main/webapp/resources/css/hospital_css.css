@@ -85,13 +85,14 @@ tr, td{
 	background-color: rgba(0, 0, 0, 0.5);
 	position:fixed;
 	z-index:3;
+	overflow-x:auto;
 }
 
 #hosRegFormDiv{
 	border:1px dotted #4d5966;
 	position:absolute;
 	left: 50%;
-	top:50%;
+	top:40%;
 	transform:translate(-50%, -50%);
 	width:500px;
 	height:500px;
@@ -123,6 +124,15 @@ input.hostagcl{
 	margin-left:5px;
 	margin-top:5px;
 }
+
+#modalClose{
+	float:right;
+	margin-top:5px;
+	margin-right:5px;
+}
+
+
+
 
 
 

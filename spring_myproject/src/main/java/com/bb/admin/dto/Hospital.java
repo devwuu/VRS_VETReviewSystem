@@ -7,16 +7,49 @@ public class Hospital {
 	private String hospitalNo;
 	private String hospitalName;
 	private String hospitalTel;
-	private String hospitalAdd;
+	private String post;
+	private String hospitalAdd1;
+	private String hospitalAdd2;
+	private String hospitalAdd3;
 	private String wdate;
 	private ArrayList<Code> code;
 	
+	//reg form용 tag
+	private String[] hostag;
 	
-	//Code와 tag중 어느쪽을 사용할지.....
-	//미사용 20200405ver
-	private ArrayList<HospitalTag> hospitalTag;
+
 	
 	
+	public String[] getHostag() {
+		return hostag;
+	}
+	public void setHostag(String[] hostag) {
+		this.hostag = hostag;
+	}
+	public String getPost() {
+		return post;
+	}
+	public void setPost(String post) {
+		this.post = post;
+	}
+	public String getHospitalAdd1() {
+		return hospitalAdd1;
+	}
+	public void setHospitalAdd1(String hospitalAdd1) {
+		this.hospitalAdd1 = hospitalAdd1;
+	}
+	public String getHospitalAdd2() {
+		return hospitalAdd2;
+	}
+	public void setHospitalAdd2(String hospitalAdd2) {
+		this.hospitalAdd2 = hospitalAdd2;
+	}
+	public String getHospitalAdd3() {
+		return hospitalAdd3;
+	}
+	public void setHospitalAdd3(String hospitalAdd3) {
+		this.hospitalAdd3 = hospitalAdd3;
+	}
 	public ArrayList<Code> getCode() {
 		return code;
 	}
@@ -41,24 +74,15 @@ public class Hospital {
 	public void setHospitalTel(String hospitalTel) {
 		this.hospitalTel = hospitalTel;
 	}
-	public String getHospitalAdd() {
-		return hospitalAdd;
-	}
-	public void setHospitalAdd(String hospitalAdd) {
-		this.hospitalAdd = hospitalAdd;
-	}
+
+
 	public String getWdate() {
 		return wdate;
 	}
 	public void setWdate(String wdate) {
 		this.wdate = wdate;
 	}
-	public ArrayList<HospitalTag> getHospitalTag() {
-		return hospitalTag;
-	}
-	public void setHospitalTag(ArrayList<HospitalTag> hospitalTag) {
-		this.hospitalTag = hospitalTag;
-	}
+
 	
 	
 	

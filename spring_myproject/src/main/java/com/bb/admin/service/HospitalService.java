@@ -1,13 +1,14 @@
 package com.bb.admin.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.bb.admin.dto.Hospital;
 
 public interface HospitalService {
 	
 	//병원 조회
-	ArrayList<Hospital> getHospitalList();
+	HashMap<String, Object> getHospitalList();
 	
 	//병원 등록
 	int insertHospital(Hospital h);

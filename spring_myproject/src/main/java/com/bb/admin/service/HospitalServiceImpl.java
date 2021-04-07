@@ -1,6 +1,7 @@
 package com.bb.admin.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
@@ -13,14 +14,14 @@ public class HospitalServiceImpl implements HospitalService {
 	private HospitalDao hd = new HospitalDao();
 	
 	@Override
-	public ArrayList<Hospital> getHospitalList() {
+	public HashMap<String, Object> getHospitalList() {
 		return hd.getHospitalList();
 	}
 
 	@Override
 	public int insertHospital(Hospital h) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return hd.regHospital(h);
 	}
 
 	@Override
