@@ -57,11 +57,10 @@
 
 <!-- 미니메뉴 영역 -->
 <p id="welcom">
-<c:if test="${sess_nickname != null}">
-<b>${sess_nickname }</b>님 환영합니다.
-</c:if>
+	<c:if test="${sess_nickname != null}">
+	<b>${sess_nickname }</b>님 환영합니다.
+	</c:if>
 </p>
-
 			
 <%@include file="../navbar_mini.jsp" %>
 					
@@ -128,10 +127,16 @@
 					</thead>
 					
 					<c:set value="0" var="cnt"/>
-					<c:forEach items="${hospitalList }" var="h">
+					<c:forEach items="${hospitalList }" var="h" varStatus="status">
 						<c:set value="${cnt+1 }" var="cnt"/>
+						
 						<tbody>
-							<tr>
+							<tr onclick="updateModal('${h.hospitalName }', '${h.hospitalTel }', '${h.post }', '${h.hospitalAdd1 }', 
+													 '${h.hospitalAdd2 }', '${h.hospitalAdd3 }', '${h.hospitalNo }','${fn:length(codeList) }',
+														 <c:forEach items="${h.code }" var="c" varStatus="status">
+															'${c.codeValue }'<c:if test="${not status.last }">, </c:if>  									
+														</c:forEach>
+													 )">
 								<td>
 									<input type="checkbox" name="checkBox">
 								</td>

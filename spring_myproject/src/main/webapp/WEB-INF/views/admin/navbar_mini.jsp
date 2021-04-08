@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
     
 <!-- 미니 메뉴 영역 -->
-	<div id="mini_menu" onclick="mini_menu_drop()" class="mini_menu_class"><i class="fa fa-bars"></i></div>
+	<div id="mini_menu" onclick="mini_menu_drop()" class="mini_menu_class">
+		<i class="fa fa-bars"></i>
+	</div>
 	
 	<div id="mini_menu_list">
 		

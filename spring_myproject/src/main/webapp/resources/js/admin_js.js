@@ -93,3 +93,56 @@ function hosRegFormClose(){
 }
 
 
+//병원 수정 modal open
+//기존에 등록되어 있는 정보를 매개변수로 가져옴
+//code의 경우 몇개가 올 지 모르기 때문에 가변 변수로 설정
+function updateModal(name, tel, post, add1, add2, add3, no, totalLen, ...theArgs){
+
+
+	if(document.getElementById("hosModModal").style.display == "block"){
+		document.getElementById("hosModModal").style.display = "none";
+		for(var j=0; j<totalLen; j++){			
+			document.getElementById('tagval'+j).checked = false;
+		}
+		
+	}else{
+		//병원 수정 modal open
+		//가져온 매개변수를 input value에 할당함
+		
+		document.getElementById("hosModModal").style.display = "block";
+		
+		document.getElementById("hosNo").value = no;
+		document.getElementById("postcodeMod").value = post;
+		document.getElementById("addressMod").value = add1;
+		document.getElementById("detailAddressMod").value = add2;
+		document.getElementById("extraAddressMod").value = add3;
+		document.getElementById("hospitalName").value = name;
+		document.getElementById("hospitalTel").value = tel;
+		
+		
+		//codevalue와 매개변수(codevalue)가 일치하면 체크박스에 checked
+		for(var i = 0; i<theArgs.length; i++){
+			for(var j=0; j<totalLen; j++){			
+				if(theArgs[i] == document.getElementById('tagval'+j).value){
+					document.getElementById('tagval'+j).checked = true;
+				}
+			}
+		}
+		
+		
+	}
+	
+}
+
+
+
+//수정form 닫기
+function hosModFormClose(totalLen){
+	document.getElementById("hosModModal").style.display = "none";
+	
+	//체크박스의 체크 해제
+	for(var j=0; j<totalLen; j++){			
+		document.getElementById('tagval'+j).checked = false;
+	}
+}
+
