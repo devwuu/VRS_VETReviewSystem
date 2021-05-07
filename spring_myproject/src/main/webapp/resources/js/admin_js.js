@@ -74,6 +74,25 @@ function selectCheck(checkbox){
 	
 }
 
+//전체 선택(체크박스 선택시 전체 선택됨)__병원리스트
+function selectAllhos(selectAll){
+	
+	const checkboxes = document.querySelectorAll('input[name="checkBox"]');
+	
+	checkboxes.forEach((checkbox)=>{
+		checkbox.checked = selectAll.checked
+	})
+	
+}
+
+//체크 박스 선택 해제시 전체 선택 체크 박스 해제__병원리스트
+function selectCheckHos(checkbox){
+	const checkAll = document.querySelector('input[name="allCheckBox"]');
+	if(checkbox.checked==false){
+		checkAll.checked = false;
+	}
+}
+
 
 //병원 등록 modal open
 function hospitalRegForm(){
@@ -140,7 +159,7 @@ function updateModal(name, tel, post, add1, add2, add3, no, totalLen, ...theArgs
 function hosModFormClose(totalLen){
 	document.getElementById("hosModModal").style.display = "none";
 	
-	//체크박스의 체크 해제
+	// tag value의 체크박스의 체크 해제
 	for(var j=0; j<totalLen; j++){			
 		document.getElementById('tagval'+j).checked = false;
 	}

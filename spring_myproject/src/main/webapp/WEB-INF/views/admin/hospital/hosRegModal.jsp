@@ -144,7 +144,7 @@
 		<p id="modalInfor">Hospital Mod</p>
 		<form id="hosModForm" name="hosModForm" action="/admin/hospital/modProc">
 		
-			<input type="hidden" id="hosNo">
+			<input type="hidden" name="hospitalNo" id="hosNo">
 			
 			 <p>병원 이름: <input type="text" id="hospitalName" name="hospitalName" required> </p>
 			 

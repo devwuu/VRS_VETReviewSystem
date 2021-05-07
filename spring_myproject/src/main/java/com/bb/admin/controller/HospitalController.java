@@ -47,6 +47,21 @@ public class HospitalController{
 	   return "redirect:/admin/hospital/hospitalView";
    }
    
+   //병원 수정 Proc
+   @RequestMapping("modProc")
+   public String hosModProc(Hospital h, RedirectAttributes ra) {
+	   
+	   int rs = hs.updateHospital(h);
+	   
+	   if(rs>=1) {
+		   rs = 2;
+	   }
+	   
+	   ra.addFlashAttribute("regRs", rs);
+	   
+	   return "redirect:/admin/hospital/hospitalView";
+   }
+   
 	
 
 }

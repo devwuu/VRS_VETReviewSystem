@@ -12,9 +12,11 @@ public class Hospital {
 	private String hospitalAdd2;
 	private String hospitalAdd3;
 	private String wdate;
+	
+	//hos list 출력용 list
 	private ArrayList<Code> code;
 	
-	//reg form용 tag
+	//reg form, mod form용 tag
 	private String[] hostag;
 	
 

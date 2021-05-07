@@ -26,8 +26,8 @@ public class HospitalServiceImpl implements HospitalService {
 
 	@Override
 	public int updateHospital(Hospital h) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return hd.updateHospital(h);
 	}
 
 	@Override

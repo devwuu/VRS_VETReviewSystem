@@ -36,7 +36,10 @@
 		
 		if(document.getElementById("regResult").value == "1"){
 			alert("병원이 등록되었습니다.");
+		}else if(document.getElementById("regResult").value=="2"){
+			alert("병원이 수정되었습니다.");
 		}
+			
 		
 	}
 
@@ -106,7 +109,7 @@
 				 	<thead>
 						<tr>
 							<td class="checkBox">
-								<input type="checkbox" name="allCheckBox">
+								<input onclick ="selectAllhos(this)" type="checkbox" name="allCheckBox">
 							</td>
 							<td class="num">
 								<b>순번</b>
@@ -137,8 +140,8 @@
 															'${c.codeValue }'<c:if test="${not status.last }">, </c:if>  									
 														</c:forEach>
 													 )">
-								<td>
-									<input type="checkbox" name="checkBox">
+								<td onclick="event.cancelBubble=true">
+									<input onclick="selectCheckHos(this)" type="checkbox" name="checkBox">
 								</td>
 								<td>
 									${cnt }

@@ -162,4 +162,52 @@ public class HospitalDao {
 		return rs;
 	}
 
+
+
+	//병원 수정
+	public int updateHospital(Hospital h) {
+		
+		int rs = 0;
+		
+		try {
+			String sql = "{call p_update_hospital(?, ?, ?, ?, ?, ?, ?)}";
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			stmt.setString(1, h.getHospitalNo());
+			stmt.setString(2, h.getHospitalName());
+			stmt.setString(3, h.getHospitalTel());
+			stmt.setString(4, h.getPost());
+			stmt.setString(5, h.getHospitalAdd1());
+			stmt.setString(6, h.getHospitalAdd2());
+			stmt.setString(7, h.getHospitalAdd3());
+			
+			rs = stmt.executeUpdate();
+			
+			if(h.getHostag() != null) {
+				
+				sql = "DELETE FROM hospitaltag WHERE hospitalno = ?";
+				PreparedStatement stmtP = dbconn.prepareStatement(sql);
+				stmtP.setString(1, h.getHospitalNo());
+				
+				stmtP.executeUpdate();
+				
+				sql = "INSERT INTO hospitaltag (tagno, hospitalno, codevalue)"
+					  +"VALUES (tagno.nextval, ?,?)";
+				
+				stmtP = dbconn.prepareStatement(sql);
+				stmtP.setString(1, h.getHospitalNo());					
+				
+				for(String s : h.getHostag()) {
+					stmtP.setString(2, s);
+					rs = stmtP.executeUpdate();
+				}
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+
 }
