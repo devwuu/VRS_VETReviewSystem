@@ -8,14 +8,15 @@
 }
 
 html, body{
-	height: 100%;
+	height:100%;
 	width:100%;
 	overflow:hidden;
 }
 
 
+/* 레이어팝업 */
+/*로그인*/
 
-/* 로그인용 모달창과 레이어팝업 */
 div#modal_login{
 	position:fixed;
 	width:100%;
@@ -50,8 +51,10 @@ input#login_sub{
 	width:100%;
 }
 
+
 #go_join, #go_find{
 	
+	cursor: pointer;
 	display:inline;
 	text-align:center;
 }
@@ -85,7 +88,8 @@ div#layer_login_body p#login_infor{
 	text-align:center;
 }
 
-/* 회원가입용 모달창과 레이어팝업 */
+/*회원가입*/
+
 div#modal_join{
 	position:fixed;
 	width:100%;
@@ -94,6 +98,7 @@ div#modal_join{
 	z-index:3;
 	display:none;
 }
+
 
 div#layer_join{
 	position:absolute;
@@ -144,6 +149,58 @@ div#layer_join_body{
 	width:100%;
 	font-size:14px;
 }
+
+
+
+/*회원정보 찾기*/
+
+div#modal_find{
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index:3;
+	display:none;
+}
+
+
+div#layer_find{
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-80%);
+	width:450px;
+	height:300px;
+	background-color:#FFFAF0;
+	border:1px dotted #4d5966;
+	color:#4d5966;
+}
+
+div#layer_find_body{
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:360px;
+	transform:translate(-50%,-30%);
+}
+
+
+input#find_email{
+	text-align:center;
+	font-size:18px;
+	width:100%;
+	margin-bottom:10px;
+}
+
+input#find_sub{
+	margin:48px 0px 5px 0px;
+	font-size:15px;	
+	width:100%;
+}
+
+
+
+
 
 
 /*  title */
@@ -325,7 +382,7 @@ tr, td{
 
 /* 회원정보 css */
 
-#email_view, #pw_view, #nick_view, #interest_view{
+#email_view, #pw_view, #pwUpdate_view, #nick_view, #interest_view{
 	margin: 10px 0 10px 10px;
 }
 

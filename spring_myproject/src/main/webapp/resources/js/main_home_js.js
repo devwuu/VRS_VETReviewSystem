@@ -20,6 +20,21 @@ function join_layer_down(){
 	document.getElementById("modal_login").style.display="block";
 }
 
+
+//회원 정보 찾기 모달창
+
+function find_layer_up(){
+	document.getElementById("modal_login").style.display="none";
+	document.getElementById("modal_find").style.display="block";
+}
+
+function find_layer_down(){
+	document.getElementById("modal_find").style.display="none";
+	document.getElementById("modal_login").style.display="block";
+}
+
+
+
 //이메일 도메인 자동입력
 function e_domain_sel(){
 	var e_domain_chan = document.forms["join_member"]["e_domain_sel_what"].value;
@@ -85,6 +100,50 @@ function email_check(){
 	x.send("email_user=" + email_user_input);
 //  onchange가 안먹어서 버튼 따로 만들었다네
 }	
+
+
+
+
+//회원 정보 찾기 이메일 유효성 검사
+function find_member_check(){
+	
+	
+	var email = document.forms["find_member"]["email"].value;
+	
+	var x = new XMLHttpRequest();
+	var rs = true;
+	
+	x.onreadystatechange = function(){
+		
+		if(x.readyState === 4){
+			if(x.status === 200){
+				
+				if(x.responseText.trim() === "0"){
+					
+					rs = false;
+					alert("등록되지 않은 회원 정보입니다.");
+				}else{
+					alert("이메일로 임시 비밀번호를 발송하였습니다.");				
+				}
+			}
+		}
+	};
+	
+	x.open("POST", "/member/email_check", false);
+	//처리 순서를 명확하게 하기 위헤 async 옵션을 false로 설정(동기)
+	
+	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	x.send("email_user="+email);
+	
+	//if문 안에서 return이 작동되지 않아 rs 플래그를 별도로 설정
+	return rs;
+	
+}
+
+
+
+
+
 
 
 //미니 메뉴 dropdown(초기값을 불러오지 못하기 때문에 block으로 불러올 때만 none이게 해야함)

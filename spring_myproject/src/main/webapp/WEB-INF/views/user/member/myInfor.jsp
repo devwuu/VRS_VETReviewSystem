@@ -74,6 +74,7 @@
 			<form name="member_mody">
 				<p id="email_view"><b>email</b> : ${m.email }</p>
 				<p id="pw_view"><b>pw</b> : <input type="password" name="pw" required maxlength="15"></p>
+				<p id="pwUpdate_view"><b>update pw</b> : <input type="password" name="pwUpdate" maxlength="15"></p>
 				<p id="nick_view"><b>nickname</b> : <input type="text" value="${m.nickName }"
 							maxlength="5" name="nickName" required></p>
 				<p id="interest_view"><b>interest</b> : 

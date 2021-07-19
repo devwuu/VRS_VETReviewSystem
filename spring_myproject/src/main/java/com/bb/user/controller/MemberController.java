@@ -78,13 +78,13 @@ public class MemberController {
     }
     
     
-    //이메일 중복검사
+    //이메일 중복검사 및 가입 정보 확인(회원 정보 찾기)
     @RequestMapping("email_check")
     public ResponseEntity<String> emailCheck(@ModelAttribute("email_user") String emailRequest) {
     	//post 방식으로 넘긴 것도 @ModelAttribute로 받을 수 았음.
-
-			
+    	
 		String rs = Integer.toString(ms.emailCheck(emailRequest));
+	
 		return new ResponseEntity<String>(rs, HttpStatus.OK);
 		
 			
@@ -156,6 +156,12 @@ public class MemberController {
     @RequestMapping("myInforMod")
     public String myInforMod(Member member, RedirectAttributes redirectAttributes) {
     	
+    	//입력한 비밀번호가 없을 경우 기존과 동일한 비밀번호로 Update
+    	if(member.getPwUpdate().equals("")) {
+    		member.setPwUpdate(member.getPw());
+    	}
+    	
+    	
 		Code[] interestCode = new Code[10];
 		//이게 과연 좋은 생각인지 의문이 듦.
     	
@@ -171,7 +177,7 @@ public class MemberController {
     	
     	member.setInterestCode(interestCode);
 		
-		Map<String, String> map = ms.update(member);
+    	Map<String, String> map = ms.update(member);
 		
 		if(map.get("pwCheck").equals("ok")) {
 			//입력한 pw가 DB의 pw와 일치하면
@@ -195,6 +201,8 @@ public class MemberController {
     }
     
     
+    
+    //탈퇴 요청
     @RequestMapping("memDelRequest")
     public String memberDelRequest(Member member,
     							   RedirectAttributes redirectAttributes) {
@@ -215,6 +223,17 @@ public class MemberController {
 		
     	return view;
     	
+    }
+    
+    
+    
+    //비밀번호 찾기
+    @RequestMapping("memFindProc")
+    public String memberFindProc(String email) {
+    	
+    	ms.findMember(email);
+ 
+    	return "index";
     }
 
     

@@ -128,15 +128,16 @@ public class MemberDao {
 
 		try {
 			
-			String sql = "{call p_member_update(?,?,?,?)}";
+			String sql = "{call p_member_update(?,?,?,?,?)}";
 			CallableStatement stmt = conn.prepareCall(sql);
 			stmt.setString(1, m.getPw());
-			stmt.setString(2, m.getEmail());
-			stmt.setString(3, m.getNickName());
-			stmt.registerOutParameter(4, OracleTypes.INTEGER);
+			stmt.setString(2, m.getPwUpdate());
+			stmt.setString(3, m.getEmail());
+			stmt.setString(4, m.getNickName());
+			stmt.registerOutParameter(5, OracleTypes.INTEGER);
 			stmt.executeUpdate();
 			
-			stat = stmt.getInt(4);
+			stat = stmt.getInt(5);
 			//out 파라미터 : 0 == pw가 일치하지 않음
 			//out 파라미터 : 1 == pw가 일치함			
 			
@@ -219,6 +220,28 @@ public class MemberDao {
 			e.printStackTrace();
 		}
 		
+		return rs;
+	}
+
+	
+	
+	
+	//임시 비밀번호 발급
+	public int updatePw(String email, String tmpPw) {
+		 
+		int rs = 0;
+		
+		try {
+			String sql = "UPDATE member SET pw = ? WHERE email = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, tmpPw);
+			stmt.setString(2, email);
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		return rs;
 	}
 	

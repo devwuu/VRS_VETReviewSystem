@@ -31,9 +31,9 @@ public class HospitalServiceImpl implements HospitalService {
 	}
 
 	@Override
-	public int delHospital(String hospitalNo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delHospital(String[] hospitalNo) {
+		
+		return hd.deleteHospital(hospitalNo);
 	}
 
 }

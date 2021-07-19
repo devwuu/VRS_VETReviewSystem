@@ -38,6 +38,8 @@
 			alert("병원이 등록되었습니다.");
 		}else if(document.getElementById("regResult").value=="2"){
 			alert("병원이 수정되었습니다.");
+		}else if(document.getElementById("regResult").value=="3"){
+			alert("병원이 삭제되었습니다");
 		}
 			
 		
@@ -104,67 +106,76 @@
 <!-- 		병원리스트				 -->
 			<p id="page_infor">＠ 등록 병원 정보</p>
 			<button id="hosRegButton" onclick="hospitalRegForm()">등록</button>
-			<div id="hos_list">
-				<table cellspacing="0">
-				 	<thead>
-						<tr>
-							<td class="checkBox">
-								<input onclick ="selectAllhos(this)" type="checkbox" name="allCheckBox">
-							</td>
-							<td class="num">
-								<b>순번</b>
-							</td>
-							<td class="hosName">
-								<b>병원이름</b>
-							</td>
-							<td class="hosTel">
-								<b>대표연락처</b>
-							</td>
-							<td class="hosAdd">
-								<b>주소</b>
-							</td>
-							<td class="hosTag">
-								<b>병원태그</b>
-							</td>
-						</tr>
-					</thead>
-					
-					<c:set value="0" var="cnt"/>
-					<c:forEach items="${hospitalList }" var="h" varStatus="status">
-						<c:set value="${cnt+1 }" var="cnt"/>
-						
-						<tbody>
-							<tr onclick="updateModal('${h.hospitalName }', '${h.hospitalTel }', '${h.post }', '${h.hospitalAdd1 }', 
-													 '${h.hospitalAdd2 }', '${h.hospitalAdd3 }', '${h.hospitalNo }','${fn:length(codeList) }',
-														 <c:forEach items="${h.code }" var="c" varStatus="status">
-															'${c.codeValue }'<c:if test="${not status.last }">, </c:if>  									
-														</c:forEach>
-													 )">
-								<td onclick="event.cancelBubble=true">
-									<input onclick="selectCheckHos(this)" type="checkbox" name="checkBox">
+			
+			
+			<form name="hosDel" method="POST" action="/admin/hospital/delProc" onsubmit="return checkYN()">
+			
+				<div id="hos_list">
+					<table cellspacing="0">
+					 	<thead>
+							<tr>
+								<td class="checkBox">
+									<input onclick ="selectAllhos(this)" type="checkbox" name="allCheckBox">
 								</td>
-								<td>
-									${cnt }
+								<td class="num">
+									<b>순번</b>
 								</td>
-								<td>
-									${h.hospitalName }
+								<td class="hosName">
+									<b>병원이름</b>
 								</td>
-								<td>
-									${h.hospitalTel }
+								<td class="hosTel">
+									<b>대표연락처</b>
 								</td>
-								<td>
-									(${h.post }) ${h.hospitalAdd1 }, ${h.hospitalAdd2 } ${h.hospitalAdd3 }
+								<td class="hosAdd">
+									<b>주소</b>
 								</td>
-								<td>
-									<c:forEach items="${h.code }" var="c" varStatus="status">
-										${c.codeName }<c:if test="${not status.last }"> <b>/</b> </c:if>  									
-									</c:forEach>
+								<td class="hosTag">
+									<b>병원태그</b>
 								</td>
 							</tr>
-						</tbody>	
-					</c:forEach>
-				</table>
-			</div>
+						</thead>
+						
+						<c:set value="0" var="cnt"/>
+						<c:forEach items="${hospitalList }" var="h" varStatus="status">
+							<c:set value="${cnt+1 }" var="cnt"/>
+							
+							<tbody>
+								<tr onclick="updateModal('${h.hospitalName }', '${h.hospitalTel }', '${h.post }', '${h.hospitalAdd1 }', 
+														 '${h.hospitalAdd2 }', '${h.hospitalAdd3 }', '${h.hospitalNo }','${fn:length(codeList) }',
+															 <c:forEach items="${h.code }" var="c" varStatus="status">
+																'${c.codeValue }'<c:if test="${not status.last }">, </c:if>  									
+															</c:forEach>
+														 )">
+									<td onclick="event.cancelBubble=true">
+										<input onclick="selectCheckHos(this)" type="checkbox" value="${h.hospitalNo }" name="checkBox">
+									</td>
+									<td>
+										${cnt }
+									</td>
+									<td>
+										${h.hospitalName }
+									</td>
+									<td>
+										${h.hospitalTel }
+									</td>
+									<td>
+										(${h.post }) ${h.hospitalAdd1 }, ${h.hospitalAdd2 } ${h.hospitalAdd3 }
+									</td>
+									<td>
+										<c:forEach items="${h.code }" var="c" varStatus="status">
+											${c.codeName }<c:if test="${not status.last }"> <b>/</b> </c:if>  									
+										</c:forEach>
+									</td>
+								</tr>
+							</tbody>	
+						</c:forEach>
+					</table>
+				</div>
+			
+			
+				<input type=submit id="hosDelButton" value="삭제">
+			</form>
+			
 			<div id="board_page">
 				<a>◀</a>
 				<a>1</a>

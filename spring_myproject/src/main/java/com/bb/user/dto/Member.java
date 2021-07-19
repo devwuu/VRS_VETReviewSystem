@@ -4,6 +4,7 @@ public class Member {
 	
 	private String email;
 	private String pw;
+	private String pwUpdate;
 	private String nickName;
 	private String grade;
 	private Code interestCode[];
@@ -65,6 +66,12 @@ public class Member {
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+	public String getPwUpdate() {
+		return pwUpdate;
+	}
+	public void setPwUpdate(String pwUpdate) {
+		this.pwUpdate = pwUpdate;
 	}
 	
 

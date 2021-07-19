@@ -210,4 +210,30 @@ public class HospitalDao {
 		return rs;
 	}
 
+
+	//병원 삭제
+	public int deleteHospital(String[] hospitalNo) {
+		
+		int rs = 0;
+		
+		try {
+			String sql = "{call p_del_hospital(?)}";
+			
+			for(String hosNo:hospitalNo) {
+				
+				CallableStatement stmt = dbconn.prepareCall(sql);
+				stmt.setString(1, hosNo);
+				rs = stmt.executeUpdate();
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return rs;
+	}
+
 }

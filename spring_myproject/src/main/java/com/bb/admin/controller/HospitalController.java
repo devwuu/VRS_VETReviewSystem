@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bb.admin.dto.Code;
@@ -35,6 +36,8 @@ public class HospitalController{
 	   model.addAttribute("hospitalList", hospitalList);
 	   model.addAttribute("codeList", codeList);
 	   model.addAttribute("rs", rs);
+	   	   
+	   
    }
    
    //병원 등록 proc
@@ -43,6 +46,11 @@ public class HospitalController{
 	   
 	   int rs = hs.insertHospital(h);
 	   ra.addFlashAttribute("regRs", rs);
+	   
+	   //rs code
+	   // 1 : 병원 등록
+	   // 2 : 병원 수정
+	   // 3 : 병원 삭제
 	   
 	   return "redirect:/admin/hospital/hospitalView";
    }
@@ -53,15 +61,44 @@ public class HospitalController{
 	   
 	   int rs = hs.updateHospital(h);
 	   
-	   if(rs>=1) {
+	   if(rs>0) {
 		   rs = 2;
 	   }
+	   
+	   //rs code
+	   // 1 : 병원 등록
+	   // 2 : 병원 수정
+	   // 3 : 병원 삭제
+
 	   
 	   ra.addFlashAttribute("regRs", rs);
 	   
 	   return "redirect:/admin/hospital/hospitalView";
    }
    
+   
+   
+   //병원 삭제 Proc
+   @RequestMapping("delProc")
+   public String hosDelProc(@RequestParam("checkBox") String[] hospitalNo,
+		   					RedirectAttributes ra) {
+	   
+	   int rs = hs.delHospital(hospitalNo);
+	   
+	   if(rs>0) {
+		   rs=3;
+	   }
+	   
+	   //rs code
+	   // 1 : 병원 등록
+	   // 2 : 병원 수정
+	   // 3 : 병원 삭제
+
+	   
+	   ra.addFlashAttribute("regRs", rs);
+	   
+	   return "redirect:/admin/hospital/hospitalView";
+   }
 	
 
 }

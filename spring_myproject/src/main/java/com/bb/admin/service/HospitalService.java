@@ -17,6 +17,6 @@ public interface HospitalService {
 	int updateHospital(Hospital h);
 	
 	//병원 삭제
-	int delHospital(String hospitalNo);
+	int delHospital(String[] hospitalNo);
 	
 }

@@ -165,3 +165,9 @@ function hosModFormClose(totalLen){
 	}
 }
 
+
+//병원 삭제 여부 확인
+function checkYN(){
+	return confirm("삭제하시겠습니까?");
+}
+

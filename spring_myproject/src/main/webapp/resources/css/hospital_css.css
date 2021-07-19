@@ -68,6 +68,13 @@ tr, td{
 	width: 50px;
 }
 
+input#hosDelButton{
+	float:right;
+	margin-right:5px;
+	margin-top:5px;
+	width: 50px;
+}
+
 
 /* 병원 등록 modal */
 #modalInfor{
@@ -136,13 +143,6 @@ input.hostagcl{
 /* 병원수정모달 */
 
 
-/* #modalInfor{ */
-/* 	font-size:30px; */
-/* 	text-align:center; */
-/* 	color:#4d5966; */
-/* 	margin-top:40px; */
-/* 	margin-bottom:30px; */
-/* } */
 
 #hosModModal{
 	display:none;
@@ -177,26 +177,6 @@ input#hosModOk{
 	margin-top:25px;
 	margin-left:60px;
 }
-
-/* input.hostagcl{ */
-/* 	margin-top:8px; */
-/* } */
-
-/* #addressDiv{ */
-/* 	margin-left:80px; */
-/* } */
-
-/* #addressDiv input{ */
-/* 	margin-left:5px; */
-/* 	margin-top:5px; */
-/* } */
-
-/* #modalClose{ */
-/* 	float:right; */
-/* 	margin-top:5px; */
-/* 	margin-right:5px; */
-/* } */
-
 
 
 

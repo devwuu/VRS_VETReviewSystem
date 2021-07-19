@@ -26,4 +26,7 @@ public interface MemberService {
 	//회원 탈퇴 요청
 	int delMember(String email, String pw);
 	
+	//회원 정보 찾기
+	int findMember(String email);
+	
 }
