@@ -63,13 +63,54 @@
 	
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
-			<input type="button" id="goList" value="목록" onclick="location.href='/board/board_seoul'">
+			
+			
+			<c:set value="${hospital }" var="h"/>
+			
+			<!-- 			리뷰 목록으로 되돌아가기용 form -->
+			<form name="reviewListForm" action="/board/boardReview">
+					
+				<input name="pageNum" type="hidden" value="${pageNum }">
+				<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+				<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+				<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+				
+				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+					<input name="hostag" type="hidden" value="${tag }">										
+				</c:forEach>
+						
+			</form>
+		
+		
+			<input type="button" id="goList" value="목록" onclick="document.forms['reviewListForm'].submit()">
+			
+			<p id="page_infor">＠ ${h.hospitalName }</p>
+			
 			<form name="board_write" method="POST" enctype="multipart/form-data" action="/board/boardRegProc">
 				<p id="title_cont"><b>Title</b> : <input type="text" name="title" required maxlength="13"><br>
 				<p id="email_cont"><b>Email</b> : ${sess_id }<br>
 				<textarea id="cont_input" name="content" placeholder="내용" required></textarea><br>
 				<input id="file_input" type="file" name="fileAttach"><br>
+				
+				
+				<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+				<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+				<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+				
+				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+					<input name="hostag" type="hidden" value="${tag }">										
+				</c:forEach>
+				
+				
 				<input id="reg" type="submit" value="등록">
+				
+				
 			</form>
 		</div>
 		

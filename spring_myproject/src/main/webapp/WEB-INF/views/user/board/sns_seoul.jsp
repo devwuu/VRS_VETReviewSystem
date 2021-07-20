@@ -22,7 +22,7 @@
 
 <style>
 	
-	a#boardSeoul{
+	a#boardSns{
 		color: #ffffff !important;
 	}
 	

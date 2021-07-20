@@ -22,16 +22,17 @@ div#board_search_box{
 	flex-wrap: wrap
 }
 
-#hospital1, #hospital2{
+#hospital{
 	border:1px dotted #DCDCDC;
 	position: relative;
 	margin: 5px 0 0 8px;
 	padding: 5px 8px 5px 8px;
 	background-color:#ffffff;
 	color:#4d5966;
+	cursor:pointer;
 }
 
-img#hospital, #bookmark_hos{
+img#hospitalImg, #bookmark_hos{
 	width:auto;
 	height:30px;
 	position:absolute;
@@ -40,7 +41,7 @@ img#hospital, #bookmark_hos{
 	display:block;
 }
 
-#hospital1 p, #hospital2 p, #hospital1_view p{
+#hospital p{
 	text-align:center;
 }
 
@@ -49,12 +50,17 @@ img#hospital, #bookmark_hos{
 }
 
 /* 게시글-병원 세부 정보 */
-#hospital1_view{
+#hospital_view{
 	border:1px dotted #DCDCDC;
 	position: relative;
 	margin-bottom:3px;
 	padding: 10px 0 10px 0;
 	color:#4d5966;
+	background-color:#ffffff
+}
+
+#hospital_view p{
+	text-align:center;
 }
 
 

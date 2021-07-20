@@ -75,13 +75,38 @@ function checkYN(){
 	
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
+		
 		<c:set value="${review }" var="r"/>
-			<input type="button" id="goList" value="목록" onclick="location.href='/board/board_seoul?pageNum=${pageNum }'">
+		
+			<input type="button" id="goList" value="목록" onclick="document.forms['reviewListForm${r.reviewNo }'].submit()">
 			<br>
-			<p id="page_infor">＠ 서울시 _ OO 동물 병원</p>
-			<p id="title_cont"><b>Title</b> : ${r.title}</p>
+			<c:set value="${hospital }" var="h"/>
+			
+<!-- 			리뷰 목록으로 되돌아가기용 form -->
+			<form name="reviewListForm${r.reviewNo }" action="/board/boardReview">
+					
+				<input name="pageNum" type="hidden" value="${pageNum }">
+				<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
+				<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+				<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+				<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+				
+				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+					<input name="hostag" type="hidden" value="${tag }">										
+				</c:forEach>
+						
+			</form>
+			
+			
+			
+			<p id="page_infor">＠ ${h.hospitalName }</p>
+			<p id="title_cont"><b>Title</b> : ${r.title} </p>
+			
 			<c:if test="${sess_id != null }">
-				<i id="bookmark" class="material-icons" onclick="bookmark(${r.reviewNo})">
+				<i id="bookmark" class="material-icons" onclick="bookmark('${r.reviewNo}')">
 					<c:if test="${r.bookMarkCheck == 1 }">
 						bookmark
 					</c:if>
@@ -90,6 +115,7 @@ function checkYN(){
 					</c:if>
 				</i>
 			</c:if>
+			
 			<p id="email_cont"><b>Email</b>: ${r.writer}</p>
 			<p id="date_cont"><b>Date</b> : ${r.wdate}</p>
 			<p id="date_cont"><b>ModDate</b> : ${r.mdate}</p>
@@ -97,9 +123,24 @@ function checkYN(){
 			${r.content}
 			</div>
 				
+				
+<!-- 				리뷰 수정용 폼 -->
 			<c:if test="${ sess_id != null }">
 				<c:if test="${sess_id eq r.writer }">
 					<form method="POST" action="/board/boardModForm">
+					
+						<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+						<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+						<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+						<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+						<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+						<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+							
+						<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+							<input name="hostag" type="hidden" value="${tag }">										
+						</c:forEach>
+						
+						
 						<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
 						<input type="hidden" value="${r.title}"  name="title">
 						<input type="hidden" value="${r.content}"  name="content">
@@ -107,6 +148,8 @@ function checkYN(){
 						<input type="hidden" value="${r.wdate}"  name="wdate">
 						<input type="hidden" value="${r.mdate}"  name="mdate">
 						<input type="hidden" value="${pageNum}"  name="pageNum">
+						
+						
 						<c:if test="${r.fileAttached != null }">
 							<input type="hidden" value="${r.fileAttached.fileName }"  name="fileName">
 							<input type="hidden" value="${r.fileAttached.fileNameSave }"  name="fileNameSave">
@@ -117,8 +160,23 @@ function checkYN(){
 			
 					</form>
 		
+		
+<!-- 					리뷰 삭제용 폼 -->
 					<form method="POST" action="/board/boardDel" onsubmit="return checkYN()">					
-						<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
+						<input name="reviewNo" type="hidden" value="${r.reviewNo }">
+						<input name="pageNum" type="hidden" value="${pageNum }">
+						<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+						<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+						<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+						<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+						<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+						<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+							
+						<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+							<input name="hostag" type="hidden" value="${tag }">										
+						</c:forEach>
+								
+						
 						<input id="del" type="submit" value="삭제">
 					</form>
 		

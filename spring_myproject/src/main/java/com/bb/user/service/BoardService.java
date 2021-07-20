@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import org.springframework.web.multipart.*;
 
+import com.bb.user.dto.Hospital;
 import com.bb.user.dto.Notice;
 import com.bb.user.dto.Review;
 import com.bb.user.dto.SnsReview;
@@ -24,7 +25,7 @@ public interface BoardService {
 	String updateBoard(Review r, MultipartFile fileAttach, HttpSession session);
 	
 	//리뷰 리스트 가져오기
-	HashMap<String, Object> getBoardList(String pageNum);
+	HashMap<String, Object> getBoardList(String no, String pageNum);
 	
 	//리뷰 내용 보기
 	Review getReviewContent(String no, String email);
@@ -39,7 +40,7 @@ public interface BoardService {
 	int bookmarkProc(String review_no, String review_url, String email);
 
 	//게시글 검색(제목, 작성자)
-	HashMap<String, Object> search(String select, String condition, String pageNum);
+	HashMap<String, Object> search(String select, String condition, String pageNum, String hosNo);
 
 	//공지사항 리스트 출력
 	ArrayList<Notice> getNoticeList();
@@ -61,6 +62,9 @@ public interface BoardService {
 
 	//sns형태 리뷰 수정
 	String updateSnsReview(SnsReview snsReview, MultipartFile attachFileMod, HttpSession session);
+
+	//병원 리스트 출력
+	ArrayList<Hospital> getHospitalList(String location);
 	
 	
 }

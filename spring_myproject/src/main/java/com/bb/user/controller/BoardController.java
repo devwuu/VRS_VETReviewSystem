@@ -110,6 +110,7 @@ public class BoardController {
 											   @RequestParam("url_r") String reviewURL,
 											   HttpSession session){
 		
+		
 		String email = (String)session.getAttribute("sess_id");
 		
 		String rs = Integer.toString(bs.bookmarkProc(reviewNo, reviewURL, email));
@@ -120,25 +121,35 @@ public class BoardController {
 
 	
 	//병원 리스트 출력
-	@RequestMapping("hospital_seoul")
-	public String hospitalList() {
+	@RequestMapping("hospitalList")
+	public String hospitalList(String location, Model model) {
+
 		
-		return "/board/hospital_seoul";
+		ArrayList<Hospital> hospitalList = bs.getHospitalList(location);
+		
+		model.addAttribute("hospitalList", hospitalList);
+		
+		return "/board/hospitalList";
 
 	}
 	
 	
 	//리뷰 게시글 리스트 출력
 	@SuppressWarnings("unchecked")
-	@RequestMapping("board_seoul")
-	public String ReviewList(Model model, @RequestParam("pageNum") String pageNum) {
+	@RequestMapping("boardReview")
+	public String ReviewList(Model model, @ModelAttribute("pageNum") String pageNum, Hospital hospital) {
+	
 		
-		HashMap<String, Object> map = bs.getBoardList(pageNum);
+		HashMap<String, Object> map = bs.getBoardList(hospital.getHospitalNo(), pageNum);
 				
 		model.addAttribute("reviewList", (ArrayList<Review>)map.get("reviewList"));
 		model.addAttribute("page", (Page)map.get("page"));
 		
-		return "/board/board_seoul";
+		Page p = (Page)map.get("page");
+			
+		model.addAttribute("hospital", hospital);
+		
+		return "/board/boardReview";
 
 	}
 	
@@ -146,7 +157,8 @@ public class BoardController {
 	//리뷰 게시글 내용 보기
 	@RequestMapping("board_contview")
 	public String reviewContentView(@ModelAttribute("seqno_r") String reviewNo,
-									@RequestParam("pageNum") String pageNum,
+									@ModelAttribute("pageNum") String pageNum,
+									Hospital hospital,
 									HttpSession session,
 									Model model) {
 		
@@ -155,35 +167,42 @@ public class BoardController {
 		
 		model.addAttribute("review", r);
 		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("Hospital", hospital);
 		
 		return "/board/board_contview";
 	}
 	
 	
 	//리뷰 게시글 검색
+	@SuppressWarnings("unchecked")
 	@RequestMapping("reviewSearch")
 	public String reviewSearch(@RequestParam("search") String select,
 							   @RequestParam("condition") String condition,
 							   @RequestParam("pageNum") String pageNum,
+							   Hospital hospital,
 							   Model model) {
 
 		
-		HashMap<String, Object> map = bs.search(select, condition, pageNum);
+		HashMap<String, Object> map = bs.search(select, condition, pageNum, hospital.getHospitalNo());
 		
 		model.addAttribute("reviewList", (ArrayList<Review>)map.get("reviewList"));
 		model.addAttribute("page", (Page)map.get("page"));
 		model.addAttribute("select", select);
 		model.addAttribute("condition", condition);
+		model.addAttribute("hospital", hospital);
 		
-		return "/board/board_seoul";
+		return "/board/boardReview";
 		
 	}
 	
 	
 	//리뷰 작성 form 요청
 	@RequestMapping("boardRegForm")
-	public String reviewRegForm() {
-				
+	public String reviewRegForm(Hospital hospital, String pageNum, Model model) {
+		
+		model.addAttribute("hospital", hospital);
+		model.addAttribute("pageNum", pageNum);
+		
 		return "/board/board_write";
 
 	}
@@ -192,8 +211,8 @@ public class BoardController {
 	
 	//리뷰 작성 PROC
 	@RequestMapping("boardRegProc")
-	public String reviewRegProc(Review r, MultipartFile fileAttach,
-							    HttpSession session) {
+	public String reviewRegProc(Review r, MultipartFile fileAttach, Hospital hospital,
+							    HttpSession session, RedirectAttributes ra) {
 		//이진파일은 MultipartFile로 받으면 되고(input name과 같아야함)
 		//일반 formfiled는 같은 필드이름을 가진 클래스로 받으면 된다.
 		
@@ -202,10 +221,12 @@ public class BoardController {
 		
 		String reviewNo = bs.insertBoard(r, fileAttach, session);
 		
-		return "redirect:board_contview?pageNum=1&seqno_r="+reviewNo;
-		//mapping 한 url 기준으로 적어줍니다.
-		//작성 후, reivew url로 북마킹 할 수 있도록 redirect하되 review No를 get방식으로 가지고 갈 수 있도록 
-		//연결하여 리턴합니다.
+		ra.addFlashAttribute("hospital", hospital);
+		ra.addFlashAttribute("pageNum", "1");
+		ra.addFlashAttribute("seqno_r", reviewNo);
+		
+		return "redirect:board_contview";
+		
 		
 	}
 
@@ -213,11 +234,12 @@ public class BoardController {
 	
 	//리뷰 수정 FORM 요청
 	@RequestMapping("boardModForm")
-	public String reviewModForm(Review r, Model model, FileAttached f,
+	public String reviewModForm(Review r, Model model, FileAttached f, Hospital hospital,
 								@RequestParam("pageNum") String pageNum) {
 		
 		model.addAttribute("review", r);
 		model.addAttribute("file", f);		
+		model.addAttribute("hospital", hospital);
 		model.addAttribute("pageNum", pageNum);
 		
 		return "/board/board_contMod";
@@ -227,27 +249,35 @@ public class BoardController {
 	
 	//리뷰 수정 PROC
 	@RequestMapping("boardModProc")
-	public String reviewModProc(Review r, MultipartFile fileAttach,
+	public String reviewModProc(Review r, MultipartFile fileAttach, Hospital hospital, RedirectAttributes ra,
 								HttpSession session, @RequestParam("pageNum") String pageNum) {
+			
 		
 		bs.updateBoard(r, fileAttach, session);
 		
-		return "redirect:board_contview?pageNum="+pageNum+"&seqno_r="+r.getReviewNo();
-		//작성 후, reivew url로 북마킹 할 수 있도록 redirect하되 review No를 get방식으로 가지고 갈 수 있도록 
-		//연결하여 리턴합니다.
+		ra.addFlashAttribute("hospital", hospital);
+		ra.addFlashAttribute("pageNum", pageNum);
+		ra.addFlashAttribute("seqno_r", r.getReviewNo());
+		
+		
+		return "redirect:board_contview";
 	}
 	
 	
 	
 	//리뷰 삭제
 	@RequestMapping("boardDel")
-	public String reviewDel(String reviewNo, HttpSession session, RedirectAttributes redirectAttributes) {
+	public String reviewDel(String reviewNo, HttpSession session, RedirectAttributes redirectAttributes,
+							Hospital hospital, String pageNum) {
 		
 		bs.delReview(reviewNo, session);
 		
-		redirectAttributes.addFlashAttribute("delStat", "1");
 		
-		return "redirect:board_seoul";
+		redirectAttributes.addFlashAttribute("delStat", "1");
+		redirectAttributes.addFlashAttribute("pageNum", pageNum);
+		redirectAttributes.addFlashAttribute("hospital", hospital);
+		
+		return "redirect:boardReview";
 		
 	}
 	
@@ -304,53 +334,7 @@ public class BoardController {
 		return new ResponseEntity<String>(rs, HttpStatus.OK);
 	}
 	
-	
-	//board paging 갱신(ajax) - next
-	@RequestMapping("boardPagingUpdateNext")
-	public ResponseEntity<Page> boardListUpdate(int lastPage, int maxPage) {
-	
-		Page page = new Page(lastPage+1, maxPage);
-		
-		return new ResponseEntity<Page>(page, HttpStatus.OK);
-	}
-	
-	//board paging 갱신(div) - next
-	@RequestMapping("boardPageNext")
-	public String board_page(int startPage, int maxPage, Model model) {
 
-		Page page = new Page(startPage, maxPage);
-		
-		model.addAttribute("page", page);
-		
-		return "/board/board_page";
-	}
-	
-	//board paging 갱신 (ajax) - prev
-	@RequestMapping("boardPagingUpdatePrev")
-	public ResponseEntity<Page> boardListUpdatePrev(@RequestParam("startPage") int startPage,
-													@RequestParam("maxPage") int maxPage) {
-		
-		Page page = new Page(startPage, maxPage);
-		
-		return new ResponseEntity<Page>(page, HttpStatus.OK);
-	}
-	
-	//board paging 갱신(div) - prev
-	@RequestMapping("boardPagePrev")
-	public String boardPagePrev(@RequestParam("startPage") int lastPage,
-							  @RequestParam("maxPage") int maxPage, Model model) {
-		
-		Page page = new Page(maxPage);
-		
-		page.calStartPage(lastPage-1);
-		page.calNextPrev();
-		
-		model.addAttribute("page", page);
-		
-		return "/board/board_page";
-	}
-	
-	
 	
 	
 	

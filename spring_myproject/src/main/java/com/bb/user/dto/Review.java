@@ -3,6 +3,7 @@ package com.bb.user.dto;
 public class Review {
 
 	private String reviewNo;
+	private String hospitalNo;
 	private String writer;
 	private String title;
 	private String content;
@@ -81,6 +82,12 @@ public class Review {
 	}
 	public void setMdate(String mdate) {
 		this.mdate = mdate;
+	}
+	public String getHospitalNo() {
+		return hospitalNo;
+	}
+	public void setHospitalNo(String hospitalNo) {
+		this.hospitalNo = hospitalNo;
 	}
 	
 	

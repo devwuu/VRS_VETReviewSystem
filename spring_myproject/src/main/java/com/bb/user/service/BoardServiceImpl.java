@@ -48,9 +48,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
-	public HashMap<String, Object> getBoardList(String pageNum) {
+	public HashMap<String, Object> getBoardList(String no, String pageNum) {
 		
-		return boardDao.getReviewList(pageNum);
+		return boardDao.getReviewList(no, pageNum);
 	}
 
 	@Override
@@ -79,8 +79,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public HashMap<String, Object> search(String select, String condition, String pageNum) {
-		return boardDao.searchReview(select, condition, pageNum);
+	public HashMap<String, Object> search(String select, String condition, String pageNum, String hosNo) {
+		return boardDao.searchReview(select, condition, pageNum, hosNo);
 		
 	}
 
@@ -137,6 +137,16 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.updateSnsReview(snsReview, session);
 	}
 
+
+	@Override
+	public ArrayList<Hospital> getHospitalList(String location) {
+		
+		return boardDao.getHospitalList(location);
+	}
+	
+	
+	
+	
 	
 	
 	//insert 혹은 update할 fileAttached 객체 생성
@@ -168,6 +178,9 @@ public class BoardServiceImpl implements BoardService {
 		
 		return sr;
 	}
+
+
+
 
 
 	

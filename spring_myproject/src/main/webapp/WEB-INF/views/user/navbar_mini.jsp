@@ -16,8 +16,8 @@
 	    </c:if>
 		<a id="mini_menu_area_menu" class="mini_area_menu_class" onclick="mini_area_drop_down()">지역별 리뷰</a>
 		<div id="mini_area_drop" class="mini_area_drop_class">
-			<a id="boardSeoul" href="/board/hospital_seoul">서울시</a>
-			<a href="#">경기도</a>
+			<a id="boardReview" href="/board/hospitalList?location=서울">서울시</a>
+			<a id="boardSns" href="/board/sns_seoul">경기도</a>
 			<a href="#">충청도</a>
 			<a href="#">전라도</a>			
 		</div>

@@ -203,28 +203,37 @@ function fileDelReq(seqno_r){
 
 function bookmark(seqno_r){
 	
-	var url = window.location.href;
+	var url = encodeURIComponent(window.location.href);
+	//특수문자가 포함되어있어 url의 전체를 인코딩 해준다
+	
 	var x = new XMLHttpRequest();
+	
+	
 	x.onreadystatechange = function(){
+		
 		if(x.readyState === 4){
 			if(x.status === 200){
 				if(x.responseText.trim() == "1"){
 					document.getElementById("bookmark").innerHTML = "bookmark";
 					alert('북마크 등록');
+					
+					
 				}else if(x.responseText.trim() == "2"){
 					document.getElementById("bookmark").innerHTML = "bookmark_border";
 					alert('북마크 해제');
 				 }
+			
 			}else{
 				console.log('x.status: '+x.status);
 			 }
 		}
 	};
 	
-	
 	x.open("POST", "/board/bookmarkProc", true);
 	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	x.send("seqno_r="+seqno_r + "&url_r="+url);
+	
+	
+	x.send("seqno_r="+seqno_r+"&url_r="+url);
 	
 }
 
@@ -398,149 +407,24 @@ function snsFileDelReq(snsReviewNo, idx){
 
 
 
-//
-//class Page {
-//    constructor() {
-//
-//        this.startPage;
-//        this.lastPage;
-//        this.maxPage;
-//        this.thisPage;
-//        this.prev;
-//        this.next;
-//
-//        this.setStartPage = function(startPage) {
-//            this.startPage = startPage;
-//        };
-//
-//        this.getStartPage = function() {
-//            return this.startPage;
-//        };
-//
-//        this.setlastPage = function(lastPage) {
-//            this.lastPage = lastPage;
-//        };
-//
-//        this.getlastPage = function() {
-//            return this.lastPage;
-//        };
-//
-//
-//    }
-//}
 
 
-
-
-
-
-
-//페이지 list 변경(검색X) - next
-function nextPage(lastPage, maxPage){
+//게시글 페이지 이동
+function pagingSubmit(pageNum, condition){
 	
-	var x = new XMLHttpRequest();
 
-	x.onreadystatechange = function(){
+	if(condition == ""){
+		//검색 조건 X
 		
-		if(x.readyState === 4){
-			if(x.status === 200){
-
-				var page =  JSON.parse(x.response);
-				//response 타입을 json으로 변경
-				//typeof page = string
-
-				//json data를 refresh해서 보여줄 url로 전달(서블릿)
-				$("#pageList").load("/board/boardPageNext?startPage="+page.startPage+"&maxPage="+page.maxPage);
+		document.forms['pagingForm']['pageNum'].value = pageNum;
+		document.forms['pagingForm'].submit();
 		
+	}else{
+		//검색 조건 O
 		
-// 				1) 클래스를 이용한 동적 page => (jstl 새로고침 X) 실패	
-//				var pageObj = new Page();
-
-//				pageObj.setStartPage(page.startPage);
-//				pageObj.setlastPage(page.lastPage);
-
-//				alert(pageObj.getStartPage());
-
-//				var jstl = '<c:set value="${'+pageObj+'}" var="page"/>';
-
-//				$("#pageUpdate1").html(jstl);
-//				$("#pageList").load(location.href+" #pageList");
-
-
-// 				2) jstl 태그 추가를 이용한 동적 page => (jstl 새로고침 X) 실패
-
-//				var jstl = "<c:forEach items='${"+page+"}' varStatus='status' var='page'>" 
-//						   +"<c:out value='${page.lastPage}'/>"
-//						   +"</c:forEach>";
-//				$("#pageUpdate1").html(jstl);
-//				$("#pageList").load(location.href+" #pageList");
-
-
-			}else{
-				console.log("에러: "+x.status);
-			}
-		}
-		
-	};
+		document.forms['searchForm']['pageNum'].value = pageNum;
+		document.forms['searchForm'].submit();
+	}
 	
-	x.open("POST", "/board/boardPagingUpdateNext", true);
-	
-	//송신할 데이터 타입 설정
-	x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	
-	//응답받을 타입 설정
-	x.setRequestHeader("accepts","application/json");
-	
-	x.send("lastPage="+lastPage+"&maxPage="+maxPage);
-		
-}
-
-
-
-//페이지 리스트 변경 - prev
-function prevPage(startPage, maxPage){
-
-	var x = new XMLHttpRequest();
-	
-	x.onreadystatechange = function(){
-		
-		if(x.readyState === 4){
-			if(x.status === 200){
-				
-				var page = JSON.parse(x.response);
-				
-				$("#pageList").load("/board/boardPagePrev?startPage="+page.startPage+"&maxPage="+page.maxPage);
-				
-			}else{
-				console.log("에러: "+x.status);
-			}
-		}
-	};
-	
-	
-	x.open("POST", "/board/boardPagingUpdatePrev", true);
-	
-	x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	x.setRequestHeader("accepts", "application/json");
-	
-	x.send("startPage="+startPage+"&maxPage="+maxPage);
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

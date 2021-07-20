@@ -21,7 +21,7 @@
 
 <style>
 	
-	a#boardSeoul{
+	a#boardReview{
 		color: #ffffff !important;
 	}
 	
@@ -71,20 +71,38 @@
 			<div id="hospital_list">
 <!-- 			추후 병원 리스트를 DB에서 가져오는 식으로 바꿔야함. 따라서 서블릿으로 연결-->
 				
-				<div id="hospital1" onclick="location.href='/board/board_seoul?pageNum=1'">
-					<img id="hospital" src="/img/hospital.png" alt="병원이미지">
-					<p id="hosName" ><b>OO 동물 병원</b></p>
-					<p><b>주소</b> : XXXXX</p>
-					<p><b>연락처</b> : XXXX</p>
-					<p><b>24시, 토끼 전문</b></p>
-				</div>
-				<div id="hospital2" onclick="location.href='/board/sns_seoul'">
-					<img id="hospital" src="/img/hospital.png" alt="병원이미지">
-					<p id="hosName"><b>XX 동물 병원</b></p>
-					<p><b>주소</b> : XXXXX</p>
-					<p><b>연락처</b> : XXXX</p>
-					<p><b>응급실, 강아지 전문</b></p>
-				</div>
+				<c:forEach items="${hospitalList }" var="h">
+					<div id="hospital" onclick="document.forms['hospitalView${h.hospitalNo}'].submit()">
+						<img id="hospitalImg" src="/img/hospital.png" alt="병원이미지">
+						<p id="hosName" ><b>${h.hospitalName }</b></p>
+						<p>${h.hospitalAdd1 }, ${h.hospitalAdd2 } <br> ${h.hospitalAdd3 }</p>
+						<p><b>연락처</b> : ${h.hospitalTel }</p>
+						<p>
+							<c:forEach items="${h.code }" var="c" varStatus="status">
+								${c.codeName } 
+								<c:if test="${not status.last }"><b>/</b>
+								</c:if>
+							</c:forEach>
+						</p>
+						
+						<form name="hospitalView${h.hospitalNo }" method="POST" action="/board/boardReview">
+							<input type="hidden" name="hospitalNo" value="${h.hospitalNo } ">
+							<input type="hidden" name="pageNum" value="1">
+							<input type="hidden" name="hospitalTel" value="${h.hospitalTel }">
+							<input type="hidden" name="hospitalName" value="${h.hospitalName }">
+							<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
+							<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
+							<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+							
+							<c:forEach items="${h.code }" var="c" varStatus="status">
+								<input type="hidden" name="hostag" value="${c.codeName }">								
+							</c:forEach>
+							
+						</form>
+						
+					</div>
+				</c:forEach>
+				
 			</div>
 
 			<div id="board_page">

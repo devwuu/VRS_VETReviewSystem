@@ -15,7 +15,9 @@ import javax.servlet.http.*;
 import org.springframework.stereotype.*;
 
 import com.bb.dbconn.DbConn;
+import com.bb.user.dto.Code;
 import com.bb.user.dto.FileAttached;
+import com.bb.user.dto.Hospital;
 import com.bb.user.dto.Notice;
 import com.bb.user.dto.Page;
 import com.bb.user.dto.Review;
@@ -39,23 +41,24 @@ public class BoardDao {
 		String reviewNo = null;
 		FileAttached f = r.getFileAttached();
 		
-		String sql = "{call p_insert_review(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+		String sql = "{call p_insert_review(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 		
 		try {
 			CallableStatement stmt = dbconn.prepareCall(sql);
-			stmt.setString(1, r.getWriter());
-			stmt.setString(2, r.getTitle());
-			stmt.setString(3, r.getContent());
-			stmt.setString(4, f.getFileName());
-			stmt.setString(5, f.getFileNameSave());
-			stmt.setString(6, f.getFileSize());
-			stmt.setString(7, f.getFileType());
-			stmt.setString(8, f.getFilePath());
-			stmt.registerOutParameter(9, OracleTypes.INTEGER);
+			stmt.setString(1, r.getHospitalNo());
+			stmt.setString(2, r.getWriter());
+			stmt.setString(3, r.getTitle());
+			stmt.setString(4, r.getContent());
+			stmt.setString(5, f.getFileName());
+			stmt.setString(6, f.getFileNameSave());
+			stmt.setString(7, f.getFileSize());
+			stmt.setString(8, f.getFileType());
+			stmt.setString(9, f.getFilePath());
+			stmt.registerOutParameter(10, OracleTypes.INTEGER);
 			
 			stmt.executeUpdate();
 			
-			reviewNo = stmt.getString(9);
+			reviewNo = stmt.getString(10);
 
 			
 		} catch (SQLException e) {
@@ -69,21 +72,22 @@ public class BoardDao {
 
 	
 	//게시글 목록 조회
-	public HashMap<String, Object> getReviewList(String pageNum) {
+	public HashMap<String, Object> getReviewList(String no, String pageNum) {
 
 		ArrayList<Review> reviewList = new ArrayList<>();
 		HashMap<String, Object> map = new HashMap<>();
 		
 		try {
-			String sql = "{call p_get_boardlist(?,?,?)}";
+			String sql = "{call p_get_boardlist(?,?,?,?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
-			stmt.setString(1, pageNum);
-			stmt.registerOutParameter(2, OracleTypes.CURSOR);
-			stmt.registerOutParameter(3, OracleTypes.INTEGER);
+			stmt.setString(1, no);
+			stmt.setString(2, pageNum);
+			stmt.registerOutParameter(3, OracleTypes.CURSOR);
+			stmt.registerOutParameter(4, OracleTypes.INTEGER);
 			
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(2);
+			ResultSet rs = (ResultSet)stmt.getObject(3);
 
 			while(rs.next()) {
 				
@@ -101,7 +105,7 @@ public class BoardDao {
 			
 			rs.close();
 			
-			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(3));
+			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(4));
 			
 			map.put("reviewList", reviewList);
 			map.put("page", page);
@@ -146,6 +150,7 @@ public class BoardDao {
 				r.setWdate(rs.getString("r_wdate"));
 				r.setWriter(rs.getString("email"));
 				r.setReviewNo(rs.getString("review_no"));
+				r.setHospitalNo(rs.getString("hospitalno"));
 				r.setMdate(rs.getString("r_mdate"));
 				
 				if(rs.getInt("filesize") > 0) {
@@ -305,23 +310,24 @@ public class BoardDao {
 
 	
 	//게시글 검색
-	public HashMap<String, Object> searchReview(String select, String condition, String pageNum) {
+	public HashMap<String, Object> searchReview(String select, String condition, String pageNum, String hosNo) {
 
 		ArrayList<Review> reviewList = new ArrayList<>();
 		HashMap<String, Object> map = new HashMap<>();
 		
 		try {
-			String sql = "{call p_search_review(?, ?, ?, ?, ?) }";
+			String sql = "{call p_search_review(?, ?, ?, ?, ?, ?) }";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			stmt.setString(1, select);
 			stmt.setString(2, condition);
 			stmt.setString(3, pageNum);
-			stmt.registerOutParameter(4, OracleTypes.INTEGER);
-			stmt.registerOutParameter(5, OracleTypes.CURSOR);
+			stmt.setString(4, hosNo);
+			stmt.registerOutParameter(5, OracleTypes.INTEGER);
+			stmt.registerOutParameter(6, OracleTypes.CURSOR);
 			
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(5);
+			ResultSet rs = (ResultSet)stmt.getObject(6);
 
 			while(rs.next()) {
 	
@@ -338,7 +344,7 @@ public class BoardDao {
 				reviewList.add(r);
 			}
 			
-			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(4));
+			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(5));
 			
 			map.put("reviewList", reviewList);
 			map.put("page", page);
@@ -641,6 +647,87 @@ public class BoardDao {
 		
 		return stat;
 	}
+
+	
+	
+	
+	
+	//병원 리스트 출력
+	public ArrayList<Hospital> getHospitalList(String location) {
+	
+		
+		ArrayList<Hospital> hospitalList = new ArrayList<>();
+		ArrayList<Code> codeList = null;
+		String prvHosNo = null;		
+		
+		try {
+			String sql ="{call p_get_hospital_user(?,?)}";
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			
+			stmt.setString(1, location);
+			stmt.registerOutParameter(2, OracleTypes.CURSOR);
+
+			stmt.executeQuery();
+			
+			ResultSet rs = (ResultSet)stmt.getObject(2);
+			
+			
+			while(rs.next()) {
+				
+				//이전 병원 번호와 현재 병원 번호가 같지 않을 때 새로운 hospital 객체 생성
+				if(!rs.getString("hospitalno").equals(prvHosNo)) {
+					
+					Hospital h = new Hospital();
+					
+					//hospital에 연결해줄 병원태그 arrayList 초기화(갱신)
+					//hospital No가 바뀔 때마다 새로운 객체로 갱신되게 한다.
+					codeList = new ArrayList<>();
+					
+					
+					h.setHospitalNo(rs.getString("hospitalno"));
+					h.setHospitalName(rs.getString("hospitalname"));
+					h.setHospitalTel(rs.getString("hospitaltel"));
+					h.setPost(rs.getString("post"));
+					h.setHospitalAdd1(rs.getString("hospitaladd1"));
+					h.setHospitalAdd2(rs.getString("hospitaladd2"));
+					h.setHospitalAdd3(rs.getString("hospitaladd3"));
+					h.setCode(codeList);
+					
+				
+					hospitalList.add(h);
+					
+					//next한 hospitalNo와 비교하기 위해 저장
+					prvHosNo = h.getHospitalNo();
+					
+				}
+				
+				//병원 태그는 rs.next가 true일 때 마다 매번 저장해야한다.
+				//따라서 생성되어있는 arrayList에 지속적으로 add해줌.
+				
+				Code c = new Code();
+				
+				c.setCategory("병원태그");
+				c.setCodeName(rs.getString("codename"));
+				c.setCodeValue(rs.getString("codevalue"));
+				
+				codeList.add(c);
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return hospitalList;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -658,6 +745,8 @@ public class BoardDao {
 		}
 	
 	}
+
+
 
 
 

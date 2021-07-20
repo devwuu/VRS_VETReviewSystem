@@ -66,9 +66,15 @@
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 			<c:set value="${review }" var="r"/>
+
 			<form method="POST" enctype="multipart/form-data" action="/board/boardModProc">
+			
+			
 				<input type="hidden" value="${r.reviewNo }" name="reviewNo">
 				<input type="hidden" value="${pageNum }" name="pageNum">
+				
+				
+				
 				<p id="title_cont"><b>Title</b> : <input id="title_cont" type="text" name="title" value="${r.title }" maxlength="13" required></p>
 				<p id="date_cont"><b>Date</b> : ${r.wdate }</p>
 				<p id="email_cont"><b>Email</b> : ${r.writer }</p>
@@ -88,6 +94,22 @@
 						<input type="file" name="fileAttach"><br>
 					</c:if>
 				</div>
+				
+				<c:set value="${hospital }" var="h"/>
+				<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+				<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+				<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+					
+				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+					<input name="hostag" type="hidden" value="${tag }">										
+				</c:forEach>
+				
+				
+				
+				
 				<input id="modi" type="submit" value="수정">
 			</form>
 		</div>
