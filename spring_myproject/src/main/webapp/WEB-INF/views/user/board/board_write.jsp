@@ -21,10 +21,7 @@
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 <style>
-	
-	a#boardSeoul{
-		color: #ffffff !important;
-	}
+
 	
 	div#area_drop{
 		display: block !important;
@@ -88,6 +85,7 @@
 			<input type="button" id="goList" value="목록" onclick="document.forms['reviewListForm'].submit()">
 			
 			<p id="page_infor">＠ ${h.hospitalName }</p>
+			<p id="page_infor">＠ ${h.hospitalAdd1 }, ${h.hospitalAdd2 }</p>
 			
 			<form name="board_write" method="POST" enctype="multipart/form-data" action="/board/boardRegProc">
 				<p id="title_cont"><b>Title</b> : <input type="text" name="title" required maxlength="13"><br>

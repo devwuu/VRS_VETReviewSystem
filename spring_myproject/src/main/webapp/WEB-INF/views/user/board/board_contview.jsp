@@ -23,9 +23,6 @@
 
 <style>
 	
-	a#boardSeoul{
-		color: #ffffff !important;
-	}
 	
 	div#area_drop{
 		display: block !important;
@@ -101,8 +98,9 @@ function checkYN(){
 			</form>
 			
 			
-			
 			<p id="page_infor">＠ ${h.hospitalName }</p>
+			<p id="page_infor">＠ ${h.hospitalAdd1 }, ${h.hospitalAdd2 }</p>
+			
 			<p id="title_cont"><b>Title</b> : ${r.title} </p>
 			
 			<c:if test="${sess_id != null }">

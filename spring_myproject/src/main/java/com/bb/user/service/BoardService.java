@@ -52,10 +52,10 @@ public interface BoardService {
 	ArrayList<Notice> getNoticeListLimit();
 
 	//sns형태 리뷰 리스트 가져오기
-	ArrayList<SnsReview> getSNSList();
+	ArrayList<SnsReview> getSNSList(String hospitalNo);
 
 	//sns형태 리뷰 등록
-	int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile);
+	int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile, String hospitalNo);
 
 	//sns형태 리뷰 삭제
 	int delSnsReview(String snsNo, HttpSession session);

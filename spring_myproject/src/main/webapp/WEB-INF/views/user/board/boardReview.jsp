@@ -27,9 +27,6 @@
 
 <style>
 	
-	a#boardReview{
-		color: #ffffff !important;
-	}
 	
 	div#area_drop{
 		display: block !important;
@@ -189,6 +186,7 @@
 						<c:set value="${cnt-1 }" var="cnt"/>
 						<tbody>
 						
+<!-- 						리뷰 내용 조회용 폼 -->
 							<tr onclick="document.forms['reviewContentForm${list.reviewNo }'].submit()">
 								
 								<form name="reviewContentForm${list.reviewNo }" action="/board/board_contview">

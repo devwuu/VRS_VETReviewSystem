@@ -109,16 +109,16 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
-	public ArrayList<SnsReview> getSNSList() {
-		return boardDao.getSnsReviewList();
+	public ArrayList<SnsReview> getSNSList(String hospitalNo) {
+		return boardDao.getSnsReviewList(hospitalNo);
 	}
 
 	
 	@Override
-	public int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile) {
+	public int insertSnsReview(SnsReview sr, HttpSession session, MultipartFile attachFile, String hospitalNo) {
 		
 		sr = snsReviewInstance(sr, attachFile, session);
-		return boardDao.insertSnsBoard(sr);
+		return boardDao.insertSnsBoard(sr, hospitalNo);
 	}
 	
 	

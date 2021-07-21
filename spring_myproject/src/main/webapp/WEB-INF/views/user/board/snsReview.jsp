@@ -45,19 +45,21 @@
 		if(document.getElementById("delStat").value == 1){
 			alert('게시글이 삭제되었습니다.');
 		}
-		
 	}
 	
 	
 	function delConfirm(snsNo){
 		
 		if(confirm("삭제하시겠습니까")){
-			location.href='/board/snsDel?snsNo='+snsNo;
+			document.forms['delSnsReview']['snsReviewNo'].value = snsNo;
+			document.forms['delSnsReview'].submit();
+			
 		}else{
 			return false;
 		}
-		
 	}
+	
+	
 
 </script>
 
@@ -88,16 +90,28 @@
 <!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column_board">
 						
+			<c:set value="${hospital }" var="h"/>
+			
 			<div id="hospital1_view">
 				<i id="bookmark_hos" class="material-icons">bookmark</i>
-				<p id="hosName" ><b>OO 동물 병원</b></p>
-				<p><b>주소</b> : XXXXX</p>
-				<p><b>연락처</b> : XXXX</p>
-				<p><b>응급실, 강아지 전문</b></p>
+				<p id="hosName" ><b>${h.hospitalName }</b></p>
+				<p>${h.hospitalAdd1 }, ${hospitalAdd2 }</p>
+				<p><b>연락처</b> : ${h.hospitalTel }</p>
+				
+				<p>
+					<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+						${tag } 
+						<c:if test="${not status.last }">
+								<b>/</b>	
+						</c:if>
+					</c:forEach>
+				</p>
+				
 			</div>
 			
 			<div id="board_list">
 			
+<!-- 				리뷰 등록용 폼 -->
 				<form method="POST" name="snsRegForm" enctype="multipart/form-data" action="/board/snsRegProc" onsubmit="return fileCheck()">
 					<c:if test="${sess_id != null }">		
 						<table id="sns_regForm">
@@ -113,14 +127,31 @@
 								<td>
 									<input id="snsFile" type="file" name="attachFile" accept="image/gif, image/jpeg, image/png">
 								</td>
+									<input type="hidden" name="hospitalNo" value="${h.hospitalNo } ">
+									<input type="hidden" name="pageNum" value="1">
+									<input type="hidden" name="hospitalTel" value="${h.hospitalTel }">
+									<input type="hidden" name="hospitalName" value="${h.hospitalName }">
+									<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
+									<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
+									<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+									
+									<c:forEach items="${h.code }" var="c" varStatus="status">
+										<input type="hidden" name="hostag" value="${c.codeName }">								
+									</c:forEach>
 							</tr>
 						</table>	
 					</c:if>
 				</form>
+				
+				
+				
+				
 				<div id=snsList>
 					<table id="sns_list">
-						<c:set value="3" var="idx"/>
+						<c:set value="4" var="idx"/>
 						<c:forEach items="${snsList }" var="sns">
+						
+<!-- 						sns수정용 폼 -->
 							<form name="updateSns" id="updateSns${idx }" enctype="multipart/form-data">
 								<tbody>
 									<tr>
@@ -132,6 +163,14 @@
 											<input type="hidden" name="wdate" value="${sns.wdate }">
 											<input type="hidden" name="snsReviewNo" value="${sns.snsReviewNo }">
 											
+											<input type="hidden" name="hospitalNo" value="${h.hospitalNo } ">
+											<input type="hidden" name="pageNum" value="1">
+											<input type="hidden" name="hospitalTel" value="${h.hospitalTel }">
+											<input type="hidden" name="hospitalName" value="${h.hospitalName }">
+											<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
+											<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
+											<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+													
 										</td>
 										<td class="snsContent">
 											<p id="snsContentView${idx }">${sns.snsContent }</p>
@@ -148,30 +187,46 @@
 														<br>
 														<input type="hidden" name="delButton" onclick="snsFileDelReq(${sns.snsReviewNo }, ${idx })" value="첨부파일삭제">
 													</c:if>
-		<!-- 											js 함수를 통해 확장자 체크 실시 -->
-		<%-- 											<c:if test="${!fn:contains(f.fileType, 'image') }"> --%>
-		<%-- 												<a onclick="window.open(this.href); return false;" href="/upload/${f.fileNameSave }">${f.fileName} </a> --%>
-		<%-- 											</c:if> --%>
+
 												</c:if>
 											</div>
 										</td>
+										
 										<td class="snsEdit">
 											<c:if test="${sess_id eq sns.email }">
 												<i class="fas fa-edit" onclick="getSnsModForm(${idx})"></i>
 											</c:if>
 										</td>
+										
 										<td class="snsDel">
 											<c:if test="${sess_id eq sns.email }">										
 												<i class="fas fa-trash-alt" onclick="delConfirm(${sns.snsReviewNo })"></i>
+
 											</c:if>
 										</td>
 									</tr>
 								</tbody>
 							</form>
-							
+
 <!-- 							form에 idx를 매개변수로 이용하고 난 다음 증가시킴 -->
 							<c:set value="${idx+1 }" var="idx"/>							
 						</c:forEach>
+							
+							
+<!-- 		리뷰 삭제용 폼 								-->
+						<form name="delSnsReview" action="/board/snsDel">
+							
+							<input type="hidden" name="hospitalNo" value="${h.hospitalNo } ">
+							<input type="hidden" name="pageNum" value="1">
+							<input type="hidden" name="hospitalTel" value="${h.hospitalTel }">
+							<input type="hidden" name="hospitalName" value="${h.hospitalName }">
+							<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
+							<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
+							<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+							<input type="hidden" name="snsReviewNo" value="0">
+							
+						</form>
+
 						
 					</table>
 				</div>

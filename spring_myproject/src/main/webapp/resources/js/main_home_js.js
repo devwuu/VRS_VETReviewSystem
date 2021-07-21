@@ -328,8 +328,11 @@ function getSnsModForm(idx){
 					if(x.responseText.trim() == "1"){
 						alert("수정완료");
 						
+					
 						//수정 완료 후 페이지 갱신
-						window.location.reload(true);
+						location.reload(true);
+
+						
 					}else{
 						alert("수정실패");
 					}
@@ -404,6 +407,7 @@ function snsFileDelReq(snsReviewNo, idx){
 	
 	
 }
+
 
 
 

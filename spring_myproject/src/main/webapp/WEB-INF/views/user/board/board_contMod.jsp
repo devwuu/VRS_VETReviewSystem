@@ -24,9 +24,7 @@
 
 <style>
 	
-	a#boardSeoul{
-		color: #ffffff !important;
-	}
+	
 	
 	div#area_drop{
 		display: block !important;
@@ -66,6 +64,7 @@
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 			<c:set value="${review }" var="r"/>
+			<c:set value="${hospital }" var="h"/>
 
 			<form method="POST" enctype="multipart/form-data" action="/board/boardModProc">
 			
@@ -73,7 +72,8 @@
 				<input type="hidden" value="${r.reviewNo }" name="reviewNo">
 				<input type="hidden" value="${pageNum }" name="pageNum">
 				
-				
+				<p id="page_infor">＠ ${h.hospitalName }</p>
+				<p id="page_infor">＠ ${h.hospitalAdd1 }, ${h.hospitalAdd2 }</p>
 				
 				<p id="title_cont"><b>Title</b> : <input id="title_cont" type="text" name="title" value="${r.title }" maxlength="13" required></p>
 				<p id="date_cont"><b>Date</b> : ${r.wdate }</p>

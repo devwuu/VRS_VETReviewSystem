@@ -120,6 +120,10 @@ public class BoardController {
 	}
 
 	
+	
+//일반 게시글형태 리뷰 게시판	
+	
+	
 	//병원 리스트 출력
 	@RequestMapping("hospitalList")
 	public String hospitalList(String location, Model model) {
@@ -128,6 +132,8 @@ public class BoardController {
 		ArrayList<Hospital> hospitalList = bs.getHospitalList(location);
 		
 		model.addAttribute("hospitalList", hospitalList);
+		model.addAttribute("location", location);
+		
 		
 		return "/board/hospitalList";
 
@@ -164,6 +170,8 @@ public class BoardController {
 		
 		String email = (String)session.getAttribute("sess_id");
 		Review r = bs.getReviewContent(reviewNo, email);
+		
+		
 		
 		model.addAttribute("review", r);
 		model.addAttribute("pageNum", pageNum);
@@ -202,6 +210,7 @@ public class BoardController {
 		
 		model.addAttribute("hospital", hospital);
 		model.addAttribute("pageNum", pageNum);
+		
 		
 		return "/board/board_write";
 
@@ -268,68 +277,106 @@ public class BoardController {
 	//리뷰 삭제
 	@RequestMapping("boardDel")
 	public String reviewDel(String reviewNo, HttpSession session, RedirectAttributes redirectAttributes,
-							Hospital hospital, String pageNum) {
+							Hospital hospital, String pageNum, String location) {
 		
 		bs.delReview(reviewNo, session);
 		
+		System.out.println("location: "+location);
 		
 		redirectAttributes.addFlashAttribute("delStat", "1");
 		redirectAttributes.addFlashAttribute("pageNum", pageNum);
 		redirectAttributes.addFlashAttribute("hospital", hospital);
+		redirectAttributes.addFlashAttribute("location", location);
 		
 		return "redirect:boardReview";
 		
 	}
 	
 	
+	
+	
+	
+//	sns형(리플형) 리뷰 게시판 
+	
+	
+	
+	// 병원 리스트 출력
+	@RequestMapping("hospitalListSns")
+	public String hospitalListSns(String location, Model model) {
+
+		ArrayList<Hospital> hospitalList = bs.getHospitalList(location);
+		
+		model.addAttribute("hospitalList", hospitalList);
+		model.addAttribute("location", location);
+		
+		return "/board/hospitalListSns";
+
+	}
+	
+	
 	//sns형 게시판으로 이동
-	@RequestMapping("sns_seoul")
-	public String snsBoard(Model model, @ModelAttribute("delStat") String delStat) {
+	@RequestMapping("snsReview")
+	public String snsBoard(Model model, @ModelAttribute("delStat") String delStat, String pageNum, @ModelAttribute("hospital") Hospital hospital) {
 		
-		ArrayList<SnsReview> snsList = bs.getSNSList();
+		System.out.println(hospital.getHospitalNo());
 		
+		ArrayList<SnsReview> snsList = bs.getSNSList(hospital.getHospitalNo());
+				
 		model.addAttribute("snsList", snsList);
 		model.addAttribute("delStat", delStat);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("hospital", hospital);
 		
-		return "/board/sns_seoul";
+		return "/board/snsReview";
 	}
 	
 	
 	//sns형 게시판 리뷰 등록
 	@RequestMapping("snsRegProc")
-	public String snsRegProc(SnsReview sr, HttpSession session, MultipartFile attachFile) {
+	public String snsRegProc(SnsReview sr, HttpSession session, MultipartFile attachFile, Hospital hospital,
+							RedirectAttributes ra) {
 		 
 		sr.setEmail((String)session.getAttribute("sess_id"));
-		int rs = bs.insertSnsReview(sr, session, attachFile);
+		int rs = bs.insertSnsReview(sr, session, attachFile, hospital.getHospitalNo());
+		
+		ra.addFlashAttribute("hospital", hospital);
 		
 		if(rs<=0) {
 			log.info("insert Error");
 		}
 		
-		return "redirect:sns_seoul";
+		return "redirect:snsReview";
 	}
+	
 	
 	
 	//sns형 게시판 게시글 삭제
 	@RequestMapping("snsDel")
-	public String snsDel(String snsNo, HttpSession session, RedirectAttributes redirectAttribute){
+	public String snsDel(String snsReviewNo, HttpSession session, RedirectAttributes redirectAttribute, Hospital hospital){
+		//삭제 완료한 뒤 페이지 정보를 정상적으로 노출하기 위해 hospital 정보를 파라미터로 받아준다.
 
-		int rs = bs.delSnsReview(snsNo, session);
-		redirectAttribute.addFlashAttribute("delStat", rs);
+		int rs = bs.delSnsReview(snsReviewNo, session);
 		
-		return "redirect:/board/sns_seoul";
+		redirectAttribute.addFlashAttribute("delStat", rs);
+		redirectAttribute.addFlashAttribute("hospital", hospital);
+		
+		return "redirect:/board/snsReview";
 	}
 		
-	
 	//sns형 게시글 수정
 	@RequestMapping("snsUpdate")
 	public ResponseEntity<String> snsUpdate(SnsReview snsReview, MultipartFile attachFileMod,
-						  HttpSession session) {
+						  HttpSession session, Hospital hospital, RedirectAttributes ra) {
 
 		//formdata안의 input name과 필드 이름이 동일한 dto로 받아준다.
 		//file은 multipart타입으로 받아준다.
+		//수정 완료한 뒤 페이지 정보를 정상적으로 노출하기 위해 hospital 정보를 파라미터로 받아준다.
+		// 게시글 등록 직후 게시글 수정시 hospital 객체 없이 refresh되어 페이지가 정상적으로 노출되지 않는 버그가 있음
 
+		
 		String rs = bs.updateSnsReview(snsReview, attachFileMod, session);
+		
+		ra.addFlashAttribute("hospital", hospital);
 		
 		return new ResponseEntity<String>(rs, HttpStatus.OK);
 	}

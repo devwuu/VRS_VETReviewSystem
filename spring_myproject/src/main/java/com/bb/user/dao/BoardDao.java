@@ -510,17 +510,18 @@ public class BoardDao {
 
 	
 	//sns 리뷰 리스트 가져오기
-	public ArrayList<SnsReview> getSnsReviewList() {
+	public ArrayList<SnsReview> getSnsReviewList(String hospitalNo) {
 		
 		ArrayList<SnsReview> snsReviewList = new ArrayList<>();
-		String sql = "{call p_get_sns_list(?)}";
+		String sql = "{call p_get_sns_list(?,?)}";
 		
 		try {
 			CallableStatement stmt = dbconn.prepareCall(sql);
-			stmt.registerOutParameter(1, OracleTypes.CURSOR);
+			stmt.setString(1, hospitalNo);
+			stmt.registerOutParameter(2, OracleTypes.CURSOR);
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(1);
+			ResultSet rs = (ResultSet)stmt.getObject(2);
 			
 			while(rs.next()) {
 				
@@ -555,9 +556,9 @@ public class BoardDao {
 
 
 	//sns형태 board insert
-	public int insertSnsBoard(SnsReview sr) {
+	public int insertSnsBoard(SnsReview sr, String hospitalNo) {
 		
-		String sql = "{call p_insert_snsReview(?, ?, ?, ?, ?, ?, ?)}";
+		String sql = "{call p_insert_snsReview(?, ?, ?, ?, ?, ?, ?,?)}";
 		
 		int rs = 0;
 		FileAttached f = sr.getFileAttached();
@@ -565,13 +566,14 @@ public class BoardDao {
 		try {
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			
-			stmt.setString(1, sr.getSnsContent());
-			stmt.setString(2, sr.getEmail());
-			stmt.setString(3, f.getFileName());
-			stmt.setString(4, f.getFileNameSave());
-			stmt.setString(5, f.getFileSize());
-			stmt.setString(6, f.getFileType());
-			stmt.setString(7, f.getFilePath());
+			stmt.setString(1, hospitalNo);
+			stmt.setString(2, sr.getSnsContent());
+			stmt.setString(3, sr.getEmail());
+			stmt.setString(4, f.getFileName());
+			stmt.setString(5, f.getFileNameSave());
+			stmt.setString(6, f.getFileSize());
+			stmt.setString(7, f.getFileType());
+			stmt.setString(8, f.getFilePath());
 			
 			rs = stmt.executeUpdate();
 			

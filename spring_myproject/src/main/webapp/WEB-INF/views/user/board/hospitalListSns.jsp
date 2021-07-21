@@ -83,7 +83,7 @@
 							</c:forEach>
 						</p>
 						
-						<form name="hospitalView${h.hospitalNo }" method="POST" action="/board/boardReview">
+						<form name="hospitalView${h.hospitalNo }" method="POST" action="/board/snsReview">
 							<input type="hidden" name="hospitalNo" value="${h.hospitalNo } ">
 							<input type="hidden" name="pageNum" value="1">
 							<input type="hidden" name="hospitalTel" value="${h.hospitalTel }">
