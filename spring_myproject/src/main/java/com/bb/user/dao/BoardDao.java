@@ -20,6 +20,7 @@ import com.bb.user.dto.FileAttached;
 import com.bb.user.dto.Hospital;
 import com.bb.user.dto.Notice;
 import com.bb.user.dto.Page;
+import com.bb.user.dto.Reply;
 import com.bb.user.dto.Review;
 import com.bb.user.dto.SnsReview;
 
@@ -127,6 +128,9 @@ public class BoardDao {
 		
 		String sql = "{call p_get_review_content(?,?,?,?)}";
 		Review r = new Review();
+		ArrayList<Reply> replyList = new ArrayList<>();
+		
+		r.setReplyList(replyList);
 		
 		try {
 			CallableStatement stmt = dbconn.prepareCall(sql);
@@ -144,16 +148,22 @@ public class BoardDao {
 			
 			if(rs.next()) {
 				
+				//리뷰 세부 내용 dto 셋팅
+				
 				r.setTitle(rs.getString("title"));
-				r.setContent(rs.getString("content"));
+				r.setContent(rs.getString("r_content"));
 				r.setCount(rs.getString("count"));
 				r.setWdate(rs.getString("r_wdate"));
-				r.setWriter(rs.getString("email"));
-				r.setReviewNo(rs.getString("review_no"));
+				r.setWriter(rs.getString("r_email"));
+				r.setReviewNo(rs.getString("r_review_no"));
 				r.setHospitalNo(rs.getString("hospitalno"));
 				r.setMdate(rs.getString("r_mdate"));
 				
 				if(rs.getInt("filesize") > 0) {
+					
+					//리뷰 첨부파일 내용 dto 셋팅
+
+					
 					FileAttached f = new FileAttached();
 					f.setFileName(rs.getString("filename"));
 					f.setFileNameSave(rs.getString("filenamesave"));
@@ -161,11 +171,30 @@ public class BoardDao {
 					f.setFilePath(rs.getString("filepath"));
 					f.setFileSize(rs.getString("filesize"));
 					f.setFileType(rs.getString("filetype"));
-					f.setReviewNo(rs.getString("review_no"));
+					f.setReviewNo(rs.getString("r_review_no"));
 					f.setWdate(rs.getString("f_wdate"));
 					
 					r.setFileAttached(f);
 				}
+				
+				do {
+					
+					if(rs.getString("replyno") != null) {
+						
+						//리뷰 댓글 내용 dto 셋팅
+						
+						Reply p = new Reply();
+						
+						p.setReviewNo(rs.getString("r_review_no"));
+						p.setReplyNo(rs.getString("replyno"));
+						p.setEmail(rs.getString("p_email"));
+						p.setContent(rs.getString("p_content"));
+						p.setWdate(rs.getString("p_wdate"));
+						
+						replyList.add(p);
+					}
+					
+				}while(rs.next());
 			}
 			
 			rs.close();
@@ -724,6 +753,56 @@ public class BoardDao {
 		
 		return hospitalList;
 	}
+	
+	
+
+	//덧글 등록
+	public int insertReply(Reply r) {
+		
+		String sql = "INSERT INTO reply (replyno, reviewno, email, content) VALUES "
+				   + " (replyno.nextval, ?, ?, ?)";
+		
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = dbconn.prepareStatement(sql);
+			stmt.setString(1, r.getReviewNo());
+			stmt.setString(2, r.getEmail());
+			stmt.setString(3, r.getContent());
+			
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		
+		return rs;
+	}
+
+	
+	//덧글삭제
+	public int deleteReply(int replyNo) {
+		
+		String sql = "DELETE FROM reply WHERE replyno = ?";
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = dbconn.prepareStatement(sql);
+			
+			stmt.setInt(1, replyNo);
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+
+
 	
 	
 	

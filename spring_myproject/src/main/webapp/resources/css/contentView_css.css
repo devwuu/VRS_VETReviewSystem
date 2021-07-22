@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+
+/* 리뷰 본문 */
+
 #bookmark, #title_cont{
 	display:inline;
 }
@@ -69,4 +72,57 @@ input#goList{
 	float:right;
 	margin-top:10px;
 	margin-right:5px;
+}
+
+
+
+/* 리플  */
+
+#replyRegTable, #replyList{
+	border:none;
+	background-color:#FFFAF0;
+	text-align:left;
+	width:90%;
+	margin-left:10px;
+}
+
+#replyRegTable tr, #replyRegTable td{
+	border:none;
+	margin:0px 10px 0px 0px;
+}
+
+
+textarea#replyContent{
+	resize:none;
+	height:80px;
+	width:100%;
+}
+
+input#replySubmit{
+	margin-top:14px;
+	width:80px;
+	height:80px;
+}
+
+
+#replyList{
+	margin-top:10px;
+	margin-bottom:15px;
+}
+
+
+#replyList tr, #replyList td{
+	background-color:#FFFFFF;
+	border:none;
+	border-top:1px dotted #000000;
+	border-bottom:1px dotted #000000;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+@media only screen and (max-width:850px){
+	
+	input#replySubmit{
+		width:90px;
+	}
 }

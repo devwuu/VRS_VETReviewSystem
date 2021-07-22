@@ -9,6 +9,7 @@ import org.springframework.web.multipart.*;
 
 import com.bb.user.dto.Hospital;
 import com.bb.user.dto.Notice;
+import com.bb.user.dto.Reply;
 import com.bb.user.dto.Review;
 import com.bb.user.dto.SnsReview;
 
@@ -65,6 +66,12 @@ public interface BoardService {
 
 	//병원 리스트 출력
 	ArrayList<Hospital> getHospitalList(String location);
+
+	//덧글 등록
+	int insertReply(Reply r);
+
+	//덧글삭제
+	int deleteReply(int replyNo);
 	
 	
 }

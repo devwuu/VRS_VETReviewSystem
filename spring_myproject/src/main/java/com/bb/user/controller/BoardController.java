@@ -172,7 +172,6 @@ public class BoardController {
 		Review r = bs.getReviewContent(reviewNo, email);
 		
 		
-		
 		model.addAttribute("review", r);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("Hospital", hospital);
@@ -291,6 +290,36 @@ public class BoardController {
 		return "redirect:boardReview";
 		
 	}
+	
+
+	//덧글등록
+	@RequestMapping("replyRegProc")
+	public ResponseEntity<String> replyregProc(Reply r){
+		
+		int rsInt = bs.insertReply(r);
+		String rs = Integer.toString(rsInt);
+		
+		
+		return new ResponseEntity<String>(rs, HttpStatus.OK);
+	}
+	
+	
+	
+	//덧글삭제
+	@RequestMapping("replyDelProc")
+	public ResponseEntity<String> replyDelProc(int replyNo) {
+		
+		int result = bs.deleteReply(replyNo);
+		String rs = Integer.toString(result);
+		
+		return new ResponseEntity<String>(rs, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

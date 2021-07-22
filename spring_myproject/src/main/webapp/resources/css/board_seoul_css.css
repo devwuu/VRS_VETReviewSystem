@@ -74,17 +74,17 @@ div#board_list{
 	padding:5px;
 }
 
-table{
+#boardReviewList{
 	border:1px dotted #000000;
 	text-align:center;
 	width:100%;
 }
 
-tbody:hover{
+#boardReviewList tbody:hover{
 	background-color: #b0e0e6;
 }
 
-tr, td{
+#boardReviewList tr, #boardReviewList td{
 	border:1px dotted #000000;
 	padding: 0 8px 0 8px;
 }

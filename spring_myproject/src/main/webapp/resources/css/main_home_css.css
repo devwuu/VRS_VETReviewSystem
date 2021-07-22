@@ -260,6 +260,7 @@ div#main_left_column a, div#area_drop a{
 	padding:10px 10px 15px 10px;
 	margin:0;
 	font-weight:bold;
+	cursor: pointer;
 }
 
 div#main_left_column a:hover{
@@ -347,18 +348,18 @@ div#notice_list{
 	color:inherit;
 }
 
-table{
+#noticeListIndex{
 	border:1px dotted #000000;
 	background-color:#ffffff;
 	text-align:center;
 	width:100%;
 }
 
-tbody:hover{
+#noticeListIndex tbody:hover{
 	background-color: #b0e0e6;
 }
 
-tr, td{
+#noticeListIndex tr, td{
 	border:1px dotted #000000;
 }
 
@@ -507,6 +508,7 @@ div#mini_menu_list, div#mini_menu_list a{
 	
 
 	div#mini_menu{
+		cursor: pointer;
 		display:block;
 		position:static;
 		top:110px;
@@ -533,6 +535,7 @@ div#mini_menu_list, div#mini_menu_list a{
 		text-decoration:none;
 		font-weight:bold;
 		padding:12px 10px 10px 12px;
+		cursor: pointer;
 	}
 	
 	.mini_area_drop_class{

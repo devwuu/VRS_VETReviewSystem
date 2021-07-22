@@ -160,7 +160,7 @@
 			</div>
 			<p id="pageInfor"><b>${page.thisPage }</b> 페이지</p>
 			<div id="board_list">
-				<table cellspacing="0">
+				<table id="boardReviewList" cellspacing="0">
 				 	<thead>
 						<tr>
 							<td class="num">

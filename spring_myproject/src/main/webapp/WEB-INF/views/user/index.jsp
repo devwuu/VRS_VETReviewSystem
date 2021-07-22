@@ -79,7 +79,7 @@ window.onload = function(){
 
 			<div id="notice_list">
 				<p id="notice_infor"><a href="/board/noticeList">공지사항 ▶ </a></p>
-				<table cellspacing="0">
+				<table id="noticeListIndex" cellspacing="0">
 				 	<thead>
 						<tr>
 							<td class="num">

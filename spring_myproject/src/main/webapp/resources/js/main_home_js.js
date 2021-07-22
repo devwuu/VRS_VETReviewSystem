@@ -237,21 +237,6 @@ function bookmark(seqno_r){
 	
 }
 
-//회원정보 수정시 비밀번호 체크
-//function pwCheck(){
-//
-//	//보안상 문제가 없는지 검토가 필요한 부분.
-//	//db에서 가져온 pw정보가 input에 hidden으로 들어가있어서 보안상 문제가 될 수도 있을 것 같음
-//	//보안상의 문제로 우선 주석 처리
-//	
-//	if(document.forms["member_mody"]["pw_db"].value == document.forms["member_mody"]["pw_input"].value){
-//		return ture;
-//	}else{
-//		alert('비밀번호가 일치하지 않습니다.');
-//		return false;
-//	}
-//	
-//}
 
 
 //검색 form 체크
@@ -409,10 +394,6 @@ function snsFileDelReq(snsReviewNo, idx){
 }
 
 
-
-
-
-
 //게시글 페이지 이동
 function pagingSubmit(pageNum, condition){
 	
@@ -430,5 +411,81 @@ function pagingSubmit(pageNum, condition){
 		document.forms['searchForm'].submit();
 	}
 	
+}
+
+
+//덧글 등록
+function replyRegProc(){
+	
+	var url = window.location.href;
+	var x = new XMLHttpRequest();
+	
+	x.onreadystatechange  = function(){
+		if(x.readyState === 4){
+			if(x.status === 200){
+				
+				if(x.responseText.trim() == "1"){
+					
+					alert('등록 완료');
+					location.href=url;
+					
+					//페이지에 표시되어야 하는 정보들이 있어서 기존의 url로 redirect
+					
+				}else{
+					alert('등록 실패');
+				}
+				
+			}
+		}
+	};
+	
+	x.open("POST", "/board/replyRegProc", true);
+	
+	var formdata = new FormData(document.getElementById("replyReg"));
+	
+	//fromdata 전송이기 때문에 content-type를 설정하지 않음
+	
+	x.send(formdata);
+
+}
+
+
+//덧글삭제
+function replyDelProc(repNo){
+	
+	var result = confirm("삭제하시겠습니까?");
+	
+	if(result){
+		
+		var url = window.location.href;
+		var x = new XMLHttpRequest();
+		
+		x.onreadystatechange = function(){
+		
+			if(x.readyState === 4){
+				if(x.status === 200){
+					
+					if(x.responseText.trim() == "1"){
+						alert("삭제 완료");
+						location.href=url;
+						
+					}else{
+						alert("삭제 실패");
+					}
+				}
+			}
+		};
+	
+	x.open("POST", "/board/replyDelProc", true);
+	
+	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	x.send("replyNo="+repNo);
+	
+	}
 	
 }
+
+
+
+		
+

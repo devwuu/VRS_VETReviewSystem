@@ -144,7 +144,23 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getHospitalList(location);
 	}
 	
+
+	@Override
+	public int insertReply(Reply r) {
+		
+		return boardDao.insertReply(r);
+	}
+
 	
+
+	@Override
+	public int deleteReply(int replyNo) {
+		
+		return boardDao.deleteReply(replyNo);
+	}
+
+
+
 	
 	
 	
@@ -178,6 +194,8 @@ public class BoardServiceImpl implements BoardService {
 		
 		return sr;
 	}
+
+
 
 
 

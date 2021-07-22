@@ -73,131 +73,178 @@ function checkYN(){
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 		
-		<c:set value="${review }" var="r"/>
-		
-			<input type="button" id="goList" value="목록" onclick="document.forms['reviewListForm${r.reviewNo }'].submit()">
-			<br>
-			<c:set value="${hospital }" var="h"/>
+<!-- 			리뷰 내용 본문 div -->
+			<div id="reviewContent">
+			<c:set value="${review }" var="r"/>
 			
-<!-- 			리뷰 목록으로 되돌아가기용 form -->
-			<form name="reviewListForm${r.reviewNo }" action="/board/boardReview">
-					
-				<input name="pageNum" type="hidden" value="${pageNum }">
-				<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
-				<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
-				<input name="hospitalName" type="hidden" value="${h.hospitalName }">
-				<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
-				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
-				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
-				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+				<input type="button" id="goList" value="목록" onclick="document.forms['reviewListForm${r.reviewNo }'].submit()">
+				<br>
+				<c:set value="${hospital }" var="h"/>
 				
-				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
-					<input name="hostag" type="hidden" value="${tag }">										
-				</c:forEach>
+	<!-- 			리뷰 목록으로 되돌아가기용 form -->
+				<form name="reviewListForm${r.reviewNo }" action="/board/boardReview">
 						
-			</form>
-			
-			
-			<p id="page_infor">＠ ${h.hospitalName }</p>
-			<p id="page_infor">＠ ${h.hospitalAdd1 }, ${h.hospitalAdd2 }</p>
-			
-			<p id="title_cont"><b>Title</b> : ${r.title} </p>
-			
-			<c:if test="${sess_id != null }">
-				<i id="bookmark" class="material-icons" onclick="bookmark('${r.reviewNo}')">
-					<c:if test="${r.bookMarkCheck == 1 }">
-						bookmark
-					</c:if>
-					<c:if test="${r.bookMarkCheck == 0 }">
-						bookmark_border
-					</c:if>
-				</i>
-			</c:if>
-			
-			<p id="email_cont"><b>Email</b>: ${r.writer}</p>
-			<p id="date_cont"><b>Date</b> : ${r.wdate}</p>
-			<p id="date_cont"><b>ModDate</b> : ${r.mdate}</p>
-			<div id = "content_view">
-			${r.content}
-			</div>
-				
-				
-<!-- 				리뷰 수정용 폼 -->
-			<c:if test="${ sess_id != null }">
-				<c:if test="${sess_id eq r.writer }">
-					<form method="POST" action="/board/boardModForm">
+					<input name="pageNum" type="hidden" value="${pageNum }">
+					<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
+					<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+					<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+					<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+					<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+					<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+					<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
 					
-						<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
-						<input name="hospitalName" type="hidden" value="${h.hospitalName }">
-						<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
-						<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
-						<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
-						<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+					<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+						<input name="hostag" type="hidden" value="${tag }">										
+					</c:forEach>
 							
-						<c:forEach items="${h.hostag }" var="tag" varStatus="status">
-							<input name="hostag" type="hidden" value="${tag }">										
-						</c:forEach>
-						
-						
-						<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
-						<input type="hidden" value="${r.title}"  name="title">
-						<input type="hidden" value="${r.content}"  name="content">
-						<input type="hidden" value="${r.writer}"  name="writer">
-						<input type="hidden" value="${r.wdate}"  name="wdate">
-						<input type="hidden" value="${r.mdate}"  name="mdate">
-						<input type="hidden" value="${pageNum}"  name="pageNum">
-						
-						
-						<c:if test="${r.fileAttached != null }">
-							<input type="hidden" value="${r.fileAttached.fileName }"  name="fileName">
-							<input type="hidden" value="${r.fileAttached.fileNameSave }"  name="fileNameSave">
-							<input type="hidden" value="${r.fileAttached.fileType }"  name="fileType">
-							<input type="hidden" value="${r.fileAttached.fileSize }"  name="fileSize">
+				</form>
+				
+				
+				<p id="page_infor">＠ ${h.hospitalName }</p>
+				<p id="page_infor">＠ ${h.hospitalAdd1 }, ${h.hospitalAdd2 }</p>
+				
+				<p id="title_cont"><b>Title</b> : ${r.title} </p>
+				
+				<c:if test="${sess_id != null }">
+					<i id="bookmark" class="material-icons" onclick="bookmark('${r.reviewNo}')">
+						<c:if test="${r.bookMarkCheck == 1 }">
+							bookmark
 						</c:if>
-						<input id="modify" type="submit" value="수정">
-			
-					</form>
-		
-		
-<!-- 					리뷰 삭제용 폼 -->
-					<form method="POST" action="/board/boardDel" onsubmit="return checkYN()">					
-						<input name="reviewNo" type="hidden" value="${r.reviewNo }">
-						<input name="pageNum" type="hidden" value="${pageNum }">
-						<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
-						<input name="hospitalName" type="hidden" value="${h.hospitalName }">
-						<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
-						<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
-						<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
-						<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
-							
-						<c:forEach items="${h.hostag }" var="tag" varStatus="status">
-							<input name="hostag" type="hidden" value="${tag }">										
-						</c:forEach>
-								
-						
-						<input id="del" type="submit" value="삭제">
-					</form>
-		
+						<c:if test="${r.bookMarkCheck == 0 }">
+							bookmark_border
+						</c:if>
+					</i>
 				</c:if>
+				
+				<p id="email_cont"><b>Email</b>: ${r.writer}</p>
+				<p id="date_cont"><b>Date</b> : ${r.wdate}</p>
+				<p id="date_cont"><b>ModDate</b> : ${r.mdate}</p>
+				<div id = "content_view">
+				${r.content}
+				</div>
+					
+					
+	<!-- 				리뷰 수정용 폼 -->
+				<c:if test="${ sess_id != null }">
+					<c:if test="${sess_id eq r.writer }">
+						<form method="POST" action="/board/boardModForm">
+						
+							<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+							<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+							<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+							<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+							<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+							<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+								
+							<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+								<input name="hostag" type="hidden" value="${tag }">										
+							</c:forEach>
+							
+							
+							<input type="hidden" value="${r.reviewNo }"  name="reviewNo">
+							<input type="hidden" value="${r.title}"  name="title">
+							<input type="hidden" value="${r.content}"  name="content">
+							<input type="hidden" value="${r.writer}"  name="writer">
+							<input type="hidden" value="${r.wdate}"  name="wdate">
+							<input type="hidden" value="${r.mdate}"  name="mdate">
+							<input type="hidden" value="${pageNum}"  name="pageNum">
+							
+							
+							<c:if test="${r.fileAttached != null }">
+								<input type="hidden" value="${r.fileAttached.fileName }"  name="fileName">
+								<input type="hidden" value="${r.fileAttached.fileNameSave }"  name="fileNameSave">
+								<input type="hidden" value="${r.fileAttached.fileType }"  name="fileType">
+								<input type="hidden" value="${r.fileAttached.fileSize }"  name="fileSize">
+							</c:if>
+							<input id="modify" type="submit" value="수정">
+				
+						</form>
+			
+			
+	<!-- 					리뷰 삭제용 폼 -->
+						<form method="POST" action="/board/boardDel" onsubmit="return checkYN()">					
+							<input name="reviewNo" type="hidden" value="${r.reviewNo }">
+							<input name="pageNum" type="hidden" value="${pageNum }">
+							<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+							<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+							<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+							<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+							<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+							<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+								
+							<c:forEach items="${h.hostag }" var="tag" varStatus="status">
+								<input name="hostag" type="hidden" value="${tag }">										
+							</c:forEach>
+									
+							
+							<input id="del" type="submit" value="삭제">
+						</form>
+			
+					</c:if>
+				</c:if>
+				
+				<c:set value="${r.fileAttached }" var="f"/>
+				<div id="file_view">
+					<c:if test="${r.fileAttached != null }">
+						<br>
+						<p><b>첨부파일명:</b> ${f.fileName }</p>
+						<p><b>사이즈:</b> ${f.fileSize }</p>
+						<c:if test="${fn:contains(f.fileType, 'image') }">
+							<img src="/upload/${f.fileNameSave }">	
+						</c:if>
+						
+						<form name="fileDown" method="post" action="/file/download">
+							<input type="hidden" name="fileNameSave" value="${f.fileNameSave }">
+							<input type="hidden" name="filePath" value="${f.filePath }">
+							<br><input type="submit" value="다운로드">
+						</form>
+			
+					</c:if>
+				</div>
+			</div>
+			
+			
+<!-- 			리뷰 댓글 table/form -->
+			<c:if test="${sess_nickname != null}">
+				<form name="replyReg" id="replyReg" method="POST" onsubmit="return replyRegProc()">
+					<table id="replyRegTable" cellspacing="0">
+						<tr>
+							<td>
+								<b>${sess_nickname }</b> :
+								<textarea name="content" id="replyContent" required maxlength="500" ></textarea>		
+							</td>
+							<td>
+								<input name="email" type="hidden" value="${sess_id }">
+								<input name="reviewNo" type="hidden" value="${r.reviewNo }">
+								<input id="replySubmit" type="submit" value="등록">				
+							</td>
+						</tr>
+					</table>
+				</form>
 			</c:if>
 			
-			<c:set value="${r.fileAttached }" var="f"/>
-			<div id="file_view">
-				<c:if test="${r.fileAttached != null }">
-					<br>
-					<p><b>첨부파일명:</b> ${f.fileName }</p>
-					<p><b>사이즈:</b> ${f.fileSize }</p>
-					<c:if test="${fn:contains(f.fileType, 'image') }">
-						<img src="/upload/${f.fileNameSave }">	
-					</c:if>
-					
-					<form name="fileDown" method="post" action="/file/download">
-						<input type="hidden" name="fileNameSave" value="${f.fileNameSave }">
-						<input type="hidden" name="filePath" value="${f.filePath }">
-						<br><input type="submit" value="다운로드">
-					</form>
-		
-				</c:if>
+			<div id="replyListDiv">
+				<table id="replyList" cellspacing="0">
+					<c:forEach items="${r.replyList }" var="p">
+						<tr>
+							<td>
+								<b>${p.email }</b> / ${p.wdate }
+								<p>${p.content }</p>
+							</td>
+							<c:if test="${sess_id != null }">
+								<c:if test="${p.email eq sess_id }">
+									<td style="width:60px;">
+										<button>수정</button>
+									</td>
+									<td style="width:60px;">
+										<button onclick="replyDelProc('${p.replyNo }')">삭제</button>
+									</td>
+								</c:if>
+							</c:if>
+						</tr>
+					</c:forEach>
+				</table>
+				
 			</div>
 			
 		</div>

@@ -1,5 +1,7 @@
 package com.bb.user.dto;
 
+import java.util.ArrayList;
+
 public class Review {
 
 	private String reviewNo;
@@ -18,6 +20,8 @@ public class Review {
 	
 	private String reviewUrl;
 	//해당 게시글의 url
+	
+	private ArrayList<Reply> replyList;
 	
 	
 	
@@ -88,6 +92,12 @@ public class Review {
 	}
 	public void setHospitalNo(String hospitalNo) {
 		this.hospitalNo = hospitalNo;
+	}
+	public ArrayList<Reply> getReplyList() {
+		return replyList;
+	}
+	public void setReplyList(ArrayList<Reply> replyList) {
+		this.replyList = replyList;
 	}
 	
 	
