@@ -37,29 +37,39 @@ tr, td{
 	padding: 0 8px 0 8px;
 }
 
+
 .num{
-	width:10%;
+	width:55px;
 }
 
 .email{
-	width:25%;
+	width:300px;
 }
 
 .name{
-	width:25%;
+	width:300px;
 }
 
 .grade{
-	width:15%;
+	width:90px;
 }
 
 .wdate{
-	width:10%;
+	width:170px;
 }
 
 .isdel{
-	width:10%;
+	width:150px;
 }
+
+ .recom, .report{
+	width:72px;
+}
+
+ .check{
+	width:10px;
+}
+
 
 input#delbutton{
 	float:right;

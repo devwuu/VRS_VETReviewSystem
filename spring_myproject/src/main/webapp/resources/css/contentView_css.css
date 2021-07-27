@@ -120,6 +120,17 @@ input#replySubmit{
 	padding-bottom:5px;
 }
 
+#replyModContent{
+	resize:none;
+	display:none;
+	height:80px;
+	width:100%;
+}
+
+#replyModFormSubmit{
+	display:none;
+}
+
 @media only screen and (max-width:850px){
 	
 	input#replySubmit{

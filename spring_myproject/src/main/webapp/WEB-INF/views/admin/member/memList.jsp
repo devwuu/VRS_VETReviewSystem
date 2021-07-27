@@ -93,6 +93,12 @@
 							<td class="name">
 								<b>별명</b>
 							</td>
+							<td class="recom">
+								<b>추천 수</b>
+							</td>
+							<td class="report">
+								<b>신고 수</b>
+							</td>
 							<td class="grade">
 								<b>회원 등급</b>
 							</td>
@@ -118,6 +124,12 @@
 								</td>
 								<td>
 									${m.nickName }
+								</td>
+								<td>
+									${m.recomCount }
+								</td>
+								<td>
+									${m.reportCount }
 								</td>
 								<td>
 									${m.gradeName }

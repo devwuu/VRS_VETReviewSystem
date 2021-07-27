@@ -316,7 +316,22 @@ public class BoardController {
 	}
 	
 	
-	
+	//덧글수정
+	@RequestMapping("reviewModProc")
+	public String reviewModProc(Hospital hospital, int reviewNo, int pageNum,
+							  int replyNo, String content, RedirectAttributes rd) {
+		
+		int rs = bs.updateReply(replyNo, content);
+		
+		
+		rd.addFlashAttribute("pageNum", pageNum);
+		rd.addFlashAttribute("replyStat", rs);
+		rd.addFlashAttribute("hospital", hospital);		
+		rd.addFlashAttribute("seqno_r", reviewNo);		
+		
+		return "redirect:board_contview";
+		
+	}
 	
 	
 	

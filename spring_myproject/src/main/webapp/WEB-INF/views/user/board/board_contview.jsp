@@ -45,6 +45,18 @@ function checkYN(){
 		return false;
 	}
 }
+
+
+window.onload = function(){
+	
+// 	1이상일 시 리플 수정 성공
+	if(document.getElementById('replyStat').value > 0){
+		alert('수정완료');		
+	}
+	
+}
+
+
 </script>
 
 	
@@ -74,6 +86,10 @@ function checkYN(){
 		<div id="main_right_column">
 		
 <!-- 			리뷰 내용 본문 div -->
+
+<!-- 			리플 수정 상태 체크 -->
+			<input type="hidden" id="replyStat" value="${replyStat }">
+
 			<div id="reviewContent">
 			<c:set value="${review }" var="r"/>
 			
@@ -229,12 +245,31 @@ function checkYN(){
 						<tr>
 							<td>
 								<b>${p.email }</b> / ${p.wdate }
-								<p>${p.content }</p>
+								<div id="replyListContent">${p.content }</div>
+								
+<!-- 								리플 수정용 폼 -->
+								<form name="replyModForm" action="/board/reviewModProc">
+								
+									<input name="reviewNo" type="hidden" value="${r.reviewNo }">
+									<input name="pageNum" type="hidden" value="${pageNum }">
+									<input Name="replyNo" type="hidden" value="${p.replyNo }">
+									
+									<textarea name="content" id="replyModContent" required></textarea>
+									
+									<input name="hospitalNo" type="hidden" value="${h.hospitalNo }">
+									<input name="hospitalName" type="hidden" value="${h.hospitalName }">
+									<input name="hospitalAdd1" type="hidden" value="${h.hospitalAdd1 }">
+									<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
+									<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
+									<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+									
+								</form>
 							</td>
 							<c:if test="${sess_id != null }">
 								<c:if test="${p.email eq sess_id }">
 									<td style="width:60px;">
-										<button>수정</button>
+										<button id="replyModFormShowButton" onclick="replyModFormShow('${p.content }')">수정</button>
+										<button id="replyModFormSubmit" onclick="document.forms['replyModForm'].submit()"> 수정</button>
 									</td>
 									<td style="width:60px;">
 										<button onclick="replyDelProc('${p.replyNo }')">삭제</button>

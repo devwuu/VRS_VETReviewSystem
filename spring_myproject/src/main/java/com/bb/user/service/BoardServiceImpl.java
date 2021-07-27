@@ -159,6 +159,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.deleteReply(replyNo);
 	}
 
+	
+	@Override
+	public int updateReply(int replyNo, String content) {
+		return boardDao.updateReply(replyNo, content);
+	}
+
+
+
 
 
 	
@@ -194,6 +202,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		return sr;
 	}
+
 
 
 

@@ -67,27 +67,48 @@ public class AdminDao {
 		ArrayList<Member> memberList = new ArrayList<>();
 		
 		try {
-			String sql = "{call p_get_memlist(?)}";
+			String sql = "{call p_get_memlist(?,?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			stmt.registerOutParameter(1, OracleTypes.CURSOR);
+			stmt.registerOutParameter(2, OracleTypes.CURSOR);
 			
 			stmt.executeQuery();
-			ResultSet rs = (ResultSet)stmt.getObject(1);
+			ResultSet rs_memList = (ResultSet)stmt.getObject(1);
+			ResultSet rs_memMag = (ResultSet)stmt.getObject(2);
 			
-			while(rs.next()) {
+			while(rs_memList.next()) {
 				
 				Member m = new Member();
 				
-				m.setEmail(rs.getString("email"));
-				m.setNickName(rs.getString("nickname"));
-				m.setWdate(rs.getString("wdate"));
-				m.setIsDel(rs.getString("isdel"));
-				m.setDelDate(rs.getString("deldate"));
-				m.setGradeName(rs.getString("gradename"));
+				m.setEmail(rs_memList.getString("email"));
+				m.setNickName(rs_memList.getString("nickname"));
+				m.setWdate(rs_memList.getString("wdate"));
+				m.setIsDel(rs_memList.getString("isdel"));
+				m.setDelDate(rs_memList.getString("deldate"));
+				m.setGradeName(rs_memList.getString("gradename"));
+
 				
 				memberList.add(m);
+
+			}
+			
+			
+			//memList에서 member 객체를 가져와 정보를 하나씩 비교
+			// email 일치시 추천/신고 건수 저장
+			
+			while(rs_memMag.next()) {
+				
+				for(Member m : memberList) {
+					if(m.getEmail().equals(rs_memMag.getString("email"))) {
+						m.setRecomCount(rs_memMag.getString("recommend"));
+						m.setReportCount(rs_memMag.getString("report"));
+					}
+					
+				}
 				
 			}
+			
+			
 			
 		} catch (SQLException e) {
 			

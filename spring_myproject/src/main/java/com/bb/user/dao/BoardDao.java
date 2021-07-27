@@ -804,6 +804,30 @@ public class BoardDao {
 
 
 	
+	//덧글 수정
+	public int updateReply(int replyNo, String content) {
+		
+		String sql = "UPDATE reply SET content = ?, mdate = CURRENT_TIMESTAMP WHERE replyno = ?";
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = dbconn.prepareStatement(sql);
+			
+			stmt.setString(1, content);
+			stmt.setInt(2, replyNo);
+			
+			rs = stmt.executeUpdate();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		
+		return rs;
+	}
+
+	
 	
 	
 	
@@ -826,6 +850,7 @@ public class BoardDao {
 		}
 	
 	}
+
 
 
 

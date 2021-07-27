@@ -12,6 +12,9 @@ public class Member {
 	private String delDate;
 	private String isDel;
 	
+	private String recomCount;
+	private String reportCount;
+	
 	
 	
 	public String getGradeName() {
@@ -71,6 +74,19 @@ public class Member {
 	public void setInterest(Code interest[]) {
 		this.interest = interest;
 	}
+	public String getRecomCount() {
+		return recomCount;
+	}
+	public void setRecomCount(String recomCount) {
+		this.recomCount = recomCount;
+	}
+	public String getReportCount() {
+		return reportCount;
+	}
+	public void setReportCount(String reportCount) {
+		this.reportCount = reportCount;
+	}
+
 
 	
 }

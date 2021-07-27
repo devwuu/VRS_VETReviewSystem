@@ -72,6 +72,9 @@ public interface BoardService {
 
 	//덧글삭제
 	int deleteReply(int replyNo);
+
+	//덧글 수정
+	int updateReply(int replyNo, String content);
 	
 	
 }

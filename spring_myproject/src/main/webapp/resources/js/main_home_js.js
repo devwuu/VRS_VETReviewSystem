@@ -485,6 +485,16 @@ function replyDelProc(repNo){
 	
 }
 
+//덧글 수정 form 활성화
+function replyModFormShow(content){
+	
+	document.getElementById('replyListContent').style.display ="none";
+	document.getElementById('replyModFormShowButton').style.display ="none";
+	document.getElementById('replyModFormSubmit').style.display ="block";
+	
+	document.forms['replyModForm']['content'].style.display = "block";
+	document.forms['replyModForm']['content'].value = content;
+}
 
 
 		
