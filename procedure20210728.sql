@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  파일이 생성됨 - 화요일-7월-27-2021   
+--  파일이 생성됨 - 수요일-7월-28-2021   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Procedure P_ADMIN_LOGIN
@@ -533,7 +533,8 @@ END;
 --------------------------------------------------------
 set define off;
 
-  CREATE OR REPLACE PROCEDURE "BB"."P_GET_DELMEMLIST" (cur_mem OUT SYS_REFCURSOR)
+  CREATE OR REPLACE PROCEDURE "BB"."P_GET_DELMEMLIST" (cur_mem OUT SYS_REFCURSOR,
+                                            cur_mem_mag OUT SYS_REFCURSOR)
 IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
@@ -555,6 +556,24 @@ BEGIN
         ORDER BY 
         m.deldate,
         m.wdate desc;
+        
+        OPEN cur_mem_mag FOR
+        SELECT email,
+                count(case when (SELECT codename
+                                    FROM code c
+                                    WHERE c.category = '관리'
+                                    AND ma.magcode = c.codevalue) ='추천' then 1  end) as recommend,
+                count(case when (SELECT codename
+                                    FROM code c
+                                    WHERE c.category = '관리'
+                                    AND ma.magcode = c.codevalue)='신고' then 1  end) as  report
+                
+        FROM membermag ma, member m
+        
+        WHERE m.email = ma.to_mem(+)
+        GROUP BY email;
+        
+        
 
           EXCEPTION 
           WHEN OTHERS THEN
@@ -966,7 +985,8 @@ END;
 set define off;
 
   CREATE OR REPLACE PROCEDURE "BB"."P_GET_SEARCH_DEL_MEMLIST" ( v_condition VARCHAR2,
-                                               cur_mem OUT SYS_REFCURSOR)
+                                               cur_mem OUT SYS_REFCURSOR,
+                                               cur_mem_mag OUT SYS_REFCURSOR)
 IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
@@ -989,6 +1009,23 @@ BEGIN
         ORDER BY 
         m.deldate,
         m.wdate desc;
+        
+        
+    OPEN cur_mem_mag FOR
+        SELECT email,
+                count(case when (SELECT codename
+                                    FROM code c
+                                    WHERE c.category = '관리'
+                                    AND ma.magcode = c.codevalue) ='추천' then 1  end) as recommend,
+                count(case when (SELECT codename
+                                    FROM code c
+                                    WHERE c.category = '관리'
+                                    AND ma.magcode = c.codevalue)='신고' then 1  end) as  report
+                
+        FROM membermag ma, member m
+        
+        WHERE m.email = ma.to_mem(+)
+        GROUP BY email;
 
 
           EXCEPTION 
@@ -1012,7 +1049,8 @@ set define off;
 
   CREATE OR REPLACE PROCEDURE "BB"."P_GET_SEARCH_MEMLIST" (v_grade code.codevalue%TYPE,
                                                  v_condition member.email%TYPE,
-                                                 cur_mem OUT SYS_REFCURSOR)
+                                                 cur_mem OUT SYS_REFCURSOR,
+                                                cur_mem_mag OUT SYS_REFCURSOR)
 IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
@@ -1049,6 +1087,23 @@ BEGIN
 
         )
         ORDER BY m.wdate desc;
+
+     OPEN cur_mem_mag FOR
+        SELECT email,
+                count(case when (SELECT codename
+                                    FROM code c
+                                    WHERE c.category = '관리'
+                                    AND ma.magcode = c.codevalue) ='추천' then 1  end) as recommend,
+                count(case when (SELECT codename
+                                    FROM code c
+                                    WHERE c.category = '관리'
+                                    AND ma.magcode = c.codevalue)='신고' then 1  end) as  report
+                
+        FROM membermag ma, member m
+        
+        WHERE m.email = ma.to_mem(+)
+        GROUP BY email;
+
 
      EXCEPTION 
       WHEN OTHERS THEN
