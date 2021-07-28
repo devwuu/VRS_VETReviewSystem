@@ -93,20 +93,8 @@ public class AdminDao {
 			}
 			
 			
-			//memList에서 member 객체를 가져와 정보를 하나씩 비교
-			// email 일치시 추천/신고 건수 저장
-			
-			while(rs_memMag.next()) {
-				
-				for(Member m : memberList) {
-					if(m.getEmail().equals(rs_memMag.getString("email"))) {
-						m.setRecomCount(rs_memMag.getString("recommend"));
-						m.setReportCount(rs_memMag.getString("report"));
-					}
-					
-				}
-				
-			}
+			//member 객체에 추천 횟수/신고 횟수 저장
+			memberList = countReport(rs_memMag, memberList);
 			
 			
 			
@@ -125,30 +113,35 @@ public class AdminDao {
 		ArrayList<Member> delMemList = new ArrayList<>();
 		
 		try {
-			String sql = "{call p_get_delmemlist(?)}";
+			String sql = "{call p_get_delmemlist(?,?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 
 			stmt.registerOutParameter(1, OracleTypes.CURSOR);
+			stmt.registerOutParameter(2, OracleTypes.CURSOR);
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(1);
+			ResultSet memListCur = (ResultSet)stmt.getObject(1);
+			ResultSet memMagCur = (ResultSet)stmt.getObject(2);
 			
-			if(rs != null) {
-				while(rs.next()) {
+			if(memListCur != null) {
+				while(memListCur.next()) {
 					
 					Member m = new Member();
 					
-					m.setEmail(rs.getString("email"));
-					m.setNickName(rs.getString("nickname"));
-					m.setWdate(rs.getString("wdate"));
-					m.setIsDel(rs.getString("isdel"));
-					m.setDelDate(rs.getString("deldate"));
-					m.setGradeName(rs.getString("gradename"));
+					m.setEmail(memListCur.getString("email"));
+					m.setNickName(memListCur.getString("nickname"));
+					m.setWdate(memListCur.getString("wdate"));
+					m.setIsDel(memListCur.getString("isdel"));
+					m.setDelDate(memListCur.getString("deldate"));
+					m.setGradeName(memListCur.getString("gradename"));
 					
 					delMemList.add(m);
 					
 				}
 			}
+			
+			delMemList = countReport(memMagCur, delMemList);
+
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -164,34 +157,38 @@ public class AdminDao {
 		ArrayList<Member> memberList = new ArrayList<>();
 		
 		try {
-			String sql = "{call p_get_search_memlist(?, ?, ?)}";
+			String sql = "{call p_get_search_memlist(?, ?, ?,?)}";
 			CallableStatement stmt= dbconn.prepareCall(sql);
 			
 			stmt.setString(1, gradeCode);
 			stmt.setString(2, condition);
 			stmt.registerOutParameter(3, OracleTypes.CURSOR);
+			stmt.registerOutParameter(4, OracleTypes.CURSOR);
 			
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(3);
+			ResultSet memCur = (ResultSet)stmt.getObject(3);
+			ResultSet memMagCur = (ResultSet)stmt.getObject(4);
 			
-			if(rs != null) {
-				while(rs.next()){
+			if(memCur != null) {
+				while(memCur.next()){
 					
 					Member m = new Member();
 					
-					m.setEmail(rs.getString("email"));
-					m.setNickName(rs.getString("nickname"));
-					m.setWdate(rs.getString("wdate"));
-					m.setIsDel(rs.getString("isdel"));
-					m.setDelDate(rs.getString("deldate"));
-					m.setGradeName(rs.getString("gradename"));
+					m.setEmail(memCur.getString("email"));
+					m.setNickName(memCur.getString("nickname"));
+					m.setWdate(memCur.getString("wdate"));
+					m.setIsDel(memCur.getString("isdel"));
+					m.setDelDate(memCur.getString("deldate"));
+					m.setGradeName(memCur.getString("gradename"));
 					
 					memberList.add(m);
 					
 				}
 				
 			}
+			
+			memberList = countReport(memMagCur, memberList);
 		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -208,29 +205,33 @@ public class AdminDao {
 		
 		try {
 			
-			String sql = "{call  p_get_search_del_memlist(?, ?)}";
+			String sql = "{call  p_get_search_del_memlist(?, ?, ?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			stmt.setString(1, condition);
 			stmt.registerOutParameter(2, OracleTypes.CURSOR);
+			stmt.registerOutParameter(3, OracleTypes.CURSOR);
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(2);
+			ResultSet memCur = (ResultSet)stmt.getObject(2);
+			ResultSet memMagCur = (ResultSet)stmt.getObject(3);
 			
-			if(rs != null) {
-				while(rs.next()) {
+			if(memCur != null) {
+				while(memCur.next()) {
 					
 					Member m = new Member();
-					m.setEmail(rs.getString("email"));
-					m.setNickName(rs.getString("nickname"));
-					m.setWdate(rs.getString("wdate"));
-					m.setIsDel(rs.getString("isdel"));
-					m.setDelDate(rs.getString("deldate"));
-					m.setGradeName(rs.getString("gradename"));
+					m.setEmail(memCur.getString("email"));
+					m.setNickName(memCur.getString("nickname"));
+					m.setWdate(memCur.getString("wdate"));
+					m.setIsDel(memCur.getString("isdel"));
+					m.setDelDate(memCur.getString("deldate"));
+					m.setGradeName(memCur.getString("gradename"));
 					
 					memberList.add(m);
 					
 				}
 			}
+			
+			memberList = countReport(memMagCur, memberList);
 			
 		} catch (SQLException e) {
 			
@@ -266,8 +267,28 @@ public class AdminDao {
 	
 	
 	
-	
-	
+	//회원의 추천/신고 건수 저장
+	public ArrayList<Member> countReport(ResultSet rs, ArrayList<Member> memList) throws SQLException{
+		
+		while(rs.next()) {
+			
+			//email이 같은 member 객체에 추천/신고 건수 저장
+			for(Member m : memList) {
+				
+				if(m.getEmail().equals(rs.getString("email"))) {
+					
+					m.setRecomCount(rs.getString("recommend"));
+					m.setReportCount(rs.getString("report"));
+				
+				}
+			}
+			
+		}
+		
+		
+		return memList;
+		
+	}
 	
 	
 	

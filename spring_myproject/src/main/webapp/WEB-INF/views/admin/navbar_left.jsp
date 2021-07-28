@@ -8,6 +8,7 @@
 		<a id="memList" href="/admin/memList">회원관리</a>
 		<a id="delMemList" href="/admin/delMemList">탈퇴회원관리</a>
 		<a id="hospitalView" href="/admin/hospital/hospitalView">병원관리</a>
+		<a id="tagView" href="/admin/tag/tagView">병원태그관리</a>
 		<a id="area_menu" class="area_menu_class" onclick="area_drop_down()">지역별 리뷰</a>
 		<div id="area_drop" class="area_drop_class">
 			<a href="#">서울시</a>

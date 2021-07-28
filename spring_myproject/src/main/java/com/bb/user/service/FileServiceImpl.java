@@ -32,7 +32,7 @@ public class FileServiceImpl implements FileService {
 		
 		ServletContext ctx = session.getServletContext();
 		
-		String filePath = ctx.getRealPath("resources/upload")+File.separator;
+		String filePath = ctx.getRealPath("/resources/upload")+File.separator;
 		// 루트 밑의 upload폴더의 실제 경로를 가져옴
 		
 		String fileName = fileAttach.getOriginalFilename();

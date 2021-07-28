@@ -6,6 +6,7 @@ public class Code {
 	private String category;
 	private String codeName;
 	private String codeValue;
+	private String wdate;
 	
 	
 	
@@ -33,6 +34,12 @@ public class Code {
 	}
 	public void setCodeValue(String codeValue) {
 		this.codeValue = codeValue;
+	}
+	public String getWdate() {
+		return wdate;
+	}
+	public void setWdate(String wdate) {
+		this.wdate = wdate;
 	}
 	
 	
