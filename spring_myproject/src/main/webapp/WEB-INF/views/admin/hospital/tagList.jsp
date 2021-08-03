@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css_file/admin_css.css">
 <link rel="stylesheet" href="/css_file/tag_css.css">
+<link rel="stylesheet" href="/css_file/hospital_css.css">
 <script src="/js_file/admin_js.js"></script>
 
 <style>
@@ -21,6 +22,18 @@
 	}
 
 </style>
+
+<script>
+
+	window.onload = function(){
+		if(document.getElementById("codeResult").value == "1"){
+			alert("태그 등록이 완료되었습니다");
+		}else if(document.getElementById("codeResult").value == "2"){
+			alert("태그 삭제가 완료되었습니다");
+		}
+	}
+
+</script>
 
 
 
@@ -35,6 +48,8 @@
 
 <body>
 
+<!-- 태그 등록 모달 -->
+<%@include file="hosRegModal.jsp"%>	
 
 <!-- 헤더영역 -->
 <%@include file="../header_pj.jsp" %>	
@@ -46,7 +61,8 @@
 </c:if>
 </p>
 <%@include file="../navbar_mini.jsp" %>
-					
+
+				
 
 <!-- 메인내용(왼쪽 오른쪽 컬럼)		 -->
 	 <div id="main_content">
@@ -67,8 +83,11 @@
 			</div>
 						
 			<p id="page_infor">＠ 등록 태그 리스트</p>
-		 	<input id="delState" type="hidden" value="">
-			<div id="code_list">
+		 	<input id="codeResult" name="codeResult" type="hidden" value="${codeResult }">
+		 	<button id="tegRegButton" onclick="tegRegFormPlz()">태그 등록</button>
+		 	
+			<form name="tagDelForm" method="POST" action="/admin/tag/tagDel">
+				<div id="code_list">
 					<table cellspacing="0">
 					 	<thead>
 							<tr>
@@ -93,10 +112,11 @@
 						
 						<c:set var="cnt" value="${fn:length(tagList) }"/>
 						<c:forEach items="${tagList }" var="t">
+						
 							<tbody>
 								<tr>
 									<td class="check">
-									<input type="checkbox" name="selectEmail" value="" onclick="selectCheck(this)">
+									<input type="checkbox" name="codeValue" value="${t.codeValue }" onclick="selectCheck(this)">
 									</td>
 									<td>
 										${cnt }
@@ -117,8 +137,9 @@
 						</c:forEach>	
 					</table>
 					<br>
-					<input type="button" value="코드삭제" id="delbutton">
-			</div>
+					<input type="submit" value="태그 삭제" id="delbutton">
+				</div>
+			<form>
 			<div id="board_page">
 				<a>◀</a>
 				<a>1</a>

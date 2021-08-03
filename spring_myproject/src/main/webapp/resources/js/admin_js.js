@@ -171,3 +171,57 @@ function checkYN(){
 	return confirm("삭제하시겠습니까?");
 }
 
+
+//병원 태그 등록form 열기
+function tegRegFormPlz(){
+	document.getElementById("tagRegModal").style.display="block";
+}
+
+//병원 태그 등록form 닫기
+function tagRegFormClose(){	
+	document.getElementById("tagRegModal").style.display="none";
+}
+
+//병원 태그 value 중복 체크
+function tagValueCheck(){
+	
+	var checkValue = document.getElementById("tagValue").value;
+	
+	var x = new XMLHttpRequest();
+	
+	x.onreadystatechange = function(){
+		if(x.readyState === 4){
+			if(x.status === 200){
+				if(x.responseText.trim()=="0"){
+					document.getElementById("tagRegFormCheckFlag").value = "1";
+					alert("사용 가능한 코드번호 입니다.")
+				}else{					
+					document.getElementById("tagRegFormCheckFlag").value = "0";
+					alert("사용 불가한 코드번호 입니다.")
+				}
+			}
+		}
+	};
+	
+	x.open("POST", "/admin/tag/tagValueCheck", true);
+	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	x.send("checkValue="+checkValue);	
+	
+}
+
+
+//병원 태그 등록 form 체크
+function tagRegFormCheck(){
+	
+	if(document.getElementById("tagRegFormCheckFlag").value == "1"){
+		return true;
+		
+	}else{
+		alert("코드 번호를 확인해주세요.");
+		return false;
+	}
+
+}
+
+
+

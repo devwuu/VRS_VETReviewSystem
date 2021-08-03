@@ -264,6 +264,24 @@
 
 
 
+<!-- 		태그 등록 modal -->
+<div id="tagRegModal">
+	<div id="tagRegFormDiv">
+		<button id="modalClose" onclick="tagRegFormClose()">X</button>
+		<p id="modalInfor">Tag Reg</p>
+		<form id="tagRegForm" name="tagRegForm" onsubmit="return tagRegFormCheck()" action="/admin/tag/tagReg">
+			
+			 <p>태그 이름: <input type="text" id="tagName" name="codeName" required maxlength="10"> </p>
+			 <p>태그 번호: <input type="text" id="tagValue" name="codeValue" required maxlength="5" onchange="tagValueCheck()"> </p>
+			 <input type="hidden" id="tagRegFormCheckFlag" name="tagRegFormCheckFlag">
+			 <br>
+			
+			<input id="tagRegSubmit" type="submit" value="등록">	 
+		</form>
+	</div>
+</div>
+
+
 
 
 </body>

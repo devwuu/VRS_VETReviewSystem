@@ -66,6 +66,16 @@ input#delbutton{
 	margin-right:5px;
 }
 
+
+#tegRegButton{
+	margin-left:auto;
+	width:80px;
+	margin-right:5px;
+	margin-bottom: 10px;
+}
+
+
+
 /* 게시물 페이지 영역 */
 #board_page{
 	position:relative;
