@@ -28,5 +28,11 @@ public interface MemberService {
 	
 	//회원 정보 찾기
 	int findMember(String email);
+
+	//회원 추천
+	int recommendUser(String sessionId, String recomUser);
+
+	//회원신고
+	int reportUser(String sessionId, String reportUser);
 	
 }

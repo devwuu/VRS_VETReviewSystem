@@ -166,6 +166,21 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 
+	@Override
+	public int recommendReview(String sessionId, String reviewNo) {
+
+		return boardDao.recommendReview(sessionId, reviewNo);
+	}
+
+
+	@Override
+	public int reviewReport(String sessionId, String reviewNo) {
+		
+		return boardDao.reviewReport(sessionId, reviewNo);
+	}
+
+
+
 
 
 
@@ -202,6 +217,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		return sr;
 	}
+
 
 
 

@@ -334,6 +334,41 @@ public class BoardController {
 	}
 	
 	
+	//리뷰 추천
+	@RequestMapping("reviewRecommendProc")
+	public ResponseEntity<String> reviewRecommendProc(String sessionId, String reviewNo) {
+		
+		int rs = bs.recommendReview(sessionId, reviewNo);
+		
+		String rsString = Integer.toString(rs);
+		
+		return new ResponseEntity<>(rsString, HttpStatus.OK);
+	}
+	
+	
+	//리뷰신고
+	@RequestMapping("reviewReportProc")
+	public ResponseEntity<String> reviewReportProc(String sessionId, String reviewNo) {
+		
+		int rs = bs.reviewReport(sessionId, reviewNo);
+		
+		String rsString = Integer.toString(rs);
+		
+		return new ResponseEntity<>(rsString, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

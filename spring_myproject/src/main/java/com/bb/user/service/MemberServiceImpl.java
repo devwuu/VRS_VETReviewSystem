@@ -118,4 +118,16 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public int recommendUser(String sessionId, String recomUser) {
+		
+		return mDao.recommendUser(sessionId, recomUser);
+	}
+
+	@Override
+	public int reportUser(String sessionId, String reportUser) {
+		
+		return mDao.reportUser(sessionId, reportUser);
+	}
+
 }

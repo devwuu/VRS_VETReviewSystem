@@ -497,5 +497,144 @@ function replyModFormShow(content){
 }
 
 
-		
 
+//회원 신고/추천 div open
+function userReportDivPlz(){
+	
+	if(document.getElementById("userRecommOrReport").style.display == "block"){
+		document.getElementById("userRecommOrReport").style.display = "none";
+	}else{
+		document.getElementById("userRecommOrReport").style.display = "block";
+	}
+	
+}		
+
+
+//회원 추천
+function userRecommend(sessionId, recomUser){
+	
+	if(sessionId == ""){
+		
+//		로그인 시에만 유저 추천 가능
+		alert("회원 전용 기능입니다.");
+	}else{
+		
+		var x = new XMLHttpRequest();
+		
+		x.onreadystatechange = function(){
+			
+			if(x.readyState === 4){
+				if(x.status === 200){
+					
+					if(x.responseText.trim()=="1"){
+						alert("회원 추천 완료");
+					}else{
+						alert("회원 추천 실패");
+					}
+				}
+			}
+		};
+		
+		x.open("POST", "/member/userRecommendProc", true);
+		
+		x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+		x.send("sessionId="+sessionId+"&recomUser="+recomUser);
+		
+	}
+	
+}
+
+
+//회원 신고
+function userReport(sessionId, reportUser){
+	
+	if(sessionId==""){
+		alert("회원 전용 기능입니다");
+	}else{
+		
+		var x = new XMLHttpRequest();
+		
+		x.onreadystatechange = function(){
+			
+			if(x.readyState === 4){
+				if(x.status === 200){
+					
+					if(x.responseText.trim()=="1"){
+						alert("회원 신고 완료");
+					}else{
+						alert("회원 신고 실패");
+					}
+				}
+			}
+		};
+		
+		
+		x.open("POST","/member/userReportProc",true);
+		
+		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		
+		x.send("sessionId="+sessionId+"&reportUser="+reportUser);		
+	}
+	
+}
+
+
+
+//리뷰 추천
+function reviewRecommend(sessionId, reviewNo){
+	
+	var x = new XMLHttpRequest();
+	
+	x.onreadystatechange = function(){
+		if(x.readyState === 4){
+			if(x.status === 200){
+				
+				if(x.responseText.trim()=="1"){
+					alert("리뷰 추천 완료")	;
+				}else{
+					alert("리뷰 추천 실패");
+				}
+			}	
+		}
+	};
+	
+	x.open("POST","/board/reviewRecommendProc",true);
+	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	x.send("sessionId="+sessionId+"&reviewNo="+reviewNo);
+	
+}
+
+
+//리뷰 신고
+function reviewReport(sessionId, reviewNo){
+	var x = new XMLHttpRequest();
+	x.onreadystatechange = function(){
+		if(x.readyState === 4){
+			if(x.status === 200){
+				if(x.responseText.trim()=="1"){
+					alert("리뷰 신고 완료");
+				}else{
+					alert("리뷰 신고 실패");
+				}
+			}
+		}
+	};
+	
+	x.open("POST","/board/reviewReportProc",true);
+	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	x.send("sessionId="+sessionId+"&reviewNo="+reviewNo);
+}
+
+
+//리플 작성자 신고/추천 박스 open
+function replyUserRecommOrReportPlz(replyNo){
+	
+	if(document.getElementById("replyUserRecommOrReport"+replyNo).style.display=="block"){
+		
+		document.getElementById("replyUserRecommOrReport"+replyNo).style.display = "none";
+	}else{
+		document.getElementById("replyUserRecommOrReport"+replyNo).style.display = "block"
+	}
+	
+}

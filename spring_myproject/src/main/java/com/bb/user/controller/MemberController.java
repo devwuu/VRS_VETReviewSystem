@@ -237,6 +237,30 @@ public class MemberController {
     }
 
     
+    //회원추천
+    @RequestMapping("userRecommendProc")
+    public ResponseEntity<String> userRecommendProc(String sessionId, String recomUser) {
+    	
+    	int rs = ms.recommendUser(sessionId, recomUser);
+    	
+    	String rsString = Integer.toString(rs);
+    	
+    	return new ResponseEntity<>(rsString, HttpStatus.OK);
+    }
+    
+    
+    //회원 신고
+    @RequestMapping("userReportProc")
+    public ResponseEntity<String> userReportProc(String sessionId, String reportUser) {
+    	
+    	int rs = ms.reportUser(sessionId, reportUser);
+    	
+    	String rsString = Integer.toString(rs);
+    	
+    	return new ResponseEntity<>(rsString, HttpStatus.OK);
+    }
+    
+    
 	
 
 }

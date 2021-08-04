@@ -139,6 +139,11 @@ button{
 	
 }
 
+
+
+
+
+
 /* 글수정 및 작성 페이지 */
 #title_cont, #date_cont, #email_cont, #cont_input, #file_area, #modi{
 	margin:10px 0 6px 10px;
@@ -172,8 +177,6 @@ input#goList{
 	margin-top:10px;
 	margin-right:5px;
 }
-
-
 
 
 

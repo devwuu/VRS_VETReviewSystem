@@ -244,6 +244,53 @@ public class MemberDao {
 		}
 		return rs;
 	}
+
+	
+	//회원 추천
+	public int recommendUser(String sessionId, String recomUser) {
+		
+		String sql = "INSERT INTO membermag(memmagno, from_mem, to_mem, magcode) "
+				   + "VALUES (MEMMAGNO.nextval, ?, ?, 1)";		
+		
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, sessionId);
+			stmt.setString(2, recomUser);
+			
+			rs = stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+
+	
+	//회원 신고
+	public int reportUser(String sessionId, String reportUser) {
+		
+		String sql = "INSERT INTO membermag(memmagno, from_mem, to_mem, magcode) "
+				   + "VALUES (MEMMAGNO.nextval, ?, ?, 2)";		
+		
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, sessionId);
+			stmt.setString(2, reportUser);
+			
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
 	
 	
 	

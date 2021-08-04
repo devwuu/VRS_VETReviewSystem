@@ -75,6 +75,12 @@ public interface BoardService {
 
 	//덧글 수정
 	int updateReply(int replyNo, String content);
+
+	//리뷰 추천
+	int recommendReview(String sessionId, String reviewNo);
+
+	//리뷰 신고
+	int reviewReport(String sessionId, String reviewNo);
 	
 	
 }

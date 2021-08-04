@@ -34,6 +34,15 @@
 	color:#4d5966;
 }
 
+#email_cont{
+	cursor:pointer;
+}
+
+#email_cont a:hover{
+	background-color:#b0e0e6;
+	font-weight: bold;
+}
+
 #content_view{
 	
 	background-color:#ffffff;
@@ -54,7 +63,7 @@ form{
 }
 
 #file_view{
-	padding:10px 3px 3px 10px;
+	padding:0px 3px 3px 10px;
 	font-weight: bold;
 }
 
@@ -72,6 +81,45 @@ input#goList{
 	float:right;
 	margin-top:10px;
 	margin-right:5px;
+}
+
+/* 회원 추천 신고 */
+#userRecommOrReport{
+	margin:10px 5px 10px 15px;
+	color:#4d5966;
+	display:none;
+}
+
+#userRecommOrReport a{
+	cursor:pointer;
+}
+
+#userRecommOrReport a:hover{
+	background-color:#b0e0e6;
+	font-weight:bold;
+}
+
+
+/* 추천 신고 버튼 */
+#recommOrReport, #recommOrReport td, #recommOrReport tr{
+	border : none;	
+}
+
+
+table#recommOrReport{
+	margin-left:10px;
+	margin-top:15px;
+}
+
+
+#reportIcon{
+	padding-left:15px;
+}
+
+#recommOrReport i:hover{
+	color:#b0e0e6 !important;
+	font-weight:bold;
+	cursor:pointer;
 }
 
 
@@ -130,6 +178,37 @@ input#replySubmit{
 #replyModFormSubmit{
 	display:none;
 }
+
+
+#replyEmail:hover{
+	background-color:#b0e0e6 !important;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+
+
+
+/* 리플 작성자 추천 신고 버튼 */
+
+.replyUserRecommOrReport{
+	margin:5px 5px 10px 5px;
+	color:#4d5966;
+	display:none;
+}
+
+.replyUserRecommOrReport a{
+	cursor:pointer;
+}
+
+.replyUserRecommOrReport a:hover{
+	background-color:#b0e0e6;
+	font-weight:bold;
+}
+
+
+
+
 
 @media only screen and (max-width:850px){
 	

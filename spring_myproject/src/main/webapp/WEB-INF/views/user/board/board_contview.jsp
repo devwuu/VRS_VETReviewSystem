@@ -19,8 +19,7 @@
 
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 <style>
 	
 	
@@ -85,11 +84,12 @@ window.onload = function(){
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 		
-<!-- 			리뷰 내용 본문 div -->
 
 <!-- 			리플 수정 상태 체크 -->
 			<input type="hidden" id="replyStat" value="${replyStat }">
 
+
+<!-- 			리뷰 내용 본문 div -->
 			<div id="reviewContent">
 			<c:set value="${review }" var="r"/>
 			
@@ -132,7 +132,14 @@ window.onload = function(){
 					</i>
 				</c:if>
 				
-				<p id="email_cont"><b>Email</b>: ${r.writer}</p>
+				<p id="email_cont" onclick="userReportDivPlz()"><a><b>Email</b>: ${r.writer}</a></p>
+				
+<!-- 				회원 추천 신고  -->
+				<div id="userRecommOrReport">
+					<a onclick="userRecommend('${sess_id }','${r.writer }')">회원 추천</a> <b>/</b>
+					<a onclick="userReport('${sess_id }','${r.writer }')">회원 신고</a>
+				</div>
+				
 				<p id="date_cont"><b>Date</b> : ${r.wdate}</p>
 				<p id="date_cont"><b>ModDate</b> : ${r.mdate}</p>
 				<div id = "content_view">
@@ -199,6 +206,22 @@ window.onload = function(){
 					</c:if>
 				</c:if>
 				
+<!-- 				리뷰 추천 / 신고 -->
+				<c:if test="${ sess_id != null }">
+					<table cellspacing="0" id="recommOrReport">
+						<tr>
+							<td>
+								<i class="material-icons" style="color:#4d5966" onclick="reviewRecommend('${sess_id }','${r.reviewNo }')">thumb_up</i>
+							</td>
+													
+							<td id="reportIcon">
+								<i class="material-icons" style="color:#4d5966" onclick="reviewReport('${sess_id }','${r.reviewNo }')">thumb_down</i>
+							</td>
+						</tr>
+					</table>
+				</c:if>
+				
+				
 				<c:set value="${r.fileAttached }" var="f"/>
 				<div id="file_view">
 					<c:if test="${r.fileAttached != null }">
@@ -244,7 +267,14 @@ window.onload = function(){
 					<c:forEach items="${r.replyList }" var="p">
 						<tr>
 							<td>
-								<b>${p.email }</b> / ${p.wdate }
+								<a id="replyEmail" onclick="replyUserRecommOrReportPlz('${p.replyNo }')"><b>${p.email }</b></a> / ${p.wdate }
+								
+								<div class="replyUserRecommOrReport" id="replyUserRecommOrReport${p.replyNo }">
+									<a onclick="userRecommend('${sess_id }','${p.email }')">회원 추천</a> <b>/</b>
+									<a onclick="userReport('${sess_id }','${p.email }')">회원 신고</a>
+								</div>
+								
+								
 								<div id="replyListContent">${p.content }</div>
 								
 <!-- 								리플 수정용 폼 -->

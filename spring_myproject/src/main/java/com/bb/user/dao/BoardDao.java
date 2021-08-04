@@ -827,6 +827,60 @@ public class BoardDao {
 		return rs;
 	}
 
+
+	
+	//리뷰 추천
+	public int recommendReview(String sessionId, String reviewNo) {
+		
+		String sql = "INSERT INTO reviewmag(revmagno, from_mem, to_review, magcode)"
+				   + " VALUES (REVMAGNO.nextval, ?, ?, 1)";
+		
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = dbconn.prepareStatement(sql);
+			
+			stmt.setString(1, sessionId);
+			stmt.setString(2, reviewNo);
+			
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+
+	
+	//리뷰 신고
+	public int reviewReport(String sessionId, String reviewNo) {
+		
+		String sql = "INSERT INTO reviewmag(revmagno, from_mem, to_review, magcode)"
+				   + " VALUES (REVMAGNO.nextval, ?, ?, 2)";
+		
+		int rs = 0;
+		
+		try {
+			PreparedStatement stmt = dbconn.prepareCall(sql);
+			stmt.setString(1, sessionId);
+			stmt.setString(2, reviewNo);
+			
+			rs = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+	
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+
+
+	
+	
+	
 	
 	
 	
@@ -850,6 +904,8 @@ public class BoardDao {
 		}
 	
 	}
+
+
 
 
 

@@ -359,7 +359,7 @@ div#notice_list{
 	background-color: #b0e0e6;
 }
 
-#noticeListIndex tr, td{
+#noticeListIndex tr, #noticeListIndex td{
 	border:1px dotted #000000;
 }
 
