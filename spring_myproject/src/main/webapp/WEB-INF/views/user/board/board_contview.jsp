@@ -207,19 +207,21 @@ window.onload = function(){
 				</c:if>
 				
 <!-- 				리뷰 추천 / 신고 -->
-				<c:if test="${ sess_id != null }">
-					<table cellspacing="0" id="recommOrReport">
-						<tr>
-							<td>
-								<i class="material-icons" style="color:#4d5966" onclick="reviewRecommend('${sess_id }','${r.reviewNo }')">thumb_up</i>
-							</td>
-													
-							<td id="reportIcon">
-								<i class="material-icons" style="color:#4d5966" onclick="reviewReport('${sess_id }','${r.reviewNo }')">thumb_down</i>
-							</td>
-						</tr>
-					</table>
-				</c:if>
+
+				<table cellspacing="0" id="recommOrReport">
+					<tr>
+						<td>
+							<i class="material-icons" style="color:#4d5966" onclick="reviewRecommend('${sess_id }','${r.reviewNo }')">thumb_up</i> 
+							<a id="countRecommend" style="font-size:15px; color:#4d5966">${r.recommend }</a>
+						</td>
+												
+						<td id="reportIcon">
+							<i class="material-icons" style="color:#4d5966" onclick="reviewReport('${sess_id }','${r.reviewNo }')">thumb_down</i> 
+							<a id="countReport" style="font-size:15px; color:#4d5966">${r.report }</a>
+						</td>
+					</tr>
+				</table>
+
 				
 				
 				<c:set value="${r.fileAttached }" var="f"/>

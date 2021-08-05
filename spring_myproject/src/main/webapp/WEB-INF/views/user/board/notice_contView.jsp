@@ -56,7 +56,7 @@
 			<c:set value="${notice }" var="n"/>
 			<p id="page_infor">＠ 공지사항</p>
 			<p id="title_cont"><b>Title</b> : ${n.title }</p>
-			<p id="email_cont"><b>Writer</b>: ${n.gradeName }</p>
+			<p id="email_cont" style="cursor:text;"><b>Writer</b>: ${n.gradeName }</p>
 			<p id="date_cont"><b>wDate</b> : ${n.wdate }</p>
 			<p id="date_cont"><b>mDate</b> : ${n.mdate }</p>
 			<div id = "content_view">

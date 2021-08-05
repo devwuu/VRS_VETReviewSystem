@@ -79,32 +79,44 @@ public class BoardDao {
 		HashMap<String, Object> map = new HashMap<>();
 		
 		try {
-			String sql = "{call p_get_boardlist(?,?,?,?)}";
+			String sql = "{call p_get_boardlist(?,?,?,?,?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			stmt.setString(1, no);
 			stmt.setString(2, pageNum);
 			stmt.registerOutParameter(3, OracleTypes.CURSOR);
 			stmt.registerOutParameter(4, OracleTypes.INTEGER);
+			stmt.registerOutParameter(5, OracleTypes.CURSOR);
 			
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(3);
+			ResultSet rsList = (ResultSet)stmt.getObject(3);
+			ResultSet rsMag = (ResultSet)stmt.getObject(5);
 
-			while(rs.next()) {
+			while(rsList.next()) {
 				
 				Review r = new Review();
-				r.setReviewNo(rs.getString("review_no"));
-				r.setTitle(rs.getString("title"));
-				r.setContent(rs.getString("content"));
-				r.setCount(rs.getString("count"));
-				r.setWdate(rs.getString("wdate"));
-				r.setMdate(rs.getString("mdate"));
-				r.setWriter(rs.getString("email"));
+				r.setReviewNo(rsList.getString("review_no"));
+				r.setTitle(rsList.getString("title"));
+				r.setContent(rsList.getString("content"));
+				r.setCount(rsList.getString("count"));
+				r.setWdate(rsList.getString("wdate"));
+				r.setMdate(rsList.getString("mdate"));
+				r.setWriter(rsList.getString("email"));
 				
 				reviewList.add(r);
 			}
 			
-			rs.close();
+			while(rsMag.next()) {
+				for(Review r : reviewList) {
+					if(r.getReviewNo().equals(rsMag.getString("review_no"))) {
+						r.setRecommend(rsMag.getInt("recommend"));
+						r.setReport(rsMag.getInt("report"));
+					}
+				}
+			}
+			
+			rsList.close();
+			rsMag.close();
 			
 			Page page = new Page(Integer.parseInt(pageNum), stmt.getInt(4));
 			
@@ -126,7 +138,7 @@ public class BoardDao {
 	public Review getReviewContent(String no, String email) {
 		//리뷰 세부 내용 조회
 		
-		String sql = "{call p_get_review_content(?,?,?,?)}";
+		String sql = "{call p_get_review_content(?,?,?,?,?,?)}";
 		Review r = new Review();
 		ArrayList<Reply> replyList = new ArrayList<>();
 		
@@ -138,13 +150,19 @@ public class BoardDao {
 			stmt.registerOutParameter(2, OracleTypes.CURSOR);
 			stmt.registerOutParameter(3, OracleTypes.INTEGER);
 			stmt.setString(4, email);
+			stmt.registerOutParameter(5, OracleTypes.INTEGER);
+			stmt.registerOutParameter(6, OracleTypes.INTEGER);
 			
 			stmt.executeQuery();
 			
 			ResultSet rs = (ResultSet)stmt.getObject(2);
 			int bookmarkCheck = stmt.getInt(3);
+			int recommend = stmt.getInt(5);
+			int report  = stmt.getInt(6);
 			
 			r.setBookMarkCheck(bookmarkCheck);
+			r.setRecommend(recommend);
+			r.setReport(report);
 			
 			if(rs.next()) {
 				

@@ -176,6 +176,12 @@
 								<b>작성자</b>
 							</td>
 							<td class="cnt">
+								<b>추천수</b>
+							</td>
+							<td class="cnt">
+								<b>신고수</b>
+							</td>
+							<td class="cnt">
 								<b>조회수</b>
 							</td>
 						</tr>
@@ -219,6 +225,12 @@
 								</td>
 								<td>
 									${list.writer }
+								</td>
+								<td>
+									${list.recommend }
+								</td>
+								<td>
+									${list.report }
 								</td>
 								<td>
 									${list.count }

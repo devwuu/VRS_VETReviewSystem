@@ -120,6 +120,11 @@ table#recommOrReport{
 	color:#b0e0e6 !important;
 	font-weight:bold;
 	cursor:pointer;
+	
+}
+
+#recommOrReport i{
+	vertical-align : middle;
 }
 
 

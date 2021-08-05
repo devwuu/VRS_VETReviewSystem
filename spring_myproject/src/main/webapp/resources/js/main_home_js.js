@@ -584,46 +584,72 @@ function userReport(sessionId, reportUser){
 //리뷰 추천
 function reviewRecommend(sessionId, reviewNo){
 	
-	var x = new XMLHttpRequest();
+	var count = document.getElementById("countRecommend").innerHTML;
+
+//	count타입을 number로 변환
+	count *= 1;
 	
-	x.onreadystatechange = function(){
-		if(x.readyState === 4){
-			if(x.status === 200){
-				
-				if(x.responseText.trim()=="1"){
-					alert("리뷰 추천 완료")	;
-				}else{
-					alert("리뷰 추천 실패");
-				}
-			}	
-		}
-	};
+	if(sessionId==""){
+		alert("회원 전용 기능입니다.");
+	}else{
+		var x = new XMLHttpRequest();
+		
+		x.onreadystatechange = function(){
+			if(x.readyState === 4){
+				if(x.status === 200){
+					
+					if(x.responseText.trim()=="1"){
+						alert("리뷰 추천 완료")	;
+						document.getElementById("countRecommend").innerHTML = count+1;
+					}else{
+						alert("리뷰 추천 실패");
+					}
+				}	
+			}
+		};
+		
+		x.open("POST","/board/reviewRecommendProc",true);
+		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		x.send("sessionId="+sessionId+"&reviewNo="+reviewNo);
+		
+	}
 	
-	x.open("POST","/board/reviewRecommendProc",true);
-	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	x.send("sessionId="+sessionId+"&reviewNo="+reviewNo);
 	
 }
 
 
 //리뷰 신고
 function reviewReport(sessionId, reviewNo){
-	var x = new XMLHttpRequest();
-	x.onreadystatechange = function(){
-		if(x.readyState === 4){
-			if(x.status === 200){
-				if(x.responseText.trim()=="1"){
-					alert("리뷰 신고 완료");
-				}else{
-					alert("리뷰 신고 실패");
+	
+	var count = document.getElementById("countReport").innerHTML;
+	
+//	count타입을 number로 변환
+	count *= 1;
+	
+	if(sessionId == ""){
+		alert("회원 전용 기능입니다.");
+		
+	}else{
+		var x = new XMLHttpRequest();
+		x.onreadystatechange = function(){
+			if(x.readyState === 4){
+				if(x.status === 200){
+					if(x.responseText.trim()=="1"){
+						alert("리뷰 신고 완료");
+						document.getElementById("countReport").innerHTML = count+1;
+					}else{
+						alert("리뷰 신고 실패");
+					}
 				}
 			}
-		}
-	};
+		};
+		
+		x.open("POST","/board/reviewReportProc",true);
+		x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		x.send("sessionId="+sessionId+"&reviewNo="+reviewNo);
+		
+	}
 	
-	x.open("POST","/board/reviewReportProc",true);
-	x.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	x.send("sessionId="+sessionId+"&reviewNo="+reviewNo);
 }
 
 

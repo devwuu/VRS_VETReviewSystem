@@ -22,6 +22,8 @@ public class Review {
 	//해당 게시글의 url
 	
 	private ArrayList<Reply> replyList;
+	private int recommend;
+	private int report;
 	
 	
 	
@@ -98,6 +100,18 @@ public class Review {
 	}
 	public void setReplyList(ArrayList<Reply> replyList) {
 		this.replyList = replyList;
+	}
+	public int getRecommend() {
+		return recommend;
+	}
+	public void setRecommend(int recommend) {
+		this.recommend = recommend;
+	}
+	public int getReport() {
+		return report;
+	}
+	public void setReport(int report) {
+		this.report = report;
 	}
 	
 	
