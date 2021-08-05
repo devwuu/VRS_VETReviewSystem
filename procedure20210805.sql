@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  颇老捞 积己凳 - 荐夸老-7岿-28-2021   
+--  颇老捞 积己凳 - 格夸老-8岿-05-2021   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Procedure P_ADMIN_LOGIN
@@ -421,7 +421,8 @@ set define off;
   CREATE OR REPLACE PROCEDURE "BB"."P_GET_BOARDLIST" (v_hospitalNo NUMBER,
                                             v_pagenum NUMBER,
                                             cur_review OUT SYS_REFCURSOR,
-                                            v_totlepage OUT NUMBER)
+                                            v_totlepage OUT NUMBER,
+                                            cur_reviewmag OUT SYS_REFCURSOR)
 IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
@@ -447,6 +448,23 @@ BEGIN
     FROM review r
     WHERE hospitalno = v_hospitalNo;
     
+    OPEN cur_reviewmag FOR
+    SELECT  review_no,
+        COUNT(CASE WHEN ( SELECT codename
+                        FROM code c
+                        WHERE c.category = '包府'
+                        AND c.codevalue = m.magcode) = '眠玫'
+    
+               THEN 1 END) recommend,
+        COUNT(CASE WHEN(SELECT codename
+                        FROM code c
+                        WHERE c.category = '包府'
+                        AND c.codevalue = m.magcode) ='脚绊'
+               THEN 0 END) report
+    FROM review r, reviewmag m
+    WHERE r.review_no = m.to_review(+)
+    GROUP BY review_no;
+        
 
     EXCEPTION 
     WHEN OTHERS THEN
@@ -905,7 +923,9 @@ set define off;
   CREATE OR REPLACE PROCEDURE "BB"."P_GET_REVIEW_CONTENT" (v_review_no review.review_no%TYPE,
                                                  cur_review_content OUT SYS_REFCURSOR,
                                                  v_bookmark OUT NUMBER,
-                                                 v_email bookmark.email%TYPE)
+                                                 v_email bookmark.email%TYPE,
+                                                 v_recommend OUT NUMBER,
+                                                 v_report OUT NUMBER)
 IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
@@ -964,6 +984,28 @@ BEGIN
    FROM bookmark
    WHERE email =  v_email
    AND reviewno = v_review_no;
+   
+       
+    SELECT  COUNT(CASE WHEN ( SELECT codename
+                            FROM code c
+                            WHERE c.category = '包府'
+                            AND c.codevalue = m.magcode) = '眠玫'
+        
+                   THEN 1 END) recommend,
+            COUNT(CASE WHEN(SELECT codename
+                            FROM code c
+                            WHERE c.category = '包府'
+                            AND c.codevalue = m.magcode) ='脚绊'
+                   THEN 0 END) report
+    INTO v_recommend, v_report
+    FROM review r, reviewmag m
+    WHERE r.review_no =  v_review_no
+    AND r.review_no = m.to_review(+)
+    GROUP BY review_no;
+   
+   
+   
+   
 
    EXCEPTION
    WHEN OTHERS THEN
