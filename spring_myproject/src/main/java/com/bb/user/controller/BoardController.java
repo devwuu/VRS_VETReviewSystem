@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -129,9 +130,13 @@ public class BoardController {
 	public String hospitalList(String location, Model model) {
 
 		
-		ArrayList<Hospital> hospitalList = bs.getHospitalList(location);
+		HashMap<String, Object> result = bs.getHospitalList(location);
+		
+		ArrayList<Hospital> hospitalList = (ArrayList<Hospital>)result.get("hospital");
+		ArrayList<Code> codeList = (ArrayList<Code>)result.get("codeList");
 		
 		model.addAttribute("hospitalList", hospitalList);
+		model.addAttribute("codeList", codeList);
 		model.addAttribute("location", location);
 		
 		
@@ -151,7 +156,7 @@ public class BoardController {
 		model.addAttribute("reviewList", (ArrayList<Review>)map.get("reviewList"));
 		model.addAttribute("page", (Page)map.get("page"));
 		
-		Page p = (Page)map.get("page");
+//		Page p = (Page)map.get("page");
 			
 		model.addAttribute("hospital", hospital);
 		
@@ -359,7 +364,15 @@ public class BoardController {
 	
 	
 	
-	
+	//병원 검색(태그별)
+	@RequestMapping("searchHospital")
+	public void searchHospital(String[] hospitalSearchCondition, String location) {
+		
+		// location, code total list, 병원 list
+		
+		HashMap<String, Object> result = bs.searchHospital(hospitalSearchCondition, location);
+		
+	}
 	
 	
 	
@@ -383,7 +396,9 @@ public class BoardController {
 	@RequestMapping("hospitalListSns")
 	public String hospitalListSns(String location, Model model) {
 
-		ArrayList<Hospital> hospitalList = bs.getHospitalList(location);
+		HashMap<String, Object> result = bs.getHospitalList(location);
+		
+		ArrayList<Hospital> hospitalList = (ArrayList<Hospital>)result.get("hospital");
 		
 		model.addAttribute("hospitalList", hospitalList);
 		model.addAttribute("location", location);

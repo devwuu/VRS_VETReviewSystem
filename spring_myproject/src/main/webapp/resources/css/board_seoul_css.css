@@ -49,6 +49,27 @@ img#hospitalImg, #bookmark_hos{
 	margin-top:33px;
 }
 
+
+
+/* 병원 검색  */
+div#hospital_search_box{
+	margin:30px 10px 5px auto;
+	height:30px;
+}
+
+#hospital_search_box a{
+	color:#4d5966;
+	margin-right:5px;
+}
+
+#hospital_search_confirm{
+	margin-left:5px;
+}
+
+
+
+
+
 /* 게시글-병원 세부 정보 */
 #hospital_view{
 	border:1px dotted #DCDCDC;

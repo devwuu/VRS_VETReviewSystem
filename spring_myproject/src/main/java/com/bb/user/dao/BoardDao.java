@@ -26,6 +26,8 @@ import com.bb.user.dto.SnsReview;
 
 import oracle.jdbc.OracleType;
 import oracle.jdbc.OracleTypes;
+import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
 
 
 
@@ -702,45 +704,51 @@ public class BoardDao {
 	
 	
 	//병원 리스트 출력
-	public ArrayList<Hospital> getHospitalList(String location) {
+	public HashMap<String, Object> getHospitalList(String location) {
 	
+		//return 할 객체
+		HashMap<String, Object> result = new HashMap<>();
 		
+		//병원 정보를 담기 위해 사용하는 객체
 		ArrayList<Hospital> hospitalList = new ArrayList<>();
-		ArrayList<Code> codeList = null;
+		ArrayList<Code> hospitalCodeList = null;
 		String prvHosNo = null;		
 		
 		try {
-			String sql ="{call p_get_hospital_user(?,?)}";
+			String sql ="{call p_get_hospital_user(?,?,?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			
 			stmt.setString(1, location);
 			stmt.registerOutParameter(2, OracleTypes.CURSOR);
+			stmt.registerOutParameter(3, OracleTypes.CURSOR);
 
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(2);
+			ResultSet rsHospital = (ResultSet)stmt.getObject(2);
+			ResultSet rsCode = (ResultSet)stmt.getObject(3);
 			
 			
-			while(rs.next()) {
+//			병원 정보를 저장
+			while(rsHospital.next()) {
 				
 				//이전 병원 번호와 현재 병원 번호가 같지 않을 때 새로운 hospital 객체 생성
-				if(!rs.getString("hospitalno").equals(prvHosNo)) {
+				if(!rsHospital.getString("hospitalno").equals(prvHosNo)) {
 					
 					Hospital h = new Hospital();
 					
 					//hospital에 연결해줄 병원태그 arrayList 초기화(갱신)
 					//hospital No가 바뀔 때마다 새로운 객체로 갱신되게 한다.
-					codeList = new ArrayList<>();
+					hospitalCodeList = new ArrayList<>();
 					
 					
-					h.setHospitalNo(rs.getString("hospitalno"));
-					h.setHospitalName(rs.getString("hospitalname"));
-					h.setHospitalTel(rs.getString("hospitaltel"));
-					h.setPost(rs.getString("post"));
-					h.setHospitalAdd1(rs.getString("hospitaladd1"));
-					h.setHospitalAdd2(rs.getString("hospitaladd2"));
-					h.setHospitalAdd3(rs.getString("hospitaladd3"));
-					h.setCode(codeList);
+					h.setHospitalNo(rsHospital.getString("hospitalno"));
+					h.setHospitalName(rsHospital.getString("hospitalname"));
+					h.setHospitalTel(rsHospital.getString("hospitaltel"));
+					h.setPost(rsHospital.getString("post"));
+					h.setHospitalAdd1(rsHospital.getString("hospitaladd1"));
+					h.setHospitalAdd2(rsHospital.getString("hospitaladd2"));
+					h.setHospitalAdd3(rsHospital.getString("hospitaladd3"));
+					h.setCode(hospitalCodeList);
 					
 				
 					hospitalList.add(h);
@@ -756,20 +764,42 @@ public class BoardDao {
 				Code c = new Code();
 				
 				c.setCategory("병원태그");
-				c.setCodeName(rs.getString("codename"));
-				c.setCodeValue(rs.getString("codevalue"));
+				c.setCodeName(rsHospital.getString("codename"));
+				c.setCodeValue(rsHospital.getString("codevalue"));
 				
-				codeList.add(c);
+				hospitalCodeList.add(c);
 				
-				
+				result.put("hospital", hospitalList);
 			}
+		
+			
+			//전체 codelist를 저장할 객체
+			ArrayList<Code> totalCodeList = new ArrayList<>();
+			
+			
+			//전체 코드 리스트를 저장
+			while(rsCode.next()) {
+				Code code = new Code();
+				code.setCategory("병원태그");
+				code.setCodeNo(rsCode.getString("codeno"));
+				code.setCodeName(rsCode.getString("codename"));
+				code.setCodeValue(rsCode.getString("codevalue"));
+				
+				totalCodeList.add(code);
+			}
+			
+			result.put("codeList", totalCodeList);
+			
+			rsHospital.close();
+			rsCode.close();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		
-		return hospitalList;
+		return result;
 	}
 	
 	
@@ -896,7 +926,46 @@ public class BoardDao {
 	}
 
 
-	
+	//병원 검색
+	public HashMap<String, Object> searchHospital(String[] hospitalSearchCondition, String location) {
+		
+		String sql = "{call p_get_search_hospital(?,?,?)}";
+		
+		try {
+			CallableStatement stmt = dbconn.prepareCall(sql);
+			
+			//DB에 생성한 type 정보 설정. 타입 이름은 대문자로 적어준다(소문자로 작성시 오류 발생)
+			ArrayDescriptor descripotor = ArrayDescriptor.createDescriptor("T_VARCHAR2_ARRAY", dbconn);
+			
+			//해당 타입과 전달할 배열 연결
+			ARRAY array_to_pass = new ARRAY(descripotor, dbconn, hospitalSearchCondition);
+			
+			stmt.setArray(1, array_to_pass);
+			stmt.setString(2, location);
+			stmt.registerOutParameter(3, OracleTypes.CURSOR);
+			
+			stmt.executeQuery();
+			
+			ResultSet rs = (ResultSet)stmt.getObject(3);
+			
+			System.out.println(rs);
+			
+			while(rs.next()) {
+				System.out.println(rs.getString("hospitalname"));
+				//정상 출력 확인
+				
+				//hospital 객체
+				//codeList 객체 저장 후 return 구현
+				//procedure에 code 전체 리스트 출력 구현
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 	
 	
 	
@@ -922,6 +991,8 @@ public class BoardDao {
 		}
 	
 	}
+
+
 
 
 

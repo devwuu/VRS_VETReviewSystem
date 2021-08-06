@@ -139,7 +139,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 	@Override
-	public ArrayList<Hospital> getHospitalList(String location) {
+	public HashMap<String, Object> getHospitalList(String location) {
 		
 		return boardDao.getHospitalList(location);
 	}
@@ -178,6 +178,14 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardDao.reviewReport(sessionId, reviewNo);
 	}
+
+	@Override
+	public HashMap<String, Object> searchHospital(String[] hospitalSearchCondition, String location) {
+		return boardDao.searchHospital(hospitalSearchCondition, location);
+	}
+
+
+
 
 
 
@@ -220,8 +228,7 @@ public class BoardServiceImpl implements BoardService {
 
 
 
-
-
+	
 
 
 

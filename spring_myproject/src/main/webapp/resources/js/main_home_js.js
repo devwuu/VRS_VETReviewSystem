@@ -664,3 +664,26 @@ function replyUserRecommOrReportPlz(replyNo){
 	}
 	
 }
+
+
+function checkHospitalSearch(){
+	
+	var checkArry = document.getElementsByName("hospitalSearchCondition");
+	var chk = 0;
+	
+	//체크된 항목이 존재하면 flag 값을 1로 변경
+	for(i=0; i<checkArry.length; i++){
+		if(checkArry[i].checked){
+			chk = 1;
+		}
+	}
+	
+	//flag값이 1이 아니면 미선택, 1이면 선택
+	if(chk != 1){
+		alert("분류를 선택하여주세요");
+		return false;
+	}else{
+		return true;
+	}
+	
+}

@@ -5,6 +5,7 @@ public class Code {
 	private String category;
 	private String codeName;
 	private String codeValue;
+	private String codeNo;
 	
 	public String getCategory() {
 		return category;
@@ -23,6 +24,12 @@ public class Code {
 	}
 	public void setCodeValue(String codeValue) {
 		this.codeValue = codeValue;
+	}
+	public String getCodeNo() {
+		return codeNo;
+	}
+	public void setCodeNo(String codeNo) {
+		this.codeNo = codeNo;
 	}
 	
 	

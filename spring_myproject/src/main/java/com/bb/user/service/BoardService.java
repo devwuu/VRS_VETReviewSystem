@@ -65,7 +65,7 @@ public interface BoardService {
 	String updateSnsReview(SnsReview snsReview, MultipartFile attachFileMod, HttpSession session);
 
 	//병원 리스트 출력
-	ArrayList<Hospital> getHospitalList(String location);
+	HashMap<String, Object> getHospitalList(String location);
 
 	//덧글 등록
 	int insertReply(Reply r);
@@ -81,6 +81,9 @@ public interface BoardService {
 
 	//리뷰 신고
 	int reviewReport(String sessionId, String reviewNo);
+
+	//병원검색
+	HashMap<String, Object> searchHospital(String[] hospitalSearchCondition, String location);
 	
 	
 }

@@ -60,9 +60,15 @@
 <!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column_board">
 		
-			<div id="board_search_box">
-				<input id="board_search" type="text" placeholder="SEARCH">
-				<input id="board_search_confirm" type="submit" value="확인">
+			<div id="hospital_search_box">
+				<form name="hospitalSearch" method="post" onsubmit="return checkHospitalSearch()" action="/board/searchHospital" >
+					<a>태그별 검색: </a>
+					<c:forEach items="${codeList }" var="totalC">
+						<input name="hospitalSearchCondition" type="checkbox" value="${totalC.codeValue }"> ${totalC.codeName }
+					</c:forEach>
+					<input name="location" value="${location }" type="text">
+					<input id="hospital_search_confirm" type="submit" value="확인">
+				</form>
 			</div>
 			
 			<p id="page_infor">＠ ${location }</p>
