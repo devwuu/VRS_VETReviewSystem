@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  파일이 생성됨 - 목요일-8월-05-2021   
+--  파일이 생성됨 - 화요일-8월-10-2021   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Procedure P_ADMIN_LOGIN
@@ -673,7 +673,8 @@ END;
 set define off;
 
   CREATE OR REPLACE PROCEDURE "BB"."P_GET_HOSPITAL_USER" (v_location in VARCHAR2,
-                                            cur_hospital OUT SYS_REFCURSOR)
+                                            cur_hospital OUT SYS_REFCURSOR,
+                                            cur_code OUT SYS_REFCURSOR)
 IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
@@ -687,6 +688,9 @@ BEGIN
            hospitaladd1,
            hospitaladd2,
            hospitaladd3,
+            nvl((SELECT ROUND(AVG(score),2)
+                FROM hosrank
+                WHERE to_hospital = h.hospitalno),0) as score,
            TO_CHAR(h.wdate, 'YY-MM-DD') wdate,
            nvl(codename,'-') codename,
            codevalue
@@ -702,7 +706,16 @@ BEGIN
     WHERE hospitaladd1 LIKE '%'||v_location||'%'
         AND  h.hospitalno = j.hospitalno(+)
 
-    ORDER BY h.wdate DESC;
+    ORDER BY score DESC;
+    
+    OPEN cur_code FOR
+    SELECT codeno,
+       category,
+       codename,
+       codevalue,
+       to_char(wdate, 'YY-MM-DD') wdate
+    FROM code
+    WHERE category ='병원태그';
     
     EXCEPTION
     WHEN OTHERS THEN
@@ -937,6 +950,9 @@ BEGIN
           rp.r_email,
           title,
           rp.r_content,
+         nvl((SELECT AVG(score)
+              FROM hosrank
+              WHERE from_review = v_review_no),0) as score,
           rp.r_wdate r_wdate,
           count,
           rp.r_mdate r_mdate,
@@ -1075,6 +1091,97 @@ BEGIN
               -- 키워드 직접 사용시 컴파일 에러 발생. 변수에 대입하여 사용한다.
               p_name := $$PLSQL_UNIT;
               p_errorlog := SQLERRM;
+        
+              rollback;
+        
+              INSERT INTO errorTable(error_no, errorUser, error_p, error_meg) VALUES(error_no.nextval, USER, p_name , p_errorlog);
+              commit;
+
+END;
+
+/
+--------------------------------------------------------
+--  DDL for Procedure P_GET_SEARCH_HOSPITAL
+--------------------------------------------------------
+set define off;
+
+  CREATE OR REPLACE PROCEDURE "BB"."P_GET_SEARCH_HOSPITAL" (v_array_codevalue IN t_varchar2_array,
+                                                  v_location IN VARCHAR2,
+                                                  cur_hospital_list OUT SYS_REFCURSOR,
+                                                  cur_code OUT SYS_REFCURSOR)
+IS
+    
+    v_sql VARCHAR2(4000);
+    v_array_hospitalno t_number_array;
+    
+    p_name VARCHAR(100);
+    p_errorlog VARCHAR(255);
+    
+BEGIN
+
+    --검색을 위한 동적 쿼리 이용
+     v_sql := ' SELECT h.hospitalno FROM hospital h, hospitaltag t WHERE h.hospitalno = t.hospitalno(+) AND';
+
+     FOR i IN 1..v_array_codevalue.COUNT LOOP
+        
+        -- 사용자가 선택한 tag값과 일치하는지 비교
+          v_sql := v_sql||' codevalue = '||v_array_codevalue(i); 
+          
+          -- tag가 여러개라면
+          IF i <> v_array_codevalue.COUNT THEN
+            
+            -- 해당 tag들을 가지고 있는 병원의 교집합을 찾도록 함.
+            -- 예시) 24시 선택, 강아지 선택 => 24시 운영 병원이면서 강아지 전문 병원 검색
+             v_sql := v_sql||' INTERSECT SELECT h.hospitalno FROM hospital h, hospitaltag t WHERE h.hospitalno = t.hospitalno(+) AND';
+          END IF;
+      END LOOP;
+    
+    -- 사용자가 선택한 tag의 codevalue를 가진 hospital no를 중첩테이블(배열)형태로 저장
+   EXECUTE IMMEDIATE v_sql BULK COLLECT INTO v_array_hospitalno;
+
+    --저장된 중첩테이블(배열)의 hospital no와 일치하는 hospital의 정보를 cursour로 전달(out)
+   OPEN cur_hospital_list FOR
+    SELECT h.hospitalno,
+           hospitalname,
+           hospitaltel,
+           post,
+           hospitaladd1,
+           hospitaladd2,
+           hospitaladd3,
+            nvl((SELECT ROUND(AVG(score),2)
+                FROM hosrank
+                WHERE to_hospital = h.hospitalno),0) as score,
+           TO_CHAR(h.wdate, 'YY-MM-DD') wdate,
+           nvl(codename,'-') codename,
+           codevalue
+
+    FROM hospital h, 
+        (SELECT  hospitalno,
+                 codename,
+                 c.codevalue
+        FROM hospitaltag t, code c
+        WHERE category = '병원태그' 
+        AND c.codevalue = t.codevalue) j
+
+    WHERE hospitaladd1 LIKE '%'||v_location||'%'
+        AND  h.hospitalno = j.hospitalno(+)
+        AND h.hospitalno MEMBER OF v_array_hospitalno
+
+    ORDER BY score DESC;
+
+    --전체 코드 리스트 저장
+    OPEN cur_code FOR
+    SELECT *
+    FROM code
+    WHERE category = '병원태그';
+
+
+    --예외 처리
+     EXCEPTION
+        WHEN OTHERS THEN
+              -- 키워드 직접 사용시 컴파일 에러 발생. 변수에 대입하여 사용한다.
+              p_name := $$PLSQL_UNIT;
+              p_errorlog :=  SQLERRM;
         
               rollback;
         
@@ -1390,6 +1497,7 @@ set define off;
                                             v_email review.email%TYPE,
                                             v_title review.title%TYPE,
                                             v_content review.content%TYPE,
+                                            v_score hosrank.score%TYPE,
                                             v_filename fileup.filename%TYPE,
                                             v_filenamesave fileup.filenamesave%TYPE,
                                             v_filesize fileup.filesize%TYPE,
@@ -1403,8 +1511,11 @@ IS
 BEGIN
     INSERT INTO review (review_no, hospitalno, email, title, content)
     VALUES (review_no.nextval, v_hospitalno, v_email, v_title, v_content);
-
-    v_reviewno := review_no.currval;
+    
+     v_reviewno := review_no.currval;
+    
+    INSERT INTO hosrank(rankno, from_review, to_hospital, score) 
+    VALUES (rankno.nextval, v_reviewno, v_hospitalno, v_score);
 
     IF v_filename IS NOT NULL THEN
 
@@ -1712,6 +1823,7 @@ set define off;
                                             v_reviewno review.review_no%TYPE,
                                             v_title review.title%TYPE,
                                             v_content review.content%TYPE,
+                                            v_score hosrank.score%TYPE,
                                             v_filename fileup.filename%TYPE,
                                             v_filenamesave fileup.filenamesave%TYPE,
                                             v_filesize fileup.filesize%TYPE,
@@ -1722,8 +1834,12 @@ IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
 BEGIN
+
     UPDATE review SET title = v_title, content = v_content, mdate = current_timestamp
     WHERE review_no = v_reviewno;
+    
+    UPDATE hosrank SET score = v_score
+    WHERE from_review = v_reviewno;
 
     IF v_filename IS NOT NULL THEN
 
