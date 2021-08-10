@@ -113,6 +113,7 @@
 					<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 					<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 					<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+					<input type="hidden" name="score" value="${h.score }">
 					
 					<c:forEach items="${h.hostag }" var="tag">
 						<input name="hostag" type="hidden" value="${tag }">
@@ -132,6 +133,7 @@
 					<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 					<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 					<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+					<input type="hidden" name="score" value="${h.score }">
 					
 					<c:forEach items="${h.hostag }" var="tag">
 						<input name="hostag" type="hidden" value="${tag }">
@@ -148,6 +150,7 @@
 				<p id="hosName" ><b>${h.hospitalName }</b></p>
 				<p>${h.hospitalAdd1 }, ${h.hospitalAdd2 } ${h.hospitalAdd3 }</p>
 				<p><b>연락처</b> : ${h.hospitalTel }</p>
+				<p><b>별점</b> : ${h.score }</p>
 				
 				<p>
 					<c:forEach items="${h.hostag }" var="tag" varStatus="status">
@@ -205,6 +208,7 @@
 									<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 									<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 									<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+									<input type="hidden" name="score" value="${h.score }">
 									
 									<c:forEach items="${h.hostag }" var="tag" varStatus="status">
 										<input name="hostag" type="hidden" value="${tag }">										
@@ -253,6 +257,7 @@
 					<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 					<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 					<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+					<input type="hidden" name="score" value="${h.score }">
 					
 					<c:forEach items="${h.hostag }" var="tag" varStatus="status">
 						<input name="hostag" type="hidden" value="${tag }">										

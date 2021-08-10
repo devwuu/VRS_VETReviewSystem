@@ -76,6 +76,25 @@
 				<p id="page_infor">＠ ${h.hospitalAdd1 }, ${h.hospitalAdd2 }</p>
 				
 				<p id="title_cont"><b>Title</b> : <input id="title_cont" type="text" name="title" value="${r.title }" maxlength="13" required></p>
+				
+				<p id="score_cont"><b>Score</b> : 
+					<input type="radio" name="reviewScore"  value="1"
+						<c:if test="${r.reviewScore eq 1 }"> checked </c:if>
+					> <a>1점</a>
+					<input type="radio" name="reviewScore" value="2"
+						<c:if test="${r.reviewScore eq 2 }"> checked </c:if>
+					> <a>2점</a>
+					<input type="radio" name="reviewScore" value="3"
+						<c:if test="${r.reviewScore eq 3 }"> checked </c:if>
+					> <a>3점</a>
+					<input type="radio" name="reviewScore" value="4"
+						<c:if test="${r.reviewScore eq 4 }"> checked </c:if>
+					> <a>4점</a>
+					<input type="radio" name="reviewScore" value="5"
+						<c:if test="${r.reviewScore eq 5 }"> checked </c:if>
+					 > <a>5점</a>
+				</p>
+				
 				<p id="date_cont"><b>Date</b> : ${r.wdate }</p>
 				<p id="email_cont"><b>Email</b> : ${r.writer }</p>
 				<textarea id="cont_input" name="content" required>${r.content }</textarea><br>

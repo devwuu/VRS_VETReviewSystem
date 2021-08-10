@@ -144,6 +144,29 @@ public class BoardController {
 
 	}
 	
+
+	//병원 검색(태그별)
+	@RequestMapping("searchHospital")
+	public String searchHospital(String[] hospitalSearchCondition, String location, Model model) {
+		
+		HashMap<String, Object> result = bs.searchHospital(hospitalSearchCondition, location);
+		
+		ArrayList<Hospital> hospitalList = (ArrayList<Hospital>)result.get("hospital");
+		ArrayList<Code> codeList = (ArrayList<Code>)result.get("code");
+		
+		model.addAttribute("hospitalList", hospitalList);
+		model.addAttribute("codeList", codeList);
+		model.addAttribute("location", location);
+		model.addAttribute("condition", hospitalSearchCondition);
+		
+		
+		return "/board/hospitalList";
+		
+	}
+	
+	
+	
+	
 	
 	//리뷰 게시글 리스트 출력
 	@SuppressWarnings("unchecked")
@@ -363,16 +386,6 @@ public class BoardController {
 	}
 	
 	
-	
-	//병원 검색(태그별)
-	@RequestMapping("searchHospital")
-	public void searchHospital(String[] hospitalSearchCondition, String location) {
-		
-		// location, code total list, 병원 list
-		
-		HashMap<String, Object> result = bs.searchHospital(hospitalSearchCondition, location);
-		
-	}
 	
 	
 	

@@ -24,6 +24,7 @@ public class Review {
 	private ArrayList<Reply> replyList;
 	private int recommend;
 	private int report;
+	private String reviewScore;
 	
 	
 	
@@ -112,6 +113,12 @@ public class Review {
 	}
 	public void setReport(int report) {
 		this.report = report;
+	}
+	public String getReviewScore() {
+		return reviewScore;
+	}
+	public void setReviewScore(String reviewScore) {
+		this.reviewScore = reviewScore;
 	}
 	
 	

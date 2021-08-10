@@ -74,6 +74,7 @@
 				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+				<input type="hidden" name="score" value="${h.score }">
 				
 				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
 					<input name="hostag" type="hidden" value="${tag }">										
@@ -89,6 +90,15 @@
 			
 			<form name="board_write" method="POST" enctype="multipart/form-data" action="/board/boardRegProc">
 				<p id="title_cont"><b>Title</b> : <input type="text" name="title" required maxlength="13"><br>
+				<p id="score_cont"><b>Score</b> : 
+					<input type="radio" name="reviewScore" value="1"> <a>1점</a>
+					<input type="radio" name="reviewScore" value="2"> <a>2점</a>
+					<input type="radio" name="reviewScore" value="3"> <a>3점</a>
+					<input type="radio" name="reviewScore" value="4"> <a>4점</a>
+					<input type="radio" name="reviewScore" value="5"> <a>5점</a>
+				</p>
+				
+				
 				<p id="email_cont"><b>Email</b> : ${sess_id }<br>
 				<textarea id="cont_input" name="content" placeholder="내용" required></textarea><br>
 				<input id="file_input" type="file" name="fileAttach"><br>
@@ -100,6 +110,7 @@
 				<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 				<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 				<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+				<input type="hidden" name="score" value="${h.score }">
 				
 				<c:forEach items="${h.hostag }" var="tag" varStatus="status">
 					<input name="hostag" type="hidden" value="${tag }">										

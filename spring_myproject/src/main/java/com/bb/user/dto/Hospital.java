@@ -12,6 +12,7 @@ public class Hospital {
 	private String hospitalAdd2;
 	private String hospitalAdd3;
 	private String wdate;
+	private String score;
 	
 	//hos list 출력용 list
 	private ArrayList<Code> code;
@@ -83,6 +84,12 @@ public class Hospital {
 	}
 	public void setWdate(String wdate) {
 		this.wdate = wdate;
+	}
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
 	}
 
 	

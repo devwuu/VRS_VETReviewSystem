@@ -62,18 +62,30 @@
 		
 			<div id="hospital_search_box">
 				<form name="hospitalSearch" method="post" onsubmit="return checkHospitalSearch()" action="/board/searchHospital" >
-					<a>태그별 검색: </a>
+					<a><b>태그별 검색</b>: </a>
+					
 					<c:forEach items="${codeList }" var="totalC">
-						<input name="hospitalSearchCondition" type="checkbox" value="${totalC.codeValue }"> ${totalC.codeName }
+						<input name="hospitalSearchCondition" type="checkbox" value="${totalC.codeValue }" 
+						
+							<c:forEach items="${condition }" var="con">
+								<c:if test="${con eq totalC.codeValue }">
+									checked
+								</c:if>
+							</c:forEach>
+							
+						> ${totalC.codeName }
 					</c:forEach>
-					<input name="location" value="${location }" type="text">
+					
+					
+					<input name="location" value="${location }" type="hidden">
 					<input id="hospital_search_confirm" type="submit" value="확인">
 				</form>
+				
+				
 			</div>
 			
 			<p id="page_infor">＠ ${location }</p>
 			<div id="hospital_list">
-<!-- 			추후 병원 리스트를 DB에서 가져오는 식으로 바꿔야함. 따라서 서블릿으로 연결-->
 				
 				<c:forEach items="${hospitalList }" var="h">
 					<div id="hospital" onclick="document.forms['hospitalView${h.hospitalNo}'].submit()">
@@ -81,6 +93,7 @@
 						<p id="hosName" ><b>${h.hospitalName }</b></p>
 						<p>${h.hospitalAdd1 }, ${h.hospitalAdd2 } <br> ${h.hospitalAdd3 }</p>
 						<p><b>연락처</b> : ${h.hospitalTel }</p>
+						<p><b>별점</b> : ${h.score }</p>
 						<p>
 							<c:forEach items="${h.code }" var="c" varStatus="status">
 								${c.codeName } 
@@ -97,6 +110,7 @@
 							<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
 							<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
 							<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+							<input type="hidden" name="score" value="${h.score }">
 							<input type="hidden" name="location" value="${location }">
 							
 							<c:forEach items="${h.code }" var="c" varStatus="status">

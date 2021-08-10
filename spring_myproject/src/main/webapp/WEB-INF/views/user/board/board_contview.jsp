@@ -108,6 +108,7 @@ window.onload = function(){
 					<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 					<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 					<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+					<input type="hidden" name="score" value="${h.score }">
 					
 					<c:forEach items="${h.hostag }" var="tag" varStatus="status">
 						<input name="hostag" type="hidden" value="${tag }">										
@@ -131,6 +132,9 @@ window.onload = function(){
 						</c:if>
 					</i>
 				</c:if>
+				
+				<p id="score_cont"><b>Score</b> : ${r.reviewScore}점</p>
+				
 				
 				<p id="email_cont" onclick="userReportDivPlz()"><a><b>Email</b>: ${r.writer}</a></p>
 				
@@ -158,6 +162,8 @@ window.onload = function(){
 							<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 							<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 							<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+							
+							
 								
 							<c:forEach items="${h.hostag }" var="tag" varStatus="status">
 								<input name="hostag" type="hidden" value="${tag }">										
@@ -170,6 +176,7 @@ window.onload = function(){
 							<input type="hidden" value="${r.writer}"  name="writer">
 							<input type="hidden" value="${r.wdate}"  name="wdate">
 							<input type="hidden" value="${r.mdate}"  name="mdate">
+							<input type="hidden" value="${r.reviewScore}" name="reviewScore">
 							<input type="hidden" value="${pageNum}"  name="pageNum">
 							
 							
@@ -294,6 +301,7 @@ window.onload = function(){
 									<input name="hospitalAdd2" type="hidden" value="${h.hospitalAdd2 }">
 									<input name="hospitalAdd3" type="hidden" value="${h.hospitalAdd3 }">
 									<input name="hospitalTel" type="hidden" value="${h.hospitalTel }">
+									<input type="hidden" name="score" value="${h.score }">
 									
 								</form>
 							</td>

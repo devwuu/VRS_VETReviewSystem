@@ -44,7 +44,7 @@ public class BoardDao {
 		String reviewNo = null;
 		FileAttached f = r.getFileAttached();
 		
-		String sql = "{call p_insert_review(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+		String sql = "{call p_insert_review(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 		
 		try {
 			CallableStatement stmt = dbconn.prepareCall(sql);
@@ -52,16 +52,17 @@ public class BoardDao {
 			stmt.setString(2, r.getWriter());
 			stmt.setString(3, r.getTitle());
 			stmt.setString(4, r.getContent());
-			stmt.setString(5, f.getFileName());
-			stmt.setString(6, f.getFileNameSave());
-			stmt.setString(7, f.getFileSize());
-			stmt.setString(8, f.getFileType());
-			stmt.setString(9, f.getFilePath());
-			stmt.registerOutParameter(10, OracleTypes.INTEGER);
+			stmt.setString(5, r.getReviewScore());
+			stmt.setString(6, f.getFileName());
+			stmt.setString(7, f.getFileNameSave());
+			stmt.setString(8, f.getFileSize());
+			stmt.setString(9, f.getFileType());
+			stmt.setString(10, f.getFilePath());
+			stmt.registerOutParameter(11, OracleTypes.INTEGER);
 			
 			stmt.executeUpdate();
 			
-			reviewNo = stmt.getString(10);
+			reviewNo = stmt.getString(11);
 
 			
 		} catch (SQLException e) {
@@ -178,6 +179,7 @@ public class BoardDao {
 				r.setReviewNo(rs.getString("r_review_no"));
 				r.setHospitalNo(rs.getString("hospitalno"));
 				r.setMdate(rs.getString("r_mdate"));
+				r.setReviewScore(rs.getString("score"));
 				
 				if(rs.getInt("filesize") > 0) {
 					
@@ -235,16 +237,17 @@ public class BoardDao {
 		String rs = null;
 		
 		try {
-			String sql = "{call  p_update_review(?, ?, ?, ?, ?, ?, ?, ?)}";
+			String sql = "{call  p_update_review(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			stmt.setString(1, r.getReviewNo());
 			stmt.setString(2, r.getTitle());
 			stmt.setString(3, r.getContent());
-			stmt.setString(4, f.getFileName());
-			stmt.setString(5, f.getFileNameSave());
-			stmt.setString(6, f.getFileSize());
-			stmt.setString(7, f.getFileType());
-			stmt.setString(8, f.getFilePath());
+			stmt.setString(4, r.getReviewScore());
+			stmt.setString(5, f.getFileName());
+			stmt.setString(6, f.getFileNameSave());
+			stmt.setString(7, f.getFileSize());
+			stmt.setString(8, f.getFileType());
+			stmt.setString(9, f.getFilePath());
 			
 			int stat = stmt.executeUpdate();
 			
@@ -748,6 +751,8 @@ public class BoardDao {
 					h.setHospitalAdd1(rsHospital.getString("hospitaladd1"));
 					h.setHospitalAdd2(rsHospital.getString("hospitaladd2"));
 					h.setHospitalAdd3(rsHospital.getString("hospitaladd3"));
+					h.setScore(rsHospital.getString("score"));
+					
 					h.setCode(hospitalCodeList);
 					
 				
@@ -929,12 +934,14 @@ public class BoardDao {
 	//병원 검색
 	public HashMap<String, Object> searchHospital(String[] hospitalSearchCondition, String location) {
 		
-		String sql = "{call p_get_search_hospital(?,?,?)}";
+		HashMap<String, Object> result = new HashMap<>();
+		
+		String sql = "{call p_get_search_hospital(?,?,?,?)}";
 		
 		try {
 			CallableStatement stmt = dbconn.prepareCall(sql);
 			
-			//DB에 생성한 type 정보 설정. 타입 이름은 대문자로 적어준다(소문자로 작성시 오류 발생)
+			//DB에 생성한 사용자 지정 type 정보 설정. 타입 이름은 대문자로 적어준다(소문자로 작성시 오류 발생)
 			ArrayDescriptor descripotor = ArrayDescriptor.createDescriptor("T_VARCHAR2_ARRAY", dbconn);
 			
 			//해당 타입과 전달할 배열 연결
@@ -943,27 +950,74 @@ public class BoardDao {
 			stmt.setArray(1, array_to_pass);
 			stmt.setString(2, location);
 			stmt.registerOutParameter(3, OracleTypes.CURSOR);
+			stmt.registerOutParameter(4, OracleTypes.CURSOR);
 			
 			stmt.executeQuery();
 			
-			ResultSet rs = (ResultSet)stmt.getObject(3);
+			ResultSet rsHospital = (ResultSet)stmt.getObject(3);
+			ResultSet rsCode = (ResultSet)stmt.getObject(4);
 			
-			System.out.println(rs);
+			String prvHospital = "0";
 			
-			while(rs.next()) {
-				System.out.println(rs.getString("hospitalname"));
-				//정상 출력 확인
+			ArrayList<Hospital> hospitalList = new ArrayList<>();
+			ArrayList<Code> hospitalTag = new ArrayList<>();
+			
+			while(rsHospital.next()) {
+				if(!prvHospital.equals(rsHospital.getString("hospitalno"))) {
+					
+					Hospital hospital = new Hospital();
+					hospitalTag = new ArrayList<>();
+					
+					hospital.setHospitalNo(rsHospital.getString("hospitalno"));
+					hospital.setHospitalName(rsHospital.getString("hospitalname"));
+					hospital.setHospitalTel(rsHospital.getString("hospitaltel"));
+					hospital.setPost(rsHospital.getString("post"));
+					hospital.setHospitalAdd1(rsHospital.getString("hospitaladd1"));
+					hospital.setHospitalAdd2(rsHospital.getString("hospitaladd2"));
+					hospital.setHospitalAdd3(rsHospital.getString("hospitaladd3"));
+					hospital.setWdate(rsHospital.getString("wdate"));
+					hospital.setScore(rsHospital.getString("score"));
+					hospital.setCode(hospitalTag);;
+					
+					hospitalList.add(hospital);
+					
+					prvHospital = hospital.getHospitalNo();
+				}
 				
-				//hospital 객체
-				//codeList 객체 저장 후 return 구현
-				//procedure에 code 전체 리스트 출력 구현
+				Code code = new Code();
+				
+				code.setCategory("병원태그");
+				code.setCodeName(rsHospital.getString("codename"));
+				code.setCodeValue(rsHospital.getString("codevalue"));
+				
+				hospitalTag.add(code);
 			}
+			
+			
+			ArrayList<Code> codeList = new ArrayList<>();
+			
+			while(rsCode.next()) {
+				Code c = new Code();
+				c.setCategory(rsCode.getString("category"));
+				c.setCodeNo(rsCode.getString("codeno"));
+				c.setCodeName(rsCode.getString("codename"));
+				c.setCodeValue(rsCode.getString("codevalue"));
+				
+				codeList.add(c);
+			}
+			
+			result.put("hospital", hospitalList);
+			result.put("code", codeList);
+			
+			rsHospital.close();
+			rsCode.close();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return result;
 	}
 
 	

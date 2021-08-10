@@ -167,6 +167,7 @@ button{
 
 /* 글수정 및 작성 페이지 */
 #title_cont, #date_cont, #email_cont, #cont_input, #file_area, #modi{
+	color:#4d5966;
 	margin:10px 0 6px 10px;
 }
 
@@ -182,6 +183,19 @@ input#title_cont{
 	width:50%;
 	font-size:15px;
 }
+
+#score_cont{
+	margin:10px 0 6px 10px;
+	color:#4d5966;
+	vertical-align:middle;
+}
+
+
+#score_cont a{
+	margin-right : 10px;
+}
+
+
 
 textarea#cont_input{
 	font-size:16px;
