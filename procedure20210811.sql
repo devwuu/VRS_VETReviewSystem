@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  파일이 생성됨 - 화요일-8월-10-2021   
+--  파일이 생성됨 - 수요일-8월-11-2021   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Procedure P_ADMIN_LOGIN
@@ -232,6 +232,7 @@ BEGIN
     DELETE FROM fileup WHERE reviewno = v_review_no;
     DELETE FROM reply WHERE reviewno = v_review_no;
     DELETE FROM bookmark WHERE reviewno = v_review_no;
+    DELETE FROM reviewmag WHERE to_review = v_review_no;
     DELETE FROM review WHERE review_no = v_review_no;
 
     COMMIT;
@@ -688,9 +689,9 @@ BEGIN
            hospitaladd1,
            hospitaladd2,
            hospitaladd3,
-            nvl((SELECT ROUND(AVG(score),2)
-                FROM hosrank
-                WHERE to_hospital = h.hospitalno),0) as score,
+           nvl((SELECT ROUND(AVG(score),2)
+                FROM review r
+                WHERE r.hospitalno = h.hospitalno),0) as score,
            TO_CHAR(h.wdate, 'YY-MM-DD') wdate,
            nvl(codename,'-') codename,
            codevalue
@@ -706,7 +707,7 @@ BEGIN
     WHERE hospitaladd1 LIKE '%'||v_location||'%'
         AND  h.hospitalno = j.hospitalno(+)
 
-    ORDER BY score DESC;
+    ORDER BY score DESC, h.hospitalno DESC;
     
     OPEN cur_code FOR
     SELECT codeno,
@@ -950,9 +951,7 @@ BEGIN
           rp.r_email,
           title,
           rp.r_content,
-         nvl((SELECT AVG(score)
-              FROM hosrank
-              WHERE from_review = v_review_no),0) as score,
+          score,
           rp.r_wdate r_wdate,
           count,
           rp.r_mdate r_mdate,
@@ -976,6 +975,7 @@ BEGIN
                   title,
                   r.content r_content,
                   to_char(r.wdate, 'YY-MM-DD') r_wdate,
+                  score,
                   count,
                   nvl(to_char(r.mdate, 'YY-MM-DD'),'-')  r_mdate,
                   replyno,
@@ -1149,8 +1149,8 @@ BEGIN
            hospitaladd2,
            hospitaladd3,
             nvl((SELECT ROUND(AVG(score),2)
-                FROM hosrank
-                WHERE to_hospital = h.hospitalno),0) as score,
+                FROM review r
+                WHERE r.hospitalno = h.hospitalno),0) as score,
            TO_CHAR(h.wdate, 'YY-MM-DD') wdate,
            nvl(codename,'-') codename,
            codevalue
@@ -1167,7 +1167,7 @@ BEGIN
         AND  h.hospitalno = j.hospitalno(+)
         AND h.hospitalno MEMBER OF v_array_hospitalno
 
-    ORDER BY score DESC;
+    ORDER BY score DESC, h.hospitalno DESC;
 
     --전체 코드 리스트 저장
     OPEN cur_code FOR
@@ -1497,7 +1497,7 @@ set define off;
                                             v_email review.email%TYPE,
                                             v_title review.title%TYPE,
                                             v_content review.content%TYPE,
-                                            v_score hosrank.score%TYPE,
+                                            v_score review.score%TYPE,
                                             v_filename fileup.filename%TYPE,
                                             v_filenamesave fileup.filenamesave%TYPE,
                                             v_filesize fileup.filesize%TYPE,
@@ -1509,14 +1509,11 @@ IS
     p_name VARCHAR(100);
     p_errorlog VARCHAR(255);
 BEGIN
-    INSERT INTO review (review_no, hospitalno, email, title, content)
-    VALUES (review_no.nextval, v_hospitalno, v_email, v_title, v_content);
+    INSERT INTO review (review_no, hospitalno, email, title, content, score)
+    VALUES (review_no.nextval, v_hospitalno, v_email, v_title, v_content, v_score);
     
      v_reviewno := review_no.currval;
     
-    INSERT INTO hosrank(rankno, from_review, to_hospital, score) 
-    VALUES (rankno.nextval, v_reviewno, v_hospitalno, v_score);
-
     IF v_filename IS NOT NULL THEN
 
         INSERT INTO fileup (fileno, filename, filenamesave, filesize, filetype, filepath, reviewno)
@@ -1823,7 +1820,7 @@ set define off;
                                             v_reviewno review.review_no%TYPE,
                                             v_title review.title%TYPE,
                                             v_content review.content%TYPE,
-                                            v_score hosrank.score%TYPE,
+                                            v_score review.score%TYPE,
                                             v_filename fileup.filename%TYPE,
                                             v_filenamesave fileup.filenamesave%TYPE,
                                             v_filesize fileup.filesize%TYPE,
@@ -1835,11 +1832,8 @@ IS
     p_errorlog VARCHAR(255);
 BEGIN
 
-    UPDATE review SET title = v_title, content = v_content, mdate = current_timestamp
+    UPDATE review SET title = v_title, content = v_content, score = v_score, mdate = current_timestamp
     WHERE review_no = v_reviewno;
-    
-    UPDATE hosrank SET score = v_score
-    WHERE from_review = v_reviewno;
 
     IF v_filename IS NOT NULL THEN
 
