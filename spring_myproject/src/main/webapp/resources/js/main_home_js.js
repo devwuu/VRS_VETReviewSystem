@@ -129,7 +129,7 @@ function find_member_check(){
 		}
 	};
 	
-	x.open("POST", "/member/email_check", false);
+	x.open("POST", "/member/email_check_pw", false);
 	//처리 순서를 명확하게 하기 위헤 async 옵션을 false로 설정(동기)
 	
 	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -139,6 +139,21 @@ function find_member_check(){
 	return rs;
 	
 }
+
+
+//회원탈퇴 체크
+function delCheck(){
+	
+	if(!confirm("사이트를 탈퇴하시겠습니까?")){
+		
+	}else{
+		form = document.forms["member_mody"];
+		form.action = "/member/memDelRequest";
+		form.submit();
+	}
+	
+}
+
 
 
 
@@ -666,6 +681,8 @@ function replyUserRecommOrReportPlz(replyNo){
 }
 
 
+
+//병원 검색어 체크
 function checkHospitalSearch(){
 	
 	var checkArry = document.getElementsByName("hospitalSearchCondition");

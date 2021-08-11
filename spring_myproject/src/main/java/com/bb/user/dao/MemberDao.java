@@ -225,6 +225,28 @@ public class MemberDao {
 
 	
 	
+	//pw찾기용 이메일 유효성 체크
+	public int emailCheckPw(String emailRequest) {
+		int cnt = 0;
+		
+		try {
+			String sql ="SELECT COUNT(*) cnt FROM member WHERE email = ? AND deldate IS NULL";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, emailRequest);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			cnt = rs.getInt("cnt");
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+	
+	
+	
 	
 	//임시 비밀번호 발급
 	public int updatePw(String email, String tmpPw) {
@@ -232,11 +254,12 @@ public class MemberDao {
 		int rs = 0;
 		
 		try {
-			String sql = "UPDATE member SET pw = ? WHERE email = ?";
+			String sql = "UPDATE member SET pw = ? WHERE email = ? AND deldate IS NULL";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, tmpPw);
 			stmt.setString(2, email);
 			rs = stmt.executeUpdate();
+			
 			
 		} catch (SQLException e) {
 			
@@ -291,7 +314,9 @@ public class MemberDao {
 		
 		return rs;
 	}
+
 	
+
 	
 	
 	

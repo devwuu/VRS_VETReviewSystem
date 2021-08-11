@@ -135,8 +135,8 @@
 									<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
 									<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
 									
-									<c:forEach items="${h.code }" var="c" varStatus="status">
-										<input type="hidden" name="hostag" value="${c.codeName }">								
+									<c:forEach items="${h.hostag }" var="t">
+										<input type="hidden" name="hostag" value="${t}">								
 									</c:forEach>
 							</tr>
 						</table>	
@@ -170,6 +170,11 @@
 											<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
 											<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
 											<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+											
+											<c:forEach items="${h.hostag }" var="t">
+												<input type="hidden" name="hostag" value="${t}">								
+											</c:forEach>
+											
 													
 										</td>
 										<td class="snsContent">
@@ -223,7 +228,13 @@
 							<input type="hidden" name="hospitalAdd1" value="${h.hospitalAdd1 }">
 							<input type="hidden" name="hospitalAdd2" value="${h.hospitalAdd2 }">
 							<input type="hidden" name="hospitalAdd3" value="${h.hospitalAdd3 }">
+							
+							<c:forEach items="${h.hostag }" var="t">
+								<input type="hidden" name="hostag" value="${t}">								
+							</c:forEach>
+							
 							<input type="hidden" name="snsReviewNo" value="0">
+							
 							
 						</form>
 

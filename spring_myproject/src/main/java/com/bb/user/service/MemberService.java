@@ -34,5 +34,8 @@ public interface MemberService {
 
 	//회원신고
 	int reportUser(String sessionId, String reportUser);
+
+	//이메일 유효성 체크
+	int emailCheckPw(String emailRequest);
 	
 }

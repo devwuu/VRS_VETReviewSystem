@@ -78,7 +78,7 @@ public class MemberController {
     }
     
     
-    //이메일 중복검사 및 가입 정보 확인(회원 정보 찾기)
+    //회원가입시 이메일 중복검사
     @RequestMapping("email_check")
     public ResponseEntity<String> emailCheck(@ModelAttribute("email_user") String emailRequest) {
     	//post 방식으로 넘긴 것도 @ModelAttribute로 받을 수 았음.
@@ -166,14 +166,18 @@ public class MemberController {
 		//이게 과연 좋은 생각인지 의문이 듦.
     	
 		int i = 0;
-    	for(String s : member.getInterest()) {
-    		if(s != null) {
-    			interestCode[i] = new Code();
-    			interestCode[i].setCategory("관심사");
-    			interestCode[i].setCodeValue(s);
-    			i++;
-    		}
-    	}
+		
+		if(member.getInterest() != null) {
+			for(String s : member.getInterest()) {
+				if(s != null) {
+					interestCode[i] = new Code();
+					interestCode[i].setCategory("관심사");
+					interestCode[i].setCodeValue(s);
+					i++;
+				}
+			}
+		}
+		
     	
     	member.setInterestCode(interestCode);
 		
@@ -224,6 +228,19 @@ public class MemberController {
     	return view;
     	
     }
+    
+    
+    //비밀번호 찾기용 email 유효성 체크
+    // 이메일 중복 검사와 로직이 비슷해서 어떻게 구성할지 고민중
+    @RequestMapping("email_check_pw")
+    public ResponseEntity<String> email_check_pw(@ModelAttribute("email_user") String emailRequest) {
+    	//post 방식으로 넘긴 것도 @ModelAttribute로 받을 수 았음.
+    	
+		String rs = Integer.toString(ms.emailCheckPw(emailRequest));
+	
+		return new ResponseEntity<String>(rs, HttpStatus.OK);
+    }
+    
     
     
     

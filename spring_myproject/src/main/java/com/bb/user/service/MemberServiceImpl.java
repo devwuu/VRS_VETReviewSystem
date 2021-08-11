@@ -130,4 +130,9 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.reportUser(sessionId, reportUser);
 	}
 
+	@Override
+	public int emailCheckPw(String emailRequest) {
+		return mDao.emailCheckPw(emailRequest);
+	}
+
 }

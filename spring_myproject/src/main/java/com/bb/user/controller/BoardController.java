@@ -445,8 +445,11 @@ public class BoardController {
 		 
 		sr.setEmail((String)session.getAttribute("sess_id"));
 		int rs = bs.insertSnsReview(sr, session, attachFile, hospital.getHospitalNo());
+
 		
 		ra.addFlashAttribute("hospital", hospital);
+		
+		
 		
 		if(rs<=0) {
 			log.info("insert Error");
@@ -461,7 +464,7 @@ public class BoardController {
 	@RequestMapping("snsDel")
 	public String snsDel(String snsReviewNo, HttpSession session, RedirectAttributes redirectAttribute, Hospital hospital){
 		//삭제 완료한 뒤 페이지 정보를 정상적으로 노출하기 위해 hospital 정보를 파라미터로 받아준다.
-
+		
 		int rs = bs.delSnsReview(snsReviewNo, session);
 		
 		redirectAttribute.addFlashAttribute("delStat", rs);

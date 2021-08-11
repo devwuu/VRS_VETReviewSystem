@@ -715,7 +715,7 @@ public class BoardDao {
 		//병원 정보를 담기 위해 사용하는 객체
 		ArrayList<Hospital> hospitalList = new ArrayList<>();
 		ArrayList<Code> hospitalCodeList = null;
-		String prvHosNo = null;		
+		String prvHosNo = "0";		
 		
 		try {
 			String sql ="{call p_get_hospital_user(?,?,?)}";

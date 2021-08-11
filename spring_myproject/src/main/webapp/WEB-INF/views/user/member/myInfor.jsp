@@ -94,7 +94,7 @@
 				<input id="modi_mem" type="submit" value="수정"
 				onclick="javascript: form.action='/member/myInforMod'">
 				<input id="del_mem" type="submit" value="탈퇴"
-				onclick="javascript: form.action='/member/memDelRequest'">
+				onclick="delCheck()">
 			</form>
 		</div>
 		
