@@ -316,6 +316,57 @@ public class MemberDao {
 	}
 
 	
+	
+	//인증 코드 생성(회원 가입, 비밀번호 변경용)
+	public int randomCode(String emailRequest, String code) {
+		
+		String sql  = "{call  p_certification_check(?,?)}";
+		int rs = 0;
+		
+		try {
+			CallableStatement stmt = conn.prepareCall(sql);
+			stmt.setString(1, emailRequest);
+			stmt.setString(2, code);
+			
+			rs = stmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
+	
+	
+	//인증 번호 확인
+	public int cerCodeCheck(String cerCode, String email) {
+		
+		String sql = "SELECT code FROM certification WHERE email = ?";
+		int result = 0;
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, email);
+			ResultSet rs = stmt.executeQuery();
+			
+			rs.next();
+			
+			if(cerCode.equals(rs.getString("code"))) {
+				result = 1;
+			}				
+		
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+
+		return result;
+	}
+
+	
 
 	
 	

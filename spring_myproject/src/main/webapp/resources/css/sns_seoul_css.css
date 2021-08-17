@@ -10,7 +10,7 @@ div#main_right_column_board{
 
 
 /* 병원리스트 */
-img#hospital, #bookmark_hos{
+img#hospital, img#hospitalImg{
 	width:auto;
 	height:30px;
 	position:absolute;

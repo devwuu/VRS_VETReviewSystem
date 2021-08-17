@@ -30,11 +30,11 @@
 		display: block !important;
 	}
 
-</style>
+</style> 
 
 
 
-<title>동물병원 통합 아카이빙 시스템 : 서울 - XX 동물병원</title>
+<title>동물 병원 후기 모음집 : 리뷰</title>
 </head>
 
 <body>
@@ -93,7 +93,7 @@
 			<c:set value="${hospital }" var="h"/>
 			
 			<div id="hospital1_view">
-				<i id="bookmark_hos" class="material-icons">bookmark</i>
+				<img id="hospitalImg" src="/img/hospital.png" alt="병원이미지">
 				<p id="hosName" ><b>${h.hospitalName }</b></p>
 				<p>${h.hospitalAdd1 }, ${hospitalAdd2 }</p>
 				<p><b>연락처</b> : ${h.hospitalTel }</p>

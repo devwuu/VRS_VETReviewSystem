@@ -18,7 +18,7 @@
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<title>동물병원 통합 아카이빙 시스템</title>
+<title>동물 병원 후기 모음집</title>
 </head>
 
 <!-- 온로드 로그인상태 체크 함수 -->
@@ -38,6 +38,8 @@ window.onload = function(){
 // 		document.getElementById("modal_login").style.display="block";
 	}else if(document.getElementById("logstat_meg").value == 2){
 		alert('회원가입이 완료되었습니다.');
+	}else if(document.getElementById("logstat_meg").value == 3){
+		alert('임시 비밀번호 발송이 완료되었습니다.');
 	}
 }
 
@@ -71,11 +73,9 @@ window.onload = function(){
 	
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
-			<div id="main_search">
-				<input id="search" type="text" name="search" placeholder="SEARCH">
-				<input id="search_confirm" type="submit" value="확인">		
-				<p id="search_infor">추천 검색어: <a>응급실</a> <a>24시</a> <a>강아지</a> </p>
-			</div>
+	
+			
+
 
 			<div id="notice_list">
 				<p id="notice_infor"><a href="/board/noticeList">공지사항 ▶ </a></p>

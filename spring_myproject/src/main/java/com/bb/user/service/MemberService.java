@@ -38,4 +38,7 @@ public interface MemberService {
 	//이메일 유효성 체크
 	int emailCheckPw(String emailRequest);
 	
+	//인증 번호 체크
+	int cerCodeCheck(String cerCode, String email);
+	
 }

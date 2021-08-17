@@ -75,43 +75,98 @@ function join_member_check(){
 		return false;
 	}
 	
+	
+	
+	if(document.getElementById("join_code_check").value == "0"){
+		document.forms["join_form"]["join_code"].focus();
+		document.getElementById("cer_infor").innerHTML="email을 인증하여주세요.";
+		return false;
+	}
+
+
+	
 }
 
 //email 중복검사
 
 function email_check(){
-	var email_user_input = document.forms["join_member"]["e_id"].value+"@"+document.forms["join_member"]["e_domain"].value;
-	var x = new XMLHttpRequest();
+	
+	var email_id = document.forms["join_member"]["e_id"].value;
+	var email_domain = document.forms["join_member"]["e_domain"].value;
+	var email_user_input = email_id +"@"+email_domain;
+		
+	if(email_id == "" || email_domain == ""){
+	alert("이메일을 입력해주세요");
+	
+	}else{
+		var x = new XMLHttpRequest();
+		
+		x.onreadystatechange = function(){
+			if(x.readyState === 4){
+				if(x.status === 200){
+					document.getElementById("isEmailCheck").value = x.responseText.trim();
+					if(x.responseText.trim()==="0"){
+						document.getElementById("email_infor").innerHTML="사용 가능한 Email입니다. <br> 메일로 발송된 인증번호를 입력하세요.";
+						document.getElementById("join_code_div").style.display = "block";
+					}else{
+						document.getElementById("email_infor").innerHTML="중복된 Email입니다.";
+					}
+				}
+			}
+		};
+		x.open("POST", "/member/email_check", true);
+		x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		x.send("email_user=" + email_user_input);
+		
+	}
+		
+
+}	
+
+
+//회원 가입시 인증 코드 검사
+function certification(){
+	
+	var code = document.getElementById("join_code").value;
+	var email_user_input = document.forms["join_member"]["e_id"].value +"@"+document.forms["join_member"]["e_domain"].value;
+
+	
+	var x =new XMLHttpRequest();
 	
 	x.onreadystatechange = function(){
 		if(x.readyState === 4){
 			if(x.status === 200){
-				document.getElementById("isEmailCheck").value = x.responseText.trim();
-				if(x.responseText.trim()==="0"){
-					document.getElementById("email_infor").innerHTML="사용 가능한 Email입니다.";
+				
+				document.getElementById("join_code_check").value = x.responseText.trim();
+					
+				if(x.responseText.trim() == "1"){
+					document.getElementById("cer_infor").innerHTML="인증이 완료되었습니다";
+					
 				}else{
-					document.getElementById("email_infor").innerHTML="중복된 Email입니다.";
+					document.getElementById("cer_infor").innerHTML="인증이 실패하였습니다";
 				}
 			}
 		}
 	};
-	x.open("POST", "/member/email_check", true);
-	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	x.send("email_user=" + email_user_input);
-//  onchange가 안먹어서 버튼 따로 만들었다네
-}	
-
-
-
-
-//회원 정보 찾기 이메일 유효성 검사
-function find_member_check(){
 	
+	
+	x.open("POST","/member/certificaitonCheck", true);
+	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	x.send("cerCode="+code+"&email="+email_user_input);
+	
+}
+
+
+
+
+//회원 정보 찾기 이메일 유효성 검사 및 인증 코드 발송
+function find_member_sendCode(){
+
 	
 	var email = document.forms["find_member"]["email"].value;
 	
 	var x = new XMLHttpRequest();
-	var rs = true;
+	
 	
 	x.onreadystatechange = function(){
 		
@@ -120,25 +175,84 @@ function find_member_check(){
 				
 				if(x.responseText.trim() === "0"){
 					
-					rs = false;
 					alert("등록되지 않은 회원 정보입니다.");
+					
 				}else{
-					alert("이메일로 임시 비밀번호를 발송하였습니다.");				
+					
+					alert("이메일로 인증 코드를 발송하였습니다.");
+					
+					document.getElementById("find_code_div").style.display = "block";	
+					document.getElementById("find_sub").style.display = "block";	
+						
 				}
 			}
 		}
 	};
 	
-	x.open("POST", "/member/email_check_pw", false);
+	x.open("POST", "/member/email_check_pw", true);
 	//처리 순서를 명확하게 하기 위헤 async 옵션을 false로 설정(동기)
 	
 	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	x.send("email_user="+email);
 	
-	//if문 안에서 return이 작동되지 않아 rs 플래그를 별도로 설정
-	return rs;
 	
 }
+
+
+//비밀번호 찾기 시 인증 코드 검사
+function certificationFind(){
+	
+	var code = document.getElementById("find_code").value;
+	var email_user_input = document.forms["find_form"]["email"].value;
+
+	
+	var x =new XMLHttpRequest();
+	
+	x.onreadystatechange = function(){
+		if(x.readyState === 4){
+			if(x.status === 200){
+				
+				document.getElementById("find_code_check").value = x.responseText.trim();
+					
+				if(x.responseText.trim() == "1"){
+					document.getElementById("cer_find_infor").innerHTML="인증이 완료되었습니다";
+					
+				}else{
+					document.getElementById("cer_find_infor").innerHTML="인증이 실패하였습니다";
+				}
+			}
+		}
+	};
+	
+	
+	x.open("POST","/member/certificaitonCheck", true);
+	x.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	x.send("cerCode="+code+"&email="+email_user_input);
+	
+}
+
+
+
+
+
+
+//비밀번호 변경 form 체크
+function find_member_check(){
+	
+	var check = document.getElementById("find_code_check").value;
+
+	if(check < 1){
+		document.forms["find_member"]["find_code"].focus();
+		document.getElementById("cer_find_infor").innerHTML="email을 인증하여주세요";
+		
+		return false;
+	}
+	
+	
+	return true;
+}
+
+
 
 
 //회원탈퇴 체크

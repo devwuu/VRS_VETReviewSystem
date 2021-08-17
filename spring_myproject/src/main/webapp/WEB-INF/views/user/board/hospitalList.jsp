@@ -31,7 +31,7 @@
 
 
 
-<title>동물병원 통합 아카이빙 시스템 : 서울</title>
+<title>동물 병원 후기 모음집 : 병원</title>
 </head>
 
 <body>
@@ -78,7 +78,7 @@
 					
 					
 					<input name="location" value="${location }" type="hidden">
-					<input id="hospital_search_confirm" type="submit" value="확인">
+					<button id="hospital_search_confirm"><i class="fa fa-search"></i></button>
 				</form>
 				
 				

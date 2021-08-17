@@ -36,7 +36,7 @@
 
 
 
-<title>동물병원 통합 아카이빙 시스템 : 서울 - OO 동물병원</title>
+<title>동물 병원 후기 모음집 : 리뷰</title>
 </head>
 
 <body>
@@ -119,7 +119,8 @@
 						<input name="hostag" type="hidden" value="${tag }">
 					</c:forEach>
 					
-					<input id="board_search_confirm" type="submit" value="확인">
+					
+					<button id="board_search_confirm" ><i class="fa fa-search"></i></button>
 				</form>
 				
 				
@@ -146,7 +147,7 @@
 						
 						
 			<div id="hospital_view">
-				<i id="bookmark_hos" class="material-icons">bookmark</i>
+				<img id="hospitalImg" src="/img/hospital.png" alt="병원이미지">
 				<p id="hosName" ><b>${h.hospitalName }</b></p>
 				<p>${h.hospitalAdd1 }, ${h.hospitalAdd2 } ${h.hospitalAdd3 }</p>
 				<p><b>연락처</b> : ${h.hospitalTel }</p>

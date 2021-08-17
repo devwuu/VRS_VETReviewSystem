@@ -104,9 +104,9 @@ div#layer_join{
 	position:absolute;
 	left:50%;
 	top:50%;
-	transform:translate(-50%,-80%);
+	transform:translate(-50%,-50%);
 	width:450px;
-	height:300px;
+	height:450px;
 	background-color:#FFFAF0;
 	border:1px dotted #4d5966;
 	color:#4d5966;
@@ -138,18 +138,37 @@ div#layer_join_body{
 	width:100%;
 	font-size:14px;
 	text-align:center;
-	margin:8px 0 16px 0;
+	margin:8px 0 0px 0;
 }
 
 #email_infor{
-	margin-top:6px;	
+	margin:8px 0px 8px 0px;	
 }
 
 #join_sub{
 	width:100%;
 	font-size:14px;
+	margin-top:8px;
 }
 
+#join_sel, #join_code_button, #join_code{
+	display:inline-block;
+}
+
+#join_code_div{
+	display:none;
+}
+
+#join_button{
+	width:72px; 
+	margin-left: 5px;
+	display:inline-block;
+}
+
+
+#name_pw_infor, #cer_infor{
+	margin-bottom : 5px; 
+}
 
 
 /*회원정보 찾기*/
@@ -168,9 +187,9 @@ div#layer_find{
 	position:absolute;
 	left:50%;
 	top:50%;
-	transform:translate(-50%,-80%);
+	transform:translate(-50%,-50%);
 	width:450px;
-	height:300px;
+	height:400px;
 	background-color:#FFFAF0;
 	border:1px dotted #4d5966;
 	color:#4d5966;
@@ -193,14 +212,28 @@ input#find_email{
 }
 
 input#find_sub{
-	margin:48px 0px 5px 0px;
-	font-size:15px;	
 	width:100%;
+	font-size:14px;
+	margin-top:10px;
+	display:none;
 }
 
+#find_code_div{
+	display:none;
+	margin-top : 20px;
+}
 
+#find_code_send_button{
+	width : 100%;
+}
 
+#find_code{
+	width:80%;
+}
 
+#find_code_check_button{
+	width:18%;
+}
 
 
 /*  title */
@@ -216,13 +249,27 @@ img#title_img{
 	height:150px;
 	position:absolute;
 	left:50%;
-	top:50%;
-	transform:translate(-50%,-50%);
+	top:20%;
+	transform:translate(-50%,-20%);
 }
 
 div#mini_menu, div#mini_menu_list{
 	display:none;
 }
+
+/* 메인 infor */
+#mainInfor{
+	position:absolute;
+	top:85%;
+	left:50%;
+	transform:translate(-50%,-85%);
+	width:70%;
+	text-align:center;
+	color:#4d5966;
+	
+}
+
+
 
 
 /* 메인 flex 박스 */
@@ -287,54 +334,22 @@ div#main_right_column{
 	overflow-y:auto !important;
 }
 
-/* 초기 검색창 */
-div#main_search{
-	position:absolute;
-	top:25%;
-	left:50%;
-	transform:translate(-50%,-50%);
-	width:70%;
-	display:flex;
-	flex-wrap:wrap;
-}
 
-p#search_infor{
-	margin-top:10px;
-}
 
-input#search{
-	width:80%;
-	height:60px;
-	font-size:20px;
-	padding:40px;
-	font-weight:bold;
-	border-radius:5px;
-}
-
-input#search:focus{
-	background-color:#b0e0e6;
-	color:#4d5966;
-}
-
-input#search_confirm{
-	width:18%;
-	height:80px;
-	border:1px solid #DCDCDC;
-	margin-left:10px;
-	border-radius:5px;
-	font-size:15px;
-}
 
 /* 공지사항 표 css  */
 
 div#notice_list{
-	position:relative;
+
 	width:71%;
 	color:#4d5966;
 	padding:5px;
+	position:absolute;
 	top:40%;
 	left:50%;
-	transform:translate(-50%, 0);
+	transform:translate(-50%,-40%);
+	width:70%;
+
 }
 
 #notice_infor{

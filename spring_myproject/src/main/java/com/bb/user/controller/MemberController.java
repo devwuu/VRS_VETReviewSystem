@@ -59,6 +59,7 @@ public class MemberController {
 			//로그인 실패
 			//login_stat = 1 : 로그인 실패
 			//login_stat = 2 : 회원가입 완료
+			//login_stat = 3 : 비밀번호 변경 완료
 			model.addAttribute("login_stat", "1");
 			
 			view="index";
@@ -117,6 +118,17 @@ public class MemberController {
     }
     
     
+    //인증 번호 체크
+    @RequestMapping("certificaitonCheck")
+    public ResponseEntity<String> cerCodeCheck(String cerCode, String email) {
+    	
+    	int rs = ms.cerCodeCheck(cerCode, email);
+    	String result = Integer.toString(rs);
+    	
+    	return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    
+    
     //회원가입
     @RequestMapping("memRegProc")
     public String memRedProc(Member member, Model model) {
@@ -128,6 +140,7 @@ public class MemberController {
 		model.addAttribute("login_stat", "2");
 		//login_stat = 1 : 로그인 실패
 		//login_stat = 2 : 회원가입 완료
+		//login_stat = 3 : 비밀번호 변경 완료
 		
 		return "index";
     }
@@ -246,9 +259,18 @@ public class MemberController {
     
     //비밀번호 찾기
     @RequestMapping("memFindProc")
-    public String memberFindProc(String email) {
+    public String memberFindProc(String email, Model model) {
     	
-    	ms.findMember(email);
+    	int rs = ms.findMember(email);
+    	
+    	if(rs > 0) {
+    		rs = 3;
+    	}
+    	
+    	model.addAttribute("login_stat", rs);
+    	//login_stat = 1 : 로그인 실패
+		//login_stat = 2 : 회원가입 완료
+		//login_stat = 3 : 비밀번호 변경 완료
  
     	return "index";
     }

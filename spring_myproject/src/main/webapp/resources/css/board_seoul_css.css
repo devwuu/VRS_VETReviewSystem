@@ -32,7 +32,7 @@ div#board_search_box{
 	cursor:pointer;
 }
 
-img#hospitalImg, #bookmark_hos{
+img#hospitalImg{
 	width:auto;
 	height:30px;
 	position:absolute;

@@ -27,7 +27,7 @@
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<title>동물병원 통합 아카이빙 시스템 : 북마크</title>
+<title>동물 병원 후기 모음집 : 북마크</title>
 </head>
 
 <body>
