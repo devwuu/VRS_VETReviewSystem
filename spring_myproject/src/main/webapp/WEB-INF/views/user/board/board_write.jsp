@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css_file/main_home_css.css">
-<link rel="stylesheet" href="/css_file/board_seoul_css.css">
+<link rel="stylesheet" href="/css_file/board_table_css.css">
 <script src="/js_file/main_home_js.js"></script>
 
 <!-- 폰트 -->

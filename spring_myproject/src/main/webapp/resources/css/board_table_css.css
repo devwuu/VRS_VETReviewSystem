@@ -1,0 +1,226 @@
+@charset "UTF-8";
+
+/* 오른쪽 컬럼  */
+div#main_right_column_board{
+	display:flex;
+	flex-wrap:wrap;
+	flex-direction:column;
+	width:85%;
+}
+
+/* 게시물 검색 박스 */
+div#board_search_box{
+	margin:30px 10px 5px auto;
+	height:30px;
+}
+
+/* 병원리스트 */
+#hospital_list{
+	width:100%;
+	display:flex;
+	flex-direction:row;
+	flex-wrap: wrap
+}
+
+#hospital{
+	border:1px dotted #DCDCDC;
+	position: relative;
+	margin: 5px 0 0 8px;
+	padding: 5px 8px 5px 8px;
+	background-color:#ffffff;
+	color:#4d5966;
+	cursor:pointer;
+}
+
+img#hospitalImg{
+	width:auto;
+	height:30px;
+	position:absolute;
+	left:50%;
+	transform: translate(-50%, 0);
+	display:block;
+}
+
+#hospital p{
+	text-align:center;
+}
+
+#hosName{
+	margin-top:33px;
+}
+
+
+
+/* 병원 검색  */
+div#hospital_search_box{
+	margin:30px 10px 5px auto;
+	height:30px;
+}
+
+#hospital_search_box a{
+	color:#4d5966;
+	margin-right:5px;
+}
+
+#hospital_search_confirm{
+	margin-left:5px;
+}
+
+
+
+
+
+/* 게시글-병원 세부 정보 */
+#hospital_view{
+	border:1px dotted #DCDCDC;
+	position: relative;
+	margin-bottom:3px;
+	padding: 10px 0 10px 0;
+	color:#4d5966;
+	background-color:#ffffff
+}
+
+#hospital_view p{
+	text-align:center;
+}
+
+
+
+/* 게시물 리스트 */
+div#board_list{
+	width:100%;
+	background-color:#ffffff;
+	border:1px dotted #DCDCDC;
+	color:#4d5966;
+	padding:5px;
+}
+
+#boardReviewList{
+	border:1px dotted #000000;
+	text-align:center;
+	width:100%;
+}
+
+#boardReviewList tbody:hover{
+	background-color: #b0e0e6;
+}
+
+#boardReviewList tr, #boardReviewList td{
+	border:1px dotted #000000;
+	padding: 0 8px 0 8px;
+}
+
+.title{
+	width:55%;
+}
+
+.num{
+	width:10%;
+}
+
+.date{
+	width:10%;
+}
+
+.cnt{
+	width:50px;
+}
+
+.writer{
+	width:15%;
+}
+
+/* 게시물 페이지 영역 */
+#board_page{
+	position:relative;
+	left:43%;
+	margin-top:12px;
+	color:#4d5966;
+	width:50%;
+}
+
+#board_page a{
+	text-decoration:none;
+	cursor:pointer;
+}
+
+#pageInfor{
+	margin-left:5px;
+	color:#4d5966;
+}
+
+
+
+/* 글작성 버튼 */
+button{
+	width:60px;
+	margin-left:auto;
+	margin-right: 10px;
+	margin-top:10px;
+	
+}
+
+
+
+
+
+
+/* 글수정 및 작성 페이지 */
+#title_cont, #date_cont, #email_cont, #cont_input, #file_area, #modi{
+	color:#4d5966;
+	margin:10px 0 6px 10px;
+}
+
+#file_del{
+	margin-top:5px;
+}
+
+#file_input, #reg{
+	margin:10px 0 5px 10px;
+}
+
+input#title_cont{
+	width:50%;
+	font-size:15px;
+}
+
+#score_cont{
+	margin:10px 0 6px 10px;
+	color:#4d5966;
+	vertical-align:middle;
+}
+
+
+#score_cont a{
+	margin-right : 10px;
+}
+
+
+
+textarea#cont_input{
+	font-size:16px;
+	padding: 3px 3px 3px 3px;
+	resize:none;
+	border-radius:4px;
+	width:80%;
+	height:300px;
+}
+
+
+input#goList{
+	float:right;
+	margin-top:10px;
+	margin-right:5px;
+}
+
+
+
+
+@media only screen and (max-width:850px){
+	
+	div#main_right_column_board{
+		width:100%;
+	}
+
+	
+}

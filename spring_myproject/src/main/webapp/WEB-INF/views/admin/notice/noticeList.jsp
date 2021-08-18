@@ -28,7 +28,7 @@
 </style>
 
 
-<title>동물병원 통합 아카이빙 시스템 : 공지사항</title>
+<title>[관리자]동물 병원 후기 모음집 : 공지사항</title>
 </head>
 
 <body>

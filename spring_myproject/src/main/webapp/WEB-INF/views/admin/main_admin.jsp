@@ -18,7 +18,7 @@
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<title>동물병원 통합 아카이빙 시스템 : 관리자</title>
+<title>[관리자]동물 병원 후기 모음집</title>
 </head>
 
 <!-- 온로드 로그인상태 체크 함수 -->
@@ -49,7 +49,7 @@
 	<!-- 메인 오른쪽 컬럼		 -->
 		<div id="main_right_column">
 			<div id="infor_list">
-				<p id="infor">Information ▶ </a></p>
+				<p id="infor">Information </a></p>
 				<table cellspacing="0">
 				 	<thead>
 						<tr>

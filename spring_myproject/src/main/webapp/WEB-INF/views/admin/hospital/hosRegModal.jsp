@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>[관리자]동물 병원 후기 모음집 : 병원</title>
 </head>
 <body>
 

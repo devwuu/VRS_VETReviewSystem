@@ -63,12 +63,23 @@ img#title_img{
 	height:150px;
 	position:absolute;
 	left:50%;
-	top:50%;
-	transform:translate(-50%,-50%);
+	top:20%;
+	transform:translate(-50%,-20%);
 }
 
 div#mini_menu, div#mini_menu_list{
 	display:none;
+}
+
+#mainInfor{
+	position:absolute;
+	top:85%;
+	left:50%;
+	transform:translate(-50%,-85%);
+	width:70%;
+	text-align:center;
+	color:#4d5966;
+	
 }
 
 

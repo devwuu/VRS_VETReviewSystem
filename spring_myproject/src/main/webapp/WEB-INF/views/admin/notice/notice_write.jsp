@@ -19,7 +19,7 @@
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<title>동물병원 통합 아카이빙 시스템 : 공지사항</title>
+<title>[관리자]동물 병원 후기 모음집 : 공지사항</title>
 </head>
 
 <!-- 온로드 로그인상태 체크 함수 -->

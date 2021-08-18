@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css_file/admin_css.css">
-<title>동물병원 통합 아카이빙 시스템 : 관리자</title>
+<title>[관리자]동물 병원 후기 모음집</title>
 </head>
 <body>
 <script>

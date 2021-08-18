@@ -43,7 +43,7 @@
 <!-- 아이콘 -->
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<title>동물병원 통합 아카이빙 시스템 : 회원정보</title>
+<title>[관리자]동물 병원 후기 모음집 : 태그</title>
 </head>
 
 <body>

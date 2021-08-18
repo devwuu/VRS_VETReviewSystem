@@ -1,0 +1,181 @@
+@charset "UTF-8";
+
+/* 오른쪽 컬럼  */
+div#main_right_column_board{
+	display:flex;
+	flex-wrap:wrap;
+	flex-direction:column;
+	width:85%;
+}
+
+
+/* 병원리스트 */
+img#hospital, img#hospitalImg{
+	width:auto;
+	height:30px;
+	position:absolute;
+	left:50%;
+	transform: translate(-50%, 0);
+	display:block;
+}
+
+#hospital1 p, #hospital2 p, #hospital1_view p{
+	text-align:center;
+}
+
+#hosName{
+	margin-top:33px;
+}
+
+/* 게시글-병원 세부 정보 */
+#hospital1_view{
+	border:1px dotted #DCDCDC;
+	position: relative;
+	margin-bottom:3px;
+	padding: 10px 0 10px 0;
+	color:#4d5966;
+}
+
+
+
+/* 게시물 리스트 */
+div#board_list{
+	width:100%;
+	background-color:#ffffff;
+	border:none;
+	color:#4d5966;
+
+}
+
+/* SNS Reg Form css */
+table#sns_regForm{
+	border:none;
+	text-align:center;
+	width:100%;
+	border-spacing:0;
+}
+
+tr, td{
+	border:none;
+	background-color:#FFFAF0;
+}
+
+#snsText{
+	width:95%;
+}
+
+#snsButton{
+	width:5%;
+}
+
+#snsFile{
+	margin-bottom:60px;
+	float:left;
+	margin-left:5px;
+}
+
+tbody:hover{
+	background-color:inherit !important;
+}
+
+textarea#snsInput{
+	width:100%;
+	resize:none;
+	height:100px;
+	padding:0px;
+	margin-left:5px;
+	font-size:18px;
+}
+
+input#snsSubmit{
+	height:100px;
+	width:100px;
+	float:left;
+	margin:5px;
+	margin-bottom:100px;
+	font-size:18px;
+}
+
+
+
+/* sns 출력리스트 css */
+
+#snsList{
+	overflow-y:scroll;
+}
+
+table#sns_list{
+	border:1px dotted #DCDCDC;
+	text-align:center;
+	width:100%;
+	border-spacing:0;
+	padding:5px;
+}
+
+table#sns_list td{
+	border-top:1px dotted #DCDCDC;
+	border-bottom:1px dotted #DCDCDC;
+	background-color:#ffffff;
+
+}
+
+.snsWriter{
+	width:20%;
+}
+
+.snsContent{
+	width:50%;
+}
+
+.contentFile{
+	width:23%;
+}
+
+.contentFile a{
+	text-decoration:none;
+}
+
+.snsDel{
+	width:2.5%;
+	padding-right:10px;
+}
+
+.snsDel{
+	width:2.5%;
+	padding-right:10px;
+}
+
+i{
+	cursor:pointer;
+	margin:5px;
+}
+
+#fileAttached{
+	width:100px;
+	height:auto;
+	cursor:pointer;
+}
+
+
+
+/* sns수정폼 css */
+textarea#snsContentModBox{
+	width:100%;
+	height:100px;
+	padding:0px;
+	font-size:15px;
+	white-space: normal;
+	resize:none;
+}
+
+
+
+
+@media only screen and (max-width:850px){
+	
+	div#main_right_column_board{
+		width:100%;
+	}
+
+	
+}
